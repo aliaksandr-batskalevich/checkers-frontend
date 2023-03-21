@@ -1,0 +1,29 @@
+.headerWrapper {
+  border: black solid 1px;
+
+  > div {
+    min-height: 10vh;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logoWrapper {
+    img {
+      height: 60px;
+    }
+  }
+
+  .profile {
+    text-align: center;
+    h3 {
+      color: white;
+    }
+
+    button {
+      margin-top: 3px;
+      padding: 1px 10px;
+    }
+  }
+}

@@ -1,9 +1,10 @@
 import React from 'react';
-import {Routes, Route} from 'react-router-dom';
+import {Navigate, Routes, Route} from 'react-router-dom';
 import s from './Content.module.scss';
 import {SignIn} from "./AuthComponents/SignIn";
 import {SignUp} from "./AuthComponents/SignUp";
 import {Profile} from "./Profile/Profile";
+import {PageNotFound} from "./PageNotFound/PageNotFound";
 
 export const Content = () => {
     return (
@@ -13,6 +14,8 @@ export const Content = () => {
                 <Route path='/profile/:id' element={<Profile/>} />
                 <Route path='/signin' element={<SignIn/>} />
                 <Route path='/signup' element={<SignUp/>} />
+                <Route path='/404' element={<PageNotFound/>} />
+                <Route path='/*' element={<Navigate to='/404'/>} />
             </Routes>
         </div>
     );

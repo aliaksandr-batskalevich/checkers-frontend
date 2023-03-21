@@ -63,6 +63,7 @@ export const getUserTC = (id: number) => async (dispatch: ThunkDispatchType) => 
         }
         console.log(errorMessage);
         dispatch(setAppStatus(AppStatus.FAILED));
+        return Promise.reject(errorMessage);
     }
 }
 

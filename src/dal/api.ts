@@ -1,10 +1,13 @@
 import {AuthResponseDataType, LogoutResponse} from "../models/authResponseDataType";
 import {AllUsersResponse, DeleteUserResponse, UserResponse} from "../models/users.response";
-import instance from "./instance";
+import instance, {baseURL} from "./instance";
+import axios from "axios";
+
+export type AuthRequestsType = typeof AuthAPI.signUp | typeof AuthAPI.signIn | typeof AuthAPI.logout | typeof AuthAPI.refresh;
 
 
 export class AuthAPI {
-    static async signUp(username: string, password: string, email: string): Promise<AuthResponseDataType> {
+    static async signUp(username: string, email: string, password: string): Promise<AuthResponseDataType> {
         return instance.post<AuthResponseDataType>('auth/registration', {username, password, email})
             .then(response => response.data);
     }
@@ -20,7 +23,9 @@ export class AuthAPI {
     }
 
     static async refresh(): Promise<AuthResponseDataType> {
-        return instance.get('auth/refresh')
+
+        // request without interceptors
+        return axios.get('auth/refresh', {baseURL, withCredentials: true})
             .then(response => response.data);
     }
 

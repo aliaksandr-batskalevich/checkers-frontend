@@ -1,6 +1,6 @@
 export type IUser = {
     id: number
-    userName: string
+    username: string
     isActivated: boolean
 
     gamesCount: number

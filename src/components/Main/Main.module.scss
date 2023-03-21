@@ -1,3 +1,7 @@
 .mainWrapper {
+  margin-top: 10px;
 
+  > div {
+    display: flex;
+  }
 }

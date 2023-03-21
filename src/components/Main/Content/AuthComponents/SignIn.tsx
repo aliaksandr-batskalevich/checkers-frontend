@@ -7,19 +7,17 @@ import {useAppDispatch} from "../../../../utils/hooks";
 import {signInTC} from "../../../../bll/auth.reducer";
 import {v1} from "uuid";
 import {useSelector} from "react-redux";
-import {getId, getIsAuth, getIsAuthing} from "../../../../bll/selectors";
+import {getIsAuth, getIsAuthing} from "../../../../bll/selectors";
 
 
 export const SignIn = () => {
 
     const isAuthing = useSelector(getIsAuthing);
     const isAuth: boolean = useSelector(getIsAuth);
-    const id = useSelector(getId);
-
 
     const dispatch = useAppDispatch();
 
-    const initialSignInValues: SignInRequestDataType = {
+    const initialValues: SignInRequestDataType = {
         username: '',
         password: '',
     };
@@ -39,7 +37,7 @@ export const SignIn = () => {
     };
 
     const onSubmit = (values: SignInRequestDataType) => {
-        dispatch(signInTC(values.username, values.password))
+        dispatch(signInTC(values.username.trim(), values.password.trim()))
             .then(() => {
                 formik.resetForm();
             })
@@ -49,12 +47,12 @@ export const SignIn = () => {
     }
 
     const formik = useFormik({
-        initialValues: initialSignInValues,
-        onSubmit,
+        initialValues,
         validate,
+        onSubmit,
     });
 
-    const inputs = Object.keys(initialSignInValues);
+    const inputs = Object.keys(initialValues);
     const inputsForRender = inputs.map((key, index) => {
 
         // @ts-ignore
@@ -79,11 +77,11 @@ export const SignIn = () => {
         .map((error, index) => formik.touched[errorKeys[index]] && <p key={v1()}>{error}</p>)
         .filter(error => error);
 
-    const isSubmitButtonDisabled = !!validate(formik.values).username || !!validate(formik.values).password || isAuthing;
+    const isSubmitButtonDisabled = !!Object.keys(validate(formik.values)).length || isAuthing;
 
     return (
-        isAuth && id
-            ? <Navigate to={`/profile/${id}`}/>
+        isAuth
+            ? <Navigate to={`/`}/>
             : <div className={s.loginWrapper}>
                 <h2>SIGN IN</h2>
                 <form className={s.formWrapper} onSubmit={formik.handleSubmit}>
