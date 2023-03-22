@@ -1,3 +1,49 @@
 .profileWrapper {
 
+  .profileInfo {
+    display: flex;
+
+    .avatarWrapper {
+      position: relative;
+
+      img {
+        height: 150px;
+      }
+
+      button {
+        padding: 1px 3px;
+
+        position: absolute;
+        left: 50%;
+        bottom: 5%;
+        transform: translateX(-50%);
+      }
+    }
+
+    .descriptions {
+      margin-left: 10px;
+
+      .profileInfoWrapper {
+
+      }
+
+      .statistics {
+        margin-top: 10px;
+      }
+
+      h3 {
+        text-decoration: underline;
+      }
+
+      p {
+        color: rgba(0, 0, 0, 0.6);
+        font-size: 20px;
+
+        span {
+          color: white;
+        }
+      }
+    }
+  }
+
 }

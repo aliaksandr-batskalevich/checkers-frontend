@@ -1,9 +1,10 @@
 import React from 'react';
 import s from './PageNotFound.module.scss';
 import {useQuery} from "../../../../utils/hooks";
+import {withAuthRedirect} from "../../../commons/HOCs/withAuthRedirect";
 
 
-export const PageNotFound = () => {
+const PageNotFound = () => {
 
     const query = useQuery();
     const message = query.get('message');
@@ -15,3 +16,5 @@ export const PageNotFound = () => {
         </div>
     );
 };
+
+export default withAuthRedirect(PageNotFound);

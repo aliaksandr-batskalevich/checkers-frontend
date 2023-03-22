@@ -4,14 +4,16 @@ import thunkMiddleware from 'redux-thunk';
 import {AuthActionsType, authReducer} from "./auth.reducer";
 import {ProfileActionsType, profileReducer} from "./profile.reducer";
 import {SnackbarActionsType, snackbarReducer} from "./snackbar.reducer";
+import {UsersActionsType, usersReducer} from "./users.reducer";
 
-export type RootActionsType = AppActionsType | AuthActionsType | ProfileActionsType | SnackbarActionsType;
+export type RootActionsType = AppActionsType | AuthActionsType | ProfileActionsType | SnackbarActionsType | UsersActionsType;
 export type RootStateType = ReturnType<typeof rootReducer>;
 
 const rootReducer = combineReducers({
     app: appReducer,
     auth: authReducer,
     profile: profileReducer,
+    users: usersReducer,
     snackbar: snackbarReducer,
 });
 

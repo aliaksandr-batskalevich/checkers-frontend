@@ -37,8 +37,8 @@ export class UserAPI {
             .then(response => response.data);
     }
 
-    static async getAllUsers(): Promise<AllUsersResponse> {
-        return instance.get<AllUsersResponse>('users')
+    static async getUsers(count: number, page: number): Promise<AllUsersResponse> {
+        return instance.get<AllUsersResponse>(`users?count=${count}&page=${page}`)
             .then(response => response.data);
     }
 
