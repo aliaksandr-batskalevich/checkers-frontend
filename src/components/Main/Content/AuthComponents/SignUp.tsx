@@ -8,6 +8,7 @@ import {v1} from "uuid";
 import {useSelector} from "react-redux";
 import {getIsAuth, getIsAuthing} from "../../../../bll/selectors";
 import {Navigate, NavLink} from "react-router-dom";
+import {addSnackbarErrorMessage, addSnackbarInfoMessage} from "../../../../bll/snackbar.reducer";
 
 type SignUpValuesType = SignUpRequestDataType & {confirmPassword: string};
 
@@ -51,13 +52,14 @@ export const SignUp = () => {
 
     const onSubmit = (values: SignUpValuesType) => {
         dispatch(signUpTC(values.username.trim(), values.email, values.password.trim()))
-            .then(() => {
+            .then((message) => {
                 formik.resetForm();
+                dispatch(addSnackbarInfoMessage(message));
             })
             .catch((reason => {
-                // dispatch(setSnackBarErrorMessage(errorMessage));
+                dispatch(addSnackbarErrorMessage(reason));
             }));
-    }
+    };
 
     const formik = useFormik({
         initialValues,

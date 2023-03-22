@@ -1,5 +1,3 @@
-import {resolveTxt} from "dns";
-
 export type AppActionsType = ReturnType<typeof setAppStatus>
     | ReturnType<typeof setIsAppInit>;
 

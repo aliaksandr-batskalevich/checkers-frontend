@@ -30,7 +30,7 @@ export const Profile = () => {
                     navigate(`/404?message=${errorMessage}`);
                 });
         }
-    }, []);
+    }, [isAuth, params.id, authId, profile, dispatch, navigate]);
 
     return (
         !isAuth

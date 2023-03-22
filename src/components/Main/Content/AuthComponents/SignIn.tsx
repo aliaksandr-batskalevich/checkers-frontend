@@ -8,6 +8,7 @@ import {signInTC} from "../../../../bll/auth.reducer";
 import {v1} from "uuid";
 import {useSelector} from "react-redux";
 import {getIsAuth, getIsAuthing} from "../../../../bll/selectors";
+import {addSnackbarErrorMessage, addSnackbarInfoMessage} from "../../../../bll/snackbar.reducer";
 
 
 export const SignIn = () => {
@@ -38,11 +39,12 @@ export const SignIn = () => {
 
     const onSubmit = (values: SignInRequestDataType) => {
         dispatch(signInTC(values.username.trim(), values.password.trim()))
-            .then(() => {
+            .then((message) => {
                 formik.resetForm();
+                dispatch(addSnackbarInfoMessage(message));
             })
             .catch((reason => {
-                // dispatch(setSnackBarErrorMessage(errorMessage));
+                dispatch(addSnackbarErrorMessage(reason));
             }));
     }
 

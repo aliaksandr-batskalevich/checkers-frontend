@@ -1,5 +1,6 @@
 import {RootStateType} from "./store";
 import {IUser} from "../models/IUser";
+import {SnackbarMessageType} from "./snackbar.reducer";
 
 // app
 export const getIsAppInit = (state: RootStateType): boolean => state.app.isAppInit;
@@ -14,3 +15,5 @@ export const getIsActivated = (state: RootStateType): boolean => state.auth.isAc
 export const getProfile = (state: RootStateType): null | IUser => state.profile.profile;
 export const getUsername = (state: RootStateType): undefined | string => state.profile.profile?.username;
 
+// snackbar
+export const getSnackbarMessages = (state: RootStateType): Array<SnackbarMessageType> => state.snackbar.snackbarMessages;

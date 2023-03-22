@@ -1,5 +1,5 @@
 import {ThunkDispatchType} from "../utils/hooks";
-import {AuthAPI, AuthRequestsType} from "../dal/api";
+import {AuthAPI} from "../dal/api";
 import {setProfile} from "./profile.reducer";
 import {AppStatus, setAppStatus} from "./app.reducer";
 import axios from "axios";
@@ -79,6 +79,7 @@ export const signUpTC = (username: string, email: string, password: string) => a
         dispatch(setProfile(user));
         dispatch(setIsAuthing(false));
         dispatch(setAppStatus(AppStatus.SUCCESS));
+        return Promise.resolve(response.message);
     } catch (error) {
         let errorMessage: string;
         if (axios.isAxiosError(error)) {
@@ -112,6 +113,7 @@ export const signInTC = (username: string, password: string) => async (dispatch:
         dispatch(setProfile(user));
         dispatch(setIsAuthing(false));
         dispatch(setAppStatus(AppStatus.SUCCESS));
+        return Promise.resolve(response.message);
     } catch (error) {
         let errorMessage: string;
         if (axios.isAxiosError(error)) {
@@ -145,8 +147,7 @@ export const refreshTC = () => async (dispatch: ThunkDispatchType) => {
         dispatch(setProfile(user));
         dispatch(setIsAuthing(false));
         dispatch(setAppStatus(AppStatus.SUCCESS));
-
-
+        return Promise.resolve(response.message);
     }  catch (error) {
         let errorMessage: string;
         if (axios.isAxiosError(error)) {
@@ -180,7 +181,7 @@ export const logoutTC = () => async (dispatch: ThunkDispatchType) => {
         dispatch(setProfile(null));
         dispatch(setIsAuthing(false));
         dispatch(setAppStatus(AppStatus.SUCCESS));
-
+        return Promise.resolve(response.message);
     } catch (error) {
         let errorMessage: string;
         if (axios.isAxiosError(error)) {

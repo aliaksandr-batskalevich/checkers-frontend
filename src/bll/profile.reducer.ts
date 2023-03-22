@@ -1,7 +1,7 @@
 import {IUser} from "../models/IUser";
 import {ThunkDispatchType} from "../utils/hooks";
 import {AppStatus, setAppStatus} from "./app.reducer";
-import {AuthAPI, UserAPI} from "../dal/api";
+import {UserAPI} from "../dal/api";
 import axios from "axios";
 
 export type ProfileActionsType = ReturnType<typeof setProfile>

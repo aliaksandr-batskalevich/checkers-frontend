@@ -1,8 +1,17 @@
 .footerWrapper {
-  border: black solid 1px;
+  border-top: white solid 1px;
+  background-color: rgba(0, 0, 0, 0.2);
   min-height: 10vh;
 
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .copyRight {
+
+    &::before {
+      margin-right: 5px;
+      content: '©';
+    }
+  }
 }

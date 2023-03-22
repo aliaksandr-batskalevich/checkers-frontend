@@ -1,4 +1,4 @@
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {RootActionsType, RootStateType} from "../bll/store";
 import {ThunkDispatch} from 'redux-thunk';
 import {useLocation} from "react-router-dom";
