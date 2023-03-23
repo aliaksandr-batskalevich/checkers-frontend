@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {AuthResponseDataType} from "../models/authResponseDataType";
-import {writeAccessTokenInLS} from "../utils/acceesTokenLS";
+import {readAccessTokenInLS, writeAccessTokenInLS} from "../utils/acceesTokenLS";
 
 export const baseURL = 'http://localhost:8080/api/';
 const axiosOptions = {
@@ -14,7 +14,7 @@ export const refreshInstance = axios.create(axiosOptions);
 const instance = axios.create(axiosOptions);
 
 instance.interceptors.request.use((config) => {
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = readAccessTokenInLS();
     config.headers.Authorization = `Bearer ${accessToken}`;
     return config;
 });

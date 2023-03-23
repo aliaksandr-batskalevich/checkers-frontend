@@ -31,7 +31,7 @@ export const SignUp = () => {
     const validate = (values: SignUpValuesType) => {
         let errors: Partial<SignUpValuesType> = {};
 
-        if (values.username.trim().length <= 4 && values.username.trim().length >= 15) {
+        if (values.username.trim().length < 4 || values.username.trim().length > 15) {
             errors.username = `Username must be between 4 and 15 characters long!`;
         }
 
@@ -39,7 +39,7 @@ export const SignUp = () => {
             errors.email = `Incorrect email!`;
         }
 
-        if (values.password.trim().length <= 4 && values.password.trim().length >= 10) {
+        if (values.password.trim().length < 4 || values.password.trim().length > 10) {
             errors.password = `Username must be between 4 and 10 characters long!`;
         }
 
