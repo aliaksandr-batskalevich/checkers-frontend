@@ -2,12 +2,13 @@ import React, {useEffect} from 'react';
 import {Navigate, useNavigate, useParams} from "react-router-dom";
 import s from './Profile.module.scss';
 import {useSelector} from "react-redux";
-import {getAuthId, getIsAuth, getProfile} from "../../../../bll/selectors";
+import {getAuthId, getIsAuth, getIsProfileFetching, getProfile} from "../../../../bll/selectors";
 import {useAppDispatch} from "../../../../utils/hooks";
 import {getUserTC} from "../../../../bll/profile.reducer";
 import defaultAvatar from '../../../../assets/images/default-avatar.png';
 import {addSnackbarInfoMessage} from "../../../../bll/snackbar.reducer";
 import {withAuthRedirect} from "../../../commons/HOCs/withAuthRedirect";
+import {Preloader} from "../../../commons/Preloader/Preloader";
 
 const Profile = () => {
 
@@ -16,16 +17,18 @@ const Profile = () => {
 
     const isAuth = useSelector(getIsAuth);
     const authId = useSelector(getAuthId);
+    const isProfileFetching = useSelector(getIsProfileFetching);
     const profile = useSelector(getProfile);
     const params = useParams<{ id: string }>();
 
     const isMyAccount = authId === profile?.id;
 
     const editAvatarHandler = () => {
-      dispatch(addSnackbarInfoMessage('Feature under development.'));
+        dispatch(addSnackbarInfoMessage('Feature under development.'));
     };
 
     useEffect(() => {
+
         // to my profile
         isAuth && !params.id && authId !== profile?.id && authId
         && dispatch(getUserTC(authId));
@@ -37,10 +40,11 @@ const Profile = () => {
                     navigate(`/404?message=${errorMessage}`);
                 });
         }
-    }, [isAuth, params.id, authId, profile, dispatch, navigate]);
+    }, [params.id, dispatch]);
 
-    return (
-            <div className={s.profileWrapper}>
+    return (isProfileFetching
+            ? <Preloader/>
+            : <div className={s.profileWrapper}>
                 <div className={s.profileInfo}>
                     <div className={s.avatarWrapper}>
                         <img src={defaultAvatar} alt="avatar"/>
@@ -56,7 +60,8 @@ const Profile = () => {
                             <h3>Statistics</h3>
                             <p>dashboardPosition: <span>{`In progress...`}</span></p>
                             <p>gamesCount/Wins: <span>{`${profile?.gamesCount}/${profile?.gamesWinsCount}`}</span></p>
-                            <p>sparringCount/Wins: <span>{`${profile?.sparringCount}/${profile?.sparringWinsCount}`}</span></p>
+                            <p>sparringCount/Wins: <span>{`${profile?.sparringCount}/${profile?.sparringWinsCount}`}</span>
+                            </p>
                         </div>
                     </div>
                 </div>

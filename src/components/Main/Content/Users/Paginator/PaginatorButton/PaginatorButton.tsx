@@ -1,7 +1,14 @@
 import React from 'react';
 import s from './PaginatorButton.module.css';
 
-type PaginatorButtonType = 'toFirst' | 'toLast' | 'jumpDownByOne' | 'jumpUpByOne' | 'jumpDownBig' | 'jumpUpBig';
+export enum PaginatorButtonType {
+    TO_FIRST = 'toFirst',
+    TO_LAST = 'toLast',
+    JUMP_DOWN_BY_ONE = 'jumpDownByOne',
+    JUMP_UP_BY_ONE = 'jumpUpByOne',
+    JUMP_DOWN_BIG = 'jumpDownBig',
+    JUMP_UP_BIG = 'jumpUpBig'
+}
 type PaginatorButtonPropsType = {
     buttonType: PaginatorButtonType
     onClick: () => void
@@ -11,12 +18,12 @@ export const PaginatorButton: React.FC<PaginatorButtonPropsType> = ({buttonType,
 
     const elementMaker = (buttonType: PaginatorButtonType) => {
         switch (buttonType) {
-            case 'jumpUpByOne': return '>';
-            case 'jumpDownByOne': return '<';
-            case 'jumpUpBig': return '>>';
-            case 'jumpDownBig': return '<<';
-            case 'toFirst': return '❘<';
-            case 'toLast': return '>❘';
+            case PaginatorButtonType.JUMP_UP_BY_ONE: return '>';
+            case PaginatorButtonType.JUMP_DOWN_BY_ONE: return '<';
+            case PaginatorButtonType.JUMP_UP_BIG: return '>>';
+            case PaginatorButtonType.JUMP_DOWN_BIG: return '<<';
+            case PaginatorButtonType.TO_FIRST: return '❘<';
+            case PaginatorButtonType.TO_LAST: return '>❘';
             // default: return 'Error';
         }
     };

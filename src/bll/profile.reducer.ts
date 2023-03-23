@@ -3,17 +3,19 @@ import {ThunkDispatchType} from "../utils/hooks";
 import {AppStatus, setAppStatus} from "./app.reducer";
 import {UserAPI} from "../dal/api";
 import axios from "axios";
+import {logoutRemoveData} from "../utils/logoutRemoveData";
 
 export type ProfileActionsType = ReturnType<typeof setProfile>
-    | ReturnType<typeof setIsFetching>;
+    | ReturnType<typeof setIsProfileFetching>
+    | ReturnType<typeof setProfileInitState>;
 
 export type ProfileStateType = {
-    isFetching: boolean
+    isProfileFetching: boolean
     profile: null | IUser
 };
 
 const profileInitState: ProfileStateType = {
-    isFetching: false,
+    isProfileFetching: false,
     profile: null,
 };
 
@@ -23,33 +25,39 @@ export const profileReducer = (state: ProfileStateType = profileInitState, actio
             return {...state, ...action.payload};
         case "SET_PROFILE":
             return {...state, ...action.payload};
+        case "SET_PROFILE_INIT_STATE":
+            return {...profileInitState};
         default:
             return state;
     }
 };
 
-const setIsFetching = (isFetching: boolean) => {
+const setIsProfileFetching = (isProfileFetching: boolean) => {
     return {
         type: 'SET_IS_FETCHING',
-        payload: {isFetching}
+        payload: {isProfileFetching}
     } as const;
 };
-
 export const setProfile = (profile: IUser | null) => {
     return {
         type: 'SET_PROFILE',
         payload: {profile}
     } as const;
 };
+export const setProfileInitState = () => {
+    return {
+        type: 'SET_PROFILE_INIT_STATE'
+    } as const;
+};
 
 export const getUserTC = (id: number) => async (dispatch: ThunkDispatchType) => {
     try {
         dispatch(setAppStatus(AppStatus.REQUEST));
-        dispatch(setIsFetching(true));
+        dispatch(setIsProfileFetching(true));
 
         const response = await UserAPI.getUser(id);
         dispatch(setProfile(response.data.user));
-        dispatch(setIsFetching(false));
+        dispatch(setIsProfileFetching(false));
         dispatch(setAppStatus(AppStatus.SUCCESS));
     } catch (error) {
         let errorMessage: string;
@@ -57,13 +65,18 @@ export const getUserTC = (id: number) => async (dispatch: ThunkDispatchType) => 
             errorMessage = error.response
                 ? error.response.data.message
                 : error.message;
+
+            // logout if status 401
+            error.response?.status === 401 && logoutRemoveData(dispatch);
+
         } else {
             //@ts-ignore
             errorMessage = error.message;
         }
         console.log(errorMessage);
+        dispatch(setIsProfileFetching(false));
         dispatch(setAppStatus(AppStatus.FAILED));
         return Promise.reject(errorMessage);
     }
-}
+};
 

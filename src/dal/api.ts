@@ -1,9 +1,6 @@
 import {AuthResponseDataType, LogoutResponse} from "../models/authResponseDataType";
 import {AllUsersResponse, DeleteUserResponse, UserResponse} from "../models/users.response";
-import instance, {baseURL} from "./instance";
-import axios from "axios";
-
-export type AuthRequestsType = typeof AuthAPI.signUp | typeof AuthAPI.signIn | typeof AuthAPI.logout | typeof AuthAPI.refresh;
+import instance, {refreshInstance} from './instance'
 
 
 export class AuthAPI {
@@ -25,7 +22,7 @@ export class AuthAPI {
     static async refresh(): Promise<AuthResponseDataType> {
 
         // request without interceptors
-        return axios.get('auth/refresh', {baseURL, withCredentials: true})
+        return refreshInstance.get<AuthResponseDataType>('auth/refresh')
             .then(response => response.data);
     }
 

@@ -13,7 +13,8 @@ export const Content = () => {
     return (
         <div className={s.contentWrapper}>
             <Routes>
-                <Route path='/' element={<Profile/>} />
+                <Route path='/' element={<Navigate to='/profile'/>} />
+                <Route path='/profile' element={<Profile/>} />
                 <Route path='/profile/:id' element={(<Profile/>)} />
                 <Route path='/users' element={<Users/>} />
                 <Route path='/signin' element={<SignIn/>} />

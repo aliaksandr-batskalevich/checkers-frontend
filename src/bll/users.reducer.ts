@@ -3,12 +3,14 @@ import {ThunkDispatchType} from "../utils/hooks";
 import {UserAPI} from "../dal/api";
 import {AppStatus, setAppStatus} from "./app.reducer";
 import axios from "axios";
+import {logoutRemoveData} from "../utils/logoutRemoveData";
 
 export type UsersActionsType = ReturnType<typeof setUsers>
     | ReturnType<typeof setIsUsersFetching>
     | ReturnType<typeof setCurrentPage>
     | ReturnType<typeof setCountOnPage>
-    | ReturnType<typeof setTotalPage>;
+    | ReturnType<typeof setTotalPage>
+    | ReturnType<typeof setUsersInitSate>;
 
 type UsersStateType = {
     isUsersFetching: boolean
@@ -22,7 +24,7 @@ const usersInitState: UsersStateType = {
     isUsersFetching: false,
     users: [],
     currentPage: 1,
-    countOnPage: 2,
+    countOnPage: 4,
     totalPage: 0,
 };
 
@@ -38,6 +40,8 @@ export const usersReducer = (state: UsersStateType = usersInitState, action: Use
             return {...state, ...action.payload};
         case "SET_TOTAL_PAGE":
             return {...state, ...action.payload};
+        case "SET_USERS_INIT_STATE":
+            return {...usersInitState};
         default:
             return state;
     }
@@ -74,6 +78,11 @@ const setTotalPage = (totalPage: number) => {
         payload: {totalPage}
     } as const;
 };
+export const setUsersInitSate = () => {
+    return {
+        type: 'SET_USERS_INIT_STATE'
+    } as const;
+};
 
 export const getUsersTC = (count: number, page: number) => async (dispatch: ThunkDispatchType) => {
     try {
@@ -94,6 +103,9 @@ export const getUsersTC = (count: number, page: number) => async (dispatch: Thun
             errorMessage = error.response
                 ? error.response.data.message
                 : error.message;
+
+            // logout if status 401
+            error.response?.status === 401 && logoutRemoveData(dispatch);
 
         } else {
             //@ts-ignore

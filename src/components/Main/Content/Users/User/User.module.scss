@@ -1,0 +1,76 @@
+.userWrapper {
+  margin-top: 5px;
+  padding: 5px;
+  border: white solid 1px;
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.2);
+
+  color: black;
+  text-decoration: none;
+
+  .avatarWrapper {
+    line-height: 0;
+
+    img {
+      display: inline-block;
+      height: 100px;
+    }
+  }
+
+  .descriptionWrapper {
+    margin-left: 10px;
+    flex-grow: 1;
+
+    display: flex;
+    justify-content: space-between;
+
+    .userInfo {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      h3 {
+        text-decoration: underline;
+        color: white;
+      }
+
+      p {
+        margin-top: 5px;
+        color: rgba(0, 0, 0, 0.6);
+        font-size: 20px;
+
+        span {
+          color: white;
+        }
+      }
+    }
+
+    .statistics {
+      display: flex;
+      align-items: center;
+
+
+    }
+  }
+
+}
+
+.table {
+
+  tr {
+
+    th {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    td, th {
+      padding: 2px 5px;
+      border: black solid 1px;
+      text-align: center;
+    }
+
+    .statisticTitle {
+      background-color: rgba(255, 0, 0, 0.2);
+    }
+  }
+}

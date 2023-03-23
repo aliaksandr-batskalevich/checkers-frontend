@@ -1,6 +1,6 @@
 import React from 'react';
 import s from './SuperPaginator.module.css';
-import {PaginatorButton} from "./PaginatorButton/PaginatorButton";
+import {PaginatorButton, PaginatorButtonType} from "./PaginatorButton/PaginatorButton";
 
 type VectorType = 'down' | 'up';
 type JumpType = 'byOne' | 'bigJump';
@@ -8,14 +8,13 @@ type PaginatorPropsType = {
     viewPagesOddNumber: number
     pageJumpPositive: number
 
-    countOnPage: number
     currentPage: number
     totalPage: number
 
     setCurrentPage: (currentPage: number) => void
 };
 
-const SuperPaginator: React.FC<PaginatorPropsType> = ({viewPagesOddNumber, pageJumpPositive, countOnPage, currentPage, totalPage, setCurrentPage}) => {
+const SuperPaginator: React.FC<PaginatorPropsType> = ({viewPagesOddNumber, pageJumpPositive, currentPage, totalPage, setCurrentPage}) => {
 
     // test odd num
     viewPagesOddNumber = viewPagesOddNumber % 2
@@ -66,22 +65,22 @@ const SuperPaginator: React.FC<PaginatorPropsType> = ({viewPagesOddNumber, pageJ
     return (
         <div className={s.paginatorWrapper}>
             <div className={s.leftButtons}>
-                <PaginatorButton buttonType={'toFirst'}
+                <PaginatorButton buttonType={PaginatorButtonType.TO_FIRST}
                                  onClick={setFirstCurrentPageHandler}/>
-                <PaginatorButton buttonType={'jumpDownBig'}
+                <PaginatorButton buttonType={PaginatorButtonType.JUMP_DOWN_BIG}
                                  onClick={() => setCurrentPageJumpHandler("bigJump", 'down')}/>
-                <PaginatorButton buttonType={'jumpDownByOne'}
+                <PaginatorButton buttonType={PaginatorButtonType.JUMP_DOWN_BY_ONE}
                                  onClick={() => setCurrentPageJumpHandler("byOne", 'down')}/>
             </div>
 
             <div className={s.pagesWrapper}>{pagesToRender}</div>
 
             <div className={s.rightButtons}>
-                <PaginatorButton buttonType={'jumpUpByOne'}
+                <PaginatorButton buttonType={PaginatorButtonType.JUMP_UP_BY_ONE}
                                  onClick={() => setCurrentPageJumpHandler("byOne", 'up')}/>
-                <PaginatorButton buttonType={'jumpUpBig'}
+                <PaginatorButton buttonType={PaginatorButtonType.JUMP_UP_BIG}
                                  onClick={() => setCurrentPageJumpHandler("bigJump", 'up')}/>
-                <PaginatorButton buttonType={'toLast'}
+                <PaginatorButton buttonType={PaginatorButtonType.TO_LAST}
                                  onClick={setLastCurrentPageHandler}/>
             </div>
         </div>

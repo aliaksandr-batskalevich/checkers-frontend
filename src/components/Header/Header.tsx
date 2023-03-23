@@ -1,7 +1,7 @@
 import React from 'react';
 import s from './Header.module.scss';
 import {useSelector} from "react-redux";
-import {getUsername} from "../../bll/selectors";
+import {getAuthUsername, getIsAuthing} from "../../bll/selectors";
 import logo from'../../assets/images/logo.png';
 import {NavLink} from "react-router-dom";
 
@@ -13,7 +13,8 @@ type HeaderPropsType = {
 
 export const Header: React.FC<HeaderPropsType> = ({isAppInit, isAuth, logout}) => {
 
-    const username = useSelector(getUsername);
+    const isAuthing = useSelector(getIsAuthing);
+    const username = useSelector(getAuthUsername);
 
     return (
         <div className={s.headerWrapper}>
@@ -27,7 +28,7 @@ export const Header: React.FC<HeaderPropsType> = ({isAppInit, isAuth, logout}) =
                 {isAppInit && isAuth
                     ? <div className={s.profile}>
                         <h3>{username}</h3>
-                        <button onClick={logout}>logout</button>
+                        <button disabled={isAuthing} onClick={logout}>logout</button>
                     </div>
                     : <div/>}
             </div>
