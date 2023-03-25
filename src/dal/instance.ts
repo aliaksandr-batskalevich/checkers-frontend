@@ -2,8 +2,8 @@ import axios from 'axios';
 import {AuthResponseDataType} from "../models/authResponseDataType";
 import {readAccessTokenInLS, writeAccessTokenInLS} from "../utils/acceesTokenLS";
 
-// const baseURL = 'http://localhost:8080/api/';
-const baseURL = 'http://10.128.0.2:8080/api/';
+const baseURL = 'http://localhost:8080/api/';
+// const baseURL = 'http://10.128.0.2:8080/api/';
 const axiosOptions = {
     withCredentials: true,
     baseURL,
