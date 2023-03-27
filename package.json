@@ -1,6 +1,6 @@
 {
   "name": "checkers-frontend",
-  "homepage": "https://aliaksandr-batskalevich.github.io/checkers-frontend",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
