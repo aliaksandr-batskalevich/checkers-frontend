@@ -2,6 +2,7 @@ import axios from 'axios';
 import {AuthResponseDataType} from "../models/authResponseDataType";
 import {readAccessTokenInLS, writeAccessTokenInLS} from "../utils/acceesTokenLS";
 
+// SERVER IP
 const baseURL = 'http://35.239.107.150/api/';
 const axiosOptions = {
     withCredentials: true,
