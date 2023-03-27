@@ -39,8 +39,8 @@ export const SignUp = () => {
             errors.email = `Incorrect email!`;
         }
 
-        if (values.password.trim().length < 4 || values.password.trim().length > 10) {
-            errors.password = `Username must be between 4 and 10 characters long!`;
+        if (values.password.trim().length < 4) {
+            errors.password = `Password length must be at least 4 characters!`;
         }
 
         if (values.password.trim() !== values.confirmPassword.trim()) {
