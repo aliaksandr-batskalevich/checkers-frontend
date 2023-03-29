@@ -22,7 +22,7 @@ export const TopUsers = () => {
             .then(topUsers => {
                 const authUserIndex = topUsers.findIndex(user => user.id === authId);
                 const message = authUserIndex
-                    ? `Your position on the dashboard - ${authUserIndex + 1}`
+                    ? `Your position on the dashboard - ${authUserIndex + 1!}`
                     : `You are not in the top 10 players`;
                 dispatch(addSnackbarInfoMessage(message));
             })
@@ -39,8 +39,13 @@ export const TopUsers = () => {
         navigate(`/profile/${id}`);
     };
 
-    const topUsersToRender = topUsers.map((topUser, index) => <TopUser key={topUser.id} position={index + 1}
-                                                                       viewProfile={viewProfileHandler} {...topUser}/>);
+    const topUsersToRender = topUsers.map((topUser, index) => <TopUser
+        key={topUser.id}
+        position={index + 1}
+        isAuthUser={topUser.id === authId}
+        viewProfile={viewProfileHandler}
+        {...topUser}
+    />);
 
     return (
         isTopUsersFetching
