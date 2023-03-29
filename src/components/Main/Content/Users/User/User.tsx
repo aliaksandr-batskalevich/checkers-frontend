@@ -4,8 +4,14 @@ import {IUser} from "../../../../../models/IUser";
 import defaultAvatar from '../../../../../assets/images/default-avatar.png';
 import {NavLink} from "react-router-dom";
 
+type UserPropsType = IUser & {authId: null | number, follow: (id: number) => void};
 
-export const User: React.FC<IUser> = ({id, username, isActivated, rating, gamesCount, gamesWinsCount, sparringCount, sparringWinsCount}) => {
+export const User: React.FC<UserPropsType> = ({authId,id, username, isActivated, rating, gamesCount, gamesWinsCount, sparringCount, sparringWinsCount, follow}) => {
+
+    const followHandler = () => {
+        follow(id);
+    };
+
     return (
         <NavLink to={`/profile/${id}`} className={s.userWrapper}>
             <div className={s.avatarWrapper}>
@@ -15,6 +21,7 @@ export const User: React.FC<IUser> = ({id, username, isActivated, rating, gamesC
                 <div className={s.userInfo}>
                     <h3>{username}</h3>
                     <p>rating: <span>{rating}</span></p>
+                    {authId !== id && <button onClick={followHandler}>submit</button>}
                 </div>
                 <div className={s.statistics}>
                     <table className={s.table}>
