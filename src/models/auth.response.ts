@@ -1,6 +1,6 @@
 import {IUser} from "./IUser";
 
-export type AuthResponseDataType = {
+export type AuthResponse = {
     message: string
     data: {
         tokens: {
@@ -11,4 +11,4 @@ export type AuthResponseDataType = {
     }
 };
 
-export type LogoutResponse = Omit<AuthResponseDataType, 'data'>;
+export type LogoutResponse = Omit<AuthResponse, 'data'>;

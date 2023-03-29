@@ -1,0 +1,30 @@
+.topUsersWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    //font-size: 30px;
+    color: white;
+    letter-spacing: .4em;
+  }
+
+  .header {
+    width: 300px;
+
+    border: white solid 2px;
+    border-radius: 10px;
+    background-color: rgba(255, 0, 0, 0.1);
+
+    font-weight: bold;
+    color: white;
+
+    display: flex;
+    justify-content: space-between;
+  }
+
+  > div {
+    margin-top: 10px;
+    padding: 4px 10px;
+  }
+}

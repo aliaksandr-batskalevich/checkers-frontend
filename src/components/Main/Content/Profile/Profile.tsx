@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
-import {Navigate, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import s from './Profile.module.scss';
 import {useSelector} from "react-redux";
-import {getAuthId, getIsAuth, getIsProfileFetching, getProfile} from "../../../../bll/selectors";
+import {getAuthId, getIsProfileFetching, getProfile} from "../../../../bll/selectors";
 import {useAppDispatch} from "../../../../utils/hooks";
 import {getUserTC} from "../../../../bll/profile.reducer";
 import defaultAvatar from '../../../../assets/images/default-avatar.png';
@@ -15,7 +15,6 @@ const Profile = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
-    const isAuth = useSelector(getIsAuth);
     const authId = useSelector(getAuthId);
     const isProfileFetching = useSelector(getIsProfileFetching);
     const profile = useSelector(getProfile);
@@ -30,16 +29,16 @@ const Profile = () => {
     useEffect(() => {
 
         // to my profile
-        isAuth && !params.id && authId !== profile?.id && authId
+        !params.id && !isMyAccount && authId
         && dispatch(getUserTC(authId));
 
         // to profile via params
-        if (isAuth && params.id && +params.id !== profile?.id) {
-            dispatch(getUserTC(+params.id))
-                .catch((errorMessage) => {
-                    navigate(`/404?message=${errorMessage}`);
-                });
-        }
+        params.id && +params.id !== profile?.id
+        && dispatch(getUserTC(+params.id))
+            .catch((errorMessage) => {
+                navigate(`/404?message=${errorMessage}`);
+            });
+
     }, [params.id, dispatch]);
 
     return (isProfileFetching
@@ -58,7 +57,7 @@ const Profile = () => {
 
                         <div className={s.statistics}>
                             <h3>Statistics</h3>
-                            <p>dashboardPosition: <span>{`In progress...`}</span></p>
+                            <p>Rating: <span>{profile?.rating}</span></p>
                             <p>gamesCount/Wins: <span>{`${profile?.gamesCount}/${profile?.gamesWinsCount}`}</span></p>
                             <p>sparringCount/Wins: <span>{`${profile?.sparringCount}/${profile?.sparringWinsCount}`}</span>
                             </p>

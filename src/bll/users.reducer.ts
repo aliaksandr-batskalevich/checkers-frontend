@@ -28,7 +28,7 @@ const usersInitState: UsersStateType = {
     totalPage: 0,
 };
 
-export const usersReducer = (state: UsersStateType = usersInitState, action: UsersActionsType) => {
+export const usersReducer = (state: UsersStateType = usersInitState, action: UsersActionsType): UsersStateType => {
     switch (action.type) {
         case "SET_IS_USERS_FETCHING":
             return {...state, ...action.payload};

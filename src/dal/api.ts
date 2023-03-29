@@ -1,16 +1,17 @@
-import {AuthResponseDataType, LogoutResponse} from "../models/authResponseDataType";
+import {AuthResponse, LogoutResponse} from "../models/auth.response";
 import {AllUsersResponse, DeleteUserResponse, UserResponse} from "../models/users.response";
 import instance, {refreshInstance} from './instance'
+import {TopUsersResponse} from "../models/top.response";
 
 
 export class AuthAPI {
-    static async signUp(username: string, email: string, password: string): Promise<AuthResponseDataType> {
-        return instance.post<AuthResponseDataType>('auth/registration', {username, password, email})
+    static async signUp(username: string, email: string, password: string): Promise<AuthResponse> {
+        return instance.post<AuthResponse>('auth/registration', {username, password, email})
             .then(response => response.data);
     }
 
-    static async signIn(username: string, password: string): Promise<AuthResponseDataType> {
-        return instance.post<AuthResponseDataType>('auth/login', {username, password})
+    static async signIn(username: string, password: string): Promise<AuthResponse> {
+        return instance.post<AuthResponse>('auth/login', {username, password})
             .then(response => response.data);
     }
 
@@ -19,10 +20,10 @@ export class AuthAPI {
             .then(response => response.data);
     }
 
-    static async refresh(): Promise<AuthResponseDataType> {
+    static async refresh(): Promise<AuthResponse> {
 
         // request without interceptors
-        return refreshInstance.get<AuthResponseDataType>('auth/refresh')
+        return refreshInstance.get<AuthResponse>('auth/refresh')
             .then(response => response.data);
     }
 
@@ -43,6 +44,12 @@ export class UserAPI {
         return instance.delete<DeleteUserResponse>(`users/${id}`)
             .then(response => response.data);
     }
+}
 
+export class TopUsersAPI {
+    static async getTopUsers(count: number): Promise<TopUsersResponse> {
+        return instance.get<TopUsersResponse>(`top?count=${count}`)
+            .then(response => response.data);
+    }
 }
 

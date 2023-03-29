@@ -7,4 +7,7 @@ export type IUser = {
     gamesWinsCount: number
     sparringCount: number
     sparringWinsCount: number
+    rating: number
 }
+
+export type ITopUser = Pick<IUser, 'id' | 'username' | 'rating'>;

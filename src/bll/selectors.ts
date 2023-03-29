@@ -1,5 +1,6 @@
+import {createSelector} from "reselect";
 import {RootStateType} from "./store";
-import {IUser} from "../models/IUser";
+import {ITopUser, IUser} from "../models/IUser";
 import {SnackbarMessageType} from "./snackbar.reducer";
 
 // app
@@ -22,6 +23,15 @@ export const getCurrentPage = (state: RootStateType): number => state.users.curr
 export const getCountOnPage = (state: RootStateType): number => state.users.countOnPage;
 export const getTotalPage = (state: RootStateType): number => state.users.totalPage;
 export const getUsers = (state: RootStateType): Array<IUser> => state.users.users;
+
+// topUsers
+export const getIsTopUsersFetching = (state: RootStateType): boolean => state.topUsers.isTopUsersFetching;
+const getTopFullUsers = (state: RootStateType): Array<IUser> => state.topUsers.topUsers;
+export const getTopUsers = createSelector(getTopFullUsers, (topFullUsers: Array<IUser>): Array<ITopUser> => topFullUsers.map(user => {
+    const {id, username, rating} = user;
+    return {id, username, rating};
+}));
+
 
 // snackbar
 export const getSnackbarMessages = (state: RootStateType): Array<SnackbarMessageType> => state.snackbar.snackbarMessages;
