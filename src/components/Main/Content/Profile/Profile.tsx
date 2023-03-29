@@ -52,7 +52,7 @@ const Profile = () => {
                         <img src={defaultAvatar} alt="avatar"/>
                         {isMyAccount
                             ? <button className={s.editButton} onClick={editAvatarHandler}>edit</button>
-                            : <button className={s.followButton} onClick={followHandler}>edit</button>}
+                            : <button className={s.followButton} onClick={followHandler}>follow</button>}
                     </div>
                     <div className={s.descriptions}>
                         <div className={s.profileInfoWrapper}>

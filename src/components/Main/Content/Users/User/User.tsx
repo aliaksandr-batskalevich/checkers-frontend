@@ -13,13 +13,13 @@ export const User: React.FC<UserPropsType> = ({authId,id, username, isActivated,
     };
 
     return (
-        <NavLink to={`/profile/${id}`} className={s.userWrapper}>
+        <div  className={s.userWrapper}>
             <div className={s.avatarWrapper}>
                 <img src={defaultAvatar} alt="avatar"/>
             </div>
             <div className={s.descriptionWrapper}>
                 <div className={s.userInfo}>
-                    <h3>{username}</h3>
+                    <NavLink to={`/profile/${id}`}><h3>{username}</h3></NavLink>
                     <p>rating: <span>{rating}</span></p>
                     {authId !== id && <button onClick={followHandler}>submit</button>}
                 </div>
@@ -43,6 +43,6 @@ export const User: React.FC<UserPropsType> = ({authId,id, username, isActivated,
                     </table>
                 </div>
             </div>
-        </NavLink>
+        </div>
     );
 };

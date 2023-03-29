@@ -4,9 +4,7 @@
   border: white solid 1px;
   display: flex;
   background-color: rgba(0, 0, 0, 0.2);
-
   color: black;
-  text-decoration: none;
 
   .avatarWrapper {
     line-height: 0;
@@ -29,13 +27,15 @@
       flex-direction: column;
       justify-content: center;
 
+      > *:not(:first-child) {
+        margin-top: 5px;
+      }
+
       h3 {
-        text-decoration: underline;
         color: white;
       }
 
       p {
-        margin-top: 5px;
         color: rgba(0, 0, 0, 0.6);
         font-size: 20px;
 
