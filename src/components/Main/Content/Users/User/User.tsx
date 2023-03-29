@@ -5,7 +5,7 @@ import defaultAvatar from '../../../../../assets/images/default-avatar.png';
 import {NavLink} from "react-router-dom";
 
 
-export const User: React.FC<IUser> = ({id, username, isActivated, gamesCount, gamesWinsCount, sparringCount, sparringWinsCount}) => {
+export const User: React.FC<IUser> = ({id, username, isActivated, rating, gamesCount, gamesWinsCount, sparringCount, sparringWinsCount}) => {
     return (
         <NavLink to={`/profile/${id}`} className={s.userWrapper}>
             <div className={s.avatarWrapper}>
@@ -14,7 +14,7 @@ export const User: React.FC<IUser> = ({id, username, isActivated, gamesCount, ga
             <div className={s.descriptionWrapper}>
                 <div className={s.userInfo}>
                     <h3>{username}</h3>
-                    <p>position: <span>{`In progress...`}</span></p>
+                    <p>rating: <span>{rating}</span></p>
                 </div>
                 <div className={s.statistics}>
                     <table className={s.table}>
