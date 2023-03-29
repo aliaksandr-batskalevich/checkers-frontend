@@ -3,7 +3,6 @@
 .appWrapper {
   background-color: $app-background-color;
 
-  > div:nth-child(2) {
-    min-height: 80vh;
-  }
+  display: flex;
+  flex-direction: column;
 }

@@ -1,10 +1,12 @@
 .headerWrapper {
   border-bottom: white solid 1px;
   background-color: rgba(0, 0, 0, 0.2);
+  min-height: 10vh;
+  display: flex;
+  align-items: center;
 
+  // style for container
   > div {
-    min-height: 10vh;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -12,7 +14,7 @@
 
   .logoWrapper {
     img {
-      height: 60px;
+      height: 55px;
     }
   }
 
