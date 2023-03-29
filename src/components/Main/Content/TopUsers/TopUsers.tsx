@@ -1,15 +1,16 @@
 import React, {useEffect} from 'react';
 import s from './TopUsers.module.scss';
 import {useSelector} from "react-redux";
-import {getIsTopUsersFetching, getTopUsers} from "../../../../bll/selectors";
+import {getAuthId, getIsTopUsersFetching, getTopUsers} from "../../../../bll/selectors";
 import {useAppDispatch} from "../../../../utils/hooks";
 import {getTopUsersTC, setTopUsersInitSate} from "../../../../bll/top.reducer";
-import {addSnackbarErrorMessage} from "../../../../bll/snackbar.reducer";
+import {addSnackbarErrorMessage, addSnackbarInfoMessage} from "../../../../bll/snackbar.reducer";
 import {Preloader} from "../../../commons/Preloader/Preloader";
 import {TopUser} from "./TopUser/TopUser";
 import {useNavigate} from "react-router-dom";
 
 export const TopUsers = () => {
+    const authId = useSelector(getAuthId);
     const isTopUsersFetching = useSelector(getIsTopUsersFetching);
     const topUsers = useSelector(getTopUsers);
 
@@ -18,6 +19,13 @@ export const TopUsers = () => {
 
     useEffect(() => {
         dispatch(getTopUsersTC(10))
+            .then(topUsers => {
+                const authUserIndex = topUsers.findIndex(user => user.id === authId);
+                const message = authUserIndex
+                    ? `Your position on the dashboard - ${authUserIndex + 1}`
+                    : `You are not in the top 10 players`;
+                dispatch(addSnackbarInfoMessage(message));
+            })
             .catch(reason => {
                 dispatch(addSnackbarErrorMessage(reason));
             });

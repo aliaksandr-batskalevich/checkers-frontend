@@ -61,6 +61,8 @@ export const getTopUsersTC = (count: number) => async (dispatch: ThunkDispatchTy
         dispatch(setTopUsers(topUsers));
         dispatch(setAppStatus(AppStatus.SUCCESS));
         dispatch(setIsTopUsersFetching(false));
+
+        return Promise.resolve(topUsers);
     } catch (error) {
         let errorMessage: string;
         if (axios.isAxiosError(error)) {
