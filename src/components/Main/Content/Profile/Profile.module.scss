@@ -5,18 +5,26 @@
 
     .avatarWrapper {
       position: relative;
+      text-align: center;
 
       img {
+        display: inline-block;
         height: 150px;
       }
 
-      button {
+      .editButton {
         padding: 1px 3px;
 
         position: absolute;
         left: 50%;
         bottom: 5%;
         transform: translateX(-50%);
+      }
+
+      .followButton {
+        margin-top: 5px;
+        padding: 3px 10px;
+        display: inline-block;
       }
     }
 

@@ -25,6 +25,9 @@ const Profile = () => {
     const editAvatarHandler = () => {
         dispatch(addSnackbarInfoMessage('Feature under development.'));
     };
+    const followHandler = () => {
+        dispatch(addSnackbarInfoMessage(`Feature under development.`));
+    };
 
     useEffect(() => {
 
@@ -47,12 +50,15 @@ const Profile = () => {
                 <div className={s.profileInfo}>
                     <div className={s.avatarWrapper}>
                         <img src={defaultAvatar} alt="avatar"/>
-                        {isMyAccount && <button onClick={editAvatarHandler}>edit</button>}
+                        {isMyAccount
+                            ? <button className={s.editButton} onClick={editAvatarHandler}>edit</button>
+                            : <button className={s.followButton} onClick={followHandler}>edit</button>}
                     </div>
                     <div className={s.descriptions}>
                         <div className={s.profileInfoWrapper}>
                             <h3>Profile info</h3>
                             <p>username: <span>{profile?.username}</span></p>
+                            <p>followers: <span>{'In progress...'}</span></p>
                         </div>
 
                         <div className={s.statistics}>
