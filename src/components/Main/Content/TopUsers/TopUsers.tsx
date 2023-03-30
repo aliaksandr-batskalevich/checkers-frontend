@@ -8,8 +8,9 @@ import {addSnackbarErrorMessage, addSnackbarInfoMessage} from "../../../../bll/s
 import {Preloader} from "../../../commons/Preloader/Preloader";
 import {TopUser} from "./TopUser/TopUser";
 import {useNavigate} from "react-router-dom";
+import {withAuthRedirect} from "../../../commons/HOCs/withAuthRedirect";
 
-export const TopUsers = () => {
+const TopUsers = () => {
     const authId = useSelector(getAuthId);
     const isTopUsersFetching = useSelector(getIsTopUsersFetching);
     const topUsers = useSelector(getTopUsers);
@@ -21,7 +22,7 @@ export const TopUsers = () => {
         dispatch(getTopUsersTC(10))
             .then(topUsers => {
                 const authUserIndex = topUsers.findIndex(user => user.id === authId);
-                const message = authUserIndex
+                const message = authUserIndex !== undefined
                     ? `Your position on the dashboard - ${authUserIndex + 1!}`
                     : `You are not in the top 10 players`;
                 dispatch(addSnackbarInfoMessage(message));
@@ -61,3 +62,5 @@ export const TopUsers = () => {
             </div>
     );
 };
+
+export default withAuthRedirect(TopUsers);

@@ -6,7 +6,7 @@ import {SignIn} from "./AuthComponents/SignIn";
 import {SignUp} from "./AuthComponents/SignUp";
 import Profile from "./Profile/Profile";
 import Users from "./Users/Users";
-import {TopUsers} from "./TopUsers/TopUsers";
+import TopUsers from "./TopUsers/TopUsers";
 
 
 export const Content = () => {
