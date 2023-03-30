@@ -21,7 +21,7 @@ export const User: React.FC<UserPropsType> = ({authId,id, username, isActivated,
                 <div className={s.userInfo}>
                     <NavLink to={`/profile/${id}`}><h3>{username}</h3></NavLink>
                     <p>rating: <span>{rating}</span></p>
-                    {authId !== id && <button onClick={followHandler}>submit</button>}
+                    {authId !== id && <button onClick={followHandler}>follow</button>}
                 </div>
                 <div className={s.statistics}>
                     <table className={s.table}>

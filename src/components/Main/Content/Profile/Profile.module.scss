@@ -15,12 +15,16 @@
         height: 150px;
       }
 
+      button {
+        cursor: pointer;
+      }
+
       .editButton {
         padding: 1px 3px;
 
         position: absolute;
         left: 50%;
-        bottom: 5%;
+        bottom: 10%;
         transform: translateX(-50%);
       }
 

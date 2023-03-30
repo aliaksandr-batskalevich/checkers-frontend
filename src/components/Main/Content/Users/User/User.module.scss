@@ -31,9 +31,14 @@
         margin-top: 5px;
       }
 
-      h3 {
+      a {
         color: white;
+
+        h3 {
+
+        }
       }
+
 
       p {
         color: rgba(0, 0, 0, 0.6);
@@ -46,6 +51,7 @@
 
       button {
         padding: 3px 10px;
+        cursor: pointer;
       }
     }
 
