@@ -9,6 +9,7 @@ import Users from "./Users/Users";
 import TopUsers from "./TopUsers/TopUsers";
 import Chat from "./Chat/Chat";
 
+// CHAT!!!
 
 export const Content = () => {
 
