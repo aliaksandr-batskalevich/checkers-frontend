@@ -1,0 +1,16 @@
+@import "/src/difenitions";
+
+.chatMessagesWrapper {
+  padding: 1px 10px 0;
+  border: white solid 1px;
+  background-color: $app-background_dark-color;
+  height: 70vh;
+
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+
+  .messagesContainer {
+    padding-bottom: 5px;
+    scroll-snap-align: end;
+  }
+}

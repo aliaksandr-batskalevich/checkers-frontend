@@ -1,5 +1,7 @@
+@import "/src/difenitions";
+
 .footerWrapper {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: $app-background_dark-color;
   border-top: white solid 1px;
   min-height: 10vh;
   display: flex;

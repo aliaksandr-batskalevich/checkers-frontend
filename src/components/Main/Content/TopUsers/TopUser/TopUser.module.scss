@@ -1,7 +1,9 @@
+@import "/src/difenitions";
+
 .topUserWrapper {
   border: white solid 1px;
   border-radius: 10px;
-  background-color: #FFFFFF66;
+  background-color: $app-background_light-color;
   cursor: pointer;
 
   display: flex;

@@ -22,8 +22,7 @@ const TopUsers = () => {
         dispatch(getTopUsersTC(10))
             .then(topUsers => {
                 const authUserIndex = topUsers.findIndex(user => user.id === authId);
-                console.log(authUserIndex);
-                const message = authUserIndex !== undefined
+                const message = authUserIndex > -1
                     ? `Your position on the dashboard - ${authUserIndex + 1!}`
                     : `You are not in the top 10 players`;
                 dispatch(addSnackbarInfoMessage(message));

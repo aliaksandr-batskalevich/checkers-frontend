@@ -2,6 +2,7 @@ import {createSelector} from "reselect";
 import {RootStateType} from "./store";
 import {ITopUser, IUser} from "../models/IUser";
 import {SnackbarMessageType} from "./snackbar.reducer";
+import {IChatMessage} from "../models/IChatMessage";
 
 // app
 export const getIsAppInit = (state: RootStateType): boolean => state.app.isAppInit;
@@ -32,6 +33,8 @@ export const getTopUsers = createSelector(getTopFullUsers, (topFullUsers: Array<
     return {id, username, rating};
 }));
 
+// chat
+export const getChatMessages = (state: RootStateType): Array<IChatMessage> => state.chat.chatMessages;
 
 // snackbar
 export const getSnackbarMessages = (state: RootStateType): Array<SnackbarMessageType> => state.snackbar.snackbarMessages;

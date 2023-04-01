@@ -1,0 +1,20 @@
+.writerWrapper {
+  margin-top: 5px;
+
+  form {
+    display: flex;
+    align-items: flex-end;
+
+    textarea {
+      padding: 5px;
+      resize: none;
+      height: 45px;
+      width: 50%;
+    }
+
+    button {
+      margin-left: 5px;
+      padding: 2px 10px;
+    }
+  }
+}

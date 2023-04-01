@@ -1,6 +1,8 @@
+@import "/src/difenitions";
+
 .headerWrapper {
   border-bottom: white solid 1px;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: $app-background_dark-color;
   min-height: 10vh;
   display: flex;
   align-items: center;

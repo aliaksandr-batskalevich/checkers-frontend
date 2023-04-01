@@ -6,8 +6,9 @@ import {ProfileActionsType, profileReducer} from "./profile.reducer";
 import {SnackbarActionsType, snackbarReducer} from "./snackbar.reducer";
 import {UsersActionsType, usersReducer} from "./users.reducer";
 import {TopUsersActionsType, topUsersReducer} from "./top.reducer";
+import {ChatActionsType, chatReducer} from "./chat.reducer";
 
-export type RootActionsType = AppActionsType | AuthActionsType | ProfileActionsType | SnackbarActionsType | UsersActionsType | TopUsersActionsType;
+export type RootActionsType = AppActionsType | AuthActionsType | ProfileActionsType | SnackbarActionsType | UsersActionsType | TopUsersActionsType | ChatActionsType;
 export type RootStateType = ReturnType<typeof rootReducer>;
 
 const rootReducer = combineReducers({
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     profile: profileReducer,
     users: usersReducer,
     topUsers: topUsersReducer,
+    chat: chatReducer,
     snackbar: snackbarReducer,
 });
 
