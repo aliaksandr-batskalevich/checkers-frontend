@@ -22,7 +22,6 @@ const Chat = () => {
         dispatch(refreshTC())
             .then(() => {
                 socket = new WebSocket('ws://35.239.107.150/api/chat');
-                // socket = new WebSocket('ws://localhost:8080/api/chat');
 
                 socket.onopen = () => {
                     const authMessage = authMessageMaker();

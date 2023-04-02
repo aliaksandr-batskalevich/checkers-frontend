@@ -16,6 +16,11 @@ export const Header: React.FC<HeaderPropsType> = ({isAppInit, isAuth, logout}) =
     const isAuthing = useSelector(getIsAuthing);
     const username = useSelector(getAuthUsername);
 
+    const socket = new WebSocket('ws://localhost:8080');
+    socket.onopen = () => {
+        alert('Connect!');
+    };
+
     return (
         <div className={s.headerWrapper}>
             <div className='container'>
