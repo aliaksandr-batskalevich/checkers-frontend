@@ -34,7 +34,7 @@ const Chat = () => {
                     intervalId = setInterval(() => {
                         socket.send(pingMessageMaker());
                         console.log('ping');
-                    }, 40000);
+                    }, 55000);
                 };
 
                 socket.onmessage = (event) => {
