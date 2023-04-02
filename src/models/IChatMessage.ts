@@ -5,3 +5,13 @@ export type IChatMessage = {
     message: string
     date: string
 };
+
+export type IChatUser = {
+    userId: number
+    username: string
+};
+
+export type IChatObject = {
+    messages: Array<IChatMessage>,
+    usersOnline: Array<IChatUser>
+};

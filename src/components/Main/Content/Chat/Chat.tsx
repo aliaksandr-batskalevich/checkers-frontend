@@ -9,8 +9,8 @@ import {useAppDispatch} from "../../../../utils/hooks";
 import {addSnackbarInfoMessage} from "../../../../bll/snackbar.reducer";
 import {authMessageMaker, chatMessageMaker, pingMessageMaker} from "../../../../utils/wsUtils";
 import {refreshTC} from "../../../../bll/auth.reducer";
-import {IChatMessage} from "../../../../models/IChatMessage";
-import {addChatMessages, setInitChatState} from "../../../../bll/chat.reducer";
+import {IChatMessage, IChatObject} from "../../../../models/IChatMessage";
+import {addChatMessages, setChatUsersOnline, setInitChatState} from "../../../../bll/chat.reducer";
 
 const Chat = () => {
     const authUsername = useSelector(getAuthUsername);
@@ -38,8 +38,9 @@ const Chat = () => {
                 };
 
                 socket.onmessage = (event) => {
-                    const messages = JSON.parse(event.data) as Array<IChatMessage>;
-                    dispatch(addChatMessages(messages));
+                    const chatObject = JSON.parse(event.data) as IChatObject;
+                    dispatch(addChatMessages(chatObject.messages));
+                    dispatch(setChatUsersOnline(chatObject.usersOnline));
                 };
 
                 socket.onclose = () => {
