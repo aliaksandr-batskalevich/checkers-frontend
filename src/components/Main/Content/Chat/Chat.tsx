@@ -33,7 +33,8 @@ const Chat = () => {
                     // ping timeout
                     intervalId = setInterval(() => {
                         socket.send(pingMessageMaker());
-                    }, 55000);
+                        console.log('ping');
+                    }, 40000);
                 };
 
                 socket.onmessage = (event) => {
