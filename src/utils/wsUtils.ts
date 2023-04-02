@@ -10,3 +10,8 @@ export const chatMessageMaker = (message: string) => {
     const newMessage = {type: 'chat', data: {message}};
     return JSON.stringify(newMessage);
 };
+
+export const pingMessageMaker = () => {
+    const newMessage = {type: 'ping', data: {}};
+    return JSON.stringify(newMessage);
+}
