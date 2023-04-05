@@ -18,7 +18,6 @@ export const ChatMessages: React.FC<ChatMessagesPropsType> = ({authUsername}) =>
         authUsername={authUsername}
         {...chatMessage}/>);
 
-    console.log(chatUsersOnline);
     const usersOnlineToRender = chatUsersOnline.map(user => <div key={user.userId} className={s.user}>{user.username}</div>);
 
     return (

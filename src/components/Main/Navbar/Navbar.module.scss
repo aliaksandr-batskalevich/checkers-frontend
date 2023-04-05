@@ -6,6 +6,11 @@
     margin-top: 5px;
   }
 
+  a:last-child::after {
+    content: '🔥';
+    margin-left: 5px;
+  }
+
   a {
     text-decoration: none;
     color: white;
