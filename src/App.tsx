@@ -23,7 +23,6 @@ function App() {
     const isAppInit = useSelector(getIsAppInit);
     const isAuth = useSelector(getIsAuth);
     const isActivated = useSelector(getIsActivated);
-    alert(isActivated);
 
     const logoutHandler = () => {
         dispatch(logoutTC())
