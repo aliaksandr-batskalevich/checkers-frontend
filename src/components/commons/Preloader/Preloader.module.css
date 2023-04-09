@@ -1,5 +1,6 @@
 .preloaderWrapper {
     margin-top: 20px;
+    min-height: 80vh;
     text-align: center;
 }
 
