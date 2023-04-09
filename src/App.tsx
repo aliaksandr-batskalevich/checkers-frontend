@@ -13,6 +13,7 @@ import {ActivateMessage} from "./components/ActivateMessage/ActivateMessage";
 import {useNavigate} from "react-router-dom";
 import {addSnackbarErrorMessage, addSnackbarInfoMessage} from "./bll/snackbar.reducer";
 import {Snackbar} from "./components/Snackbar/Snackbar";
+import {readAccessTokenInLS} from "./utils/acceesTokenLS";
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
     const isAppInit = useSelector(getIsAppInit);
     const isAuth = useSelector(getIsAuth);
     const isActivated = useSelector(getIsActivated);
+    alert(isActivated);
 
     const logoutHandler = () => {
         dispatch(logoutTC())
@@ -36,7 +38,8 @@ function App() {
 
     // refresh APP
     useEffect(() => {
-        if (localStorage.getItem('accessToken')) {
+        const accessToken = readAccessTokenInLS();
+        if (accessToken) {
             dispatch(refreshTC())
                 .finally(() => {
                     dispatch(setIsAppInit(true));

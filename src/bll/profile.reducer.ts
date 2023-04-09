@@ -1,7 +1,7 @@
 import {IUser} from "../models/IUser";
 import {ThunkDispatchType} from "../utils/hooks";
 import {AppStatus, setAppStatus} from "./app.reducer";
-import {UserAPI} from "../dal/api";
+import {UserAPI} from "../dal/html.api";
 import axios from "axios";
 import {logoutRemoveData} from "../utils/logoutRemoveData";
 

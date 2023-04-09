@@ -1,6 +1,6 @@
 import {IUser} from "../models/IUser";
 import {ThunkDispatchType} from "../utils/hooks";
-import {TopUsersAPI} from "../dal/api";
+import {TopUsersAPI} from "../dal/html.api";
 import {AppStatus, setAppStatus} from "./app.reducer";
 import axios from "axios";
 

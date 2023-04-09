@@ -32,7 +32,7 @@ const Profile = () => {
     useEffect(() => {
 
         // to my profile
-        !params.id && !isMyAccount && authId
+        !params.id && authId
         && dispatch(getUserTC(authId));
 
         // to profile via params
