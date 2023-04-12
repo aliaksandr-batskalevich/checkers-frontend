@@ -140,7 +140,7 @@ const Game = () => {
             : <div className={s.gameWrapper}>
                 <div className={s.messageBoardWrapper}>
                     {isGameFetching && <Preloader/>}
-                    {winnerMessage && <FinishMessage message={winnerMessage} closeMessage={closeMenuHandler}/>}
+                    {!isGameFetching && winnerMessage && <FinishMessage message={winnerMessage} closeMessage={closeMenuHandler}/>}
                 </div>
                 <BoardComponent isGameFetching={isGameFetching} saveGame={saveGame}/>
             </div>

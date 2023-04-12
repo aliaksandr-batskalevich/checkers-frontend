@@ -61,9 +61,10 @@ export const BoardComponent: React.FC<BoardComponentPropsType> = ({isGameFetchin
         if (cell && targetCell) {
             moveFigureToTargetCell(cell, targetCell);
         } else {
-            dispatch(setWinner(color === Colors.WHITE
+            const winner = color === Colors.WHITE
                 ? Colors.BLACK
-                : Colors.WHITE));
+                : Colors.WHITE;
+            dispatch(setWinner(winner));
         }
     };
 
