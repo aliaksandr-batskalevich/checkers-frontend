@@ -36,7 +36,7 @@ import {FinishMessage} from "./FinishMessage/FinishMessage";
 
 const Game = () => {
 
-    const [finishMessage, setFinishMessage] = useState<null | string>(null);
+    const [winnerMessage, setWinnerMessage] = useState<null | string>(null);
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -76,7 +76,7 @@ const Game = () => {
     };
 
     let closeMenuHandler = () => {
-        setFinishMessage(null);
+        setWinnerMessage(null);
         dispatch(finishGameTC(+gameId!, playWinner === Colors.BLACK))
             .then(response => {
                 navigate('/games');
@@ -93,7 +93,7 @@ const Game = () => {
             ? `You won! Your rating is growing!`
             : `You lost, don't be upset, try again!`
 
-        setFinishMessage(message);
+        setWinnerMessage(message);
     };
 
     // SAVE GAME IN SERVER AND SWITCH ORDER
@@ -124,8 +124,8 @@ const Game = () => {
 
     // setWinner
     useEffect(() => {
-        count[0] === 0 && dispatch(setWinner(Colors.BLACK));
-        count[1] === 0 && dispatch(setWinner(Colors.WHITE));
+        count[0] === 0 && !playWinner && dispatch(setWinner(Colors.BLACK));
+        count[1] === 0 && !playWinner && dispatch(setWinner(Colors.WHITE));
     }, [count[0], count[1]]);
 
     // winner from Board
@@ -140,7 +140,7 @@ const Game = () => {
             : <div className={s.gameWrapper}>
                 <div className={s.messageBoardWrapper}>
                     {isGameFetching && <Preloader/>}
-                    {finishMessage && <FinishMessage message={finishMessage} closeMessage={closeMenuHandler}/>}
+                    {winnerMessage && <FinishMessage message={winnerMessage} closeMessage={closeMenuHandler}/>}
                 </div>
                 <BoardComponent isGameFetching={isGameFetching} saveGame={saveGame}/>
             </div>
