@@ -1,4 +1,4 @@
-.userWrapper {
+.gameItemWrapper {
   margin-top: 5px;
   padding: 5px;
   border: white solid 1px;
@@ -12,6 +12,7 @@
     img {
       display: inline-block;
       height: 100px;
+      width: 100px;
     }
   }
 
@@ -29,24 +30,21 @@
       align-items: flex-start;
 
       > *:not(:first-child) {
-        margin-top: 5px;
+        margin-top: 10px;
       }
 
-      a {
+      h3 {
         color: white;
-
-        h3 {
-
-        }
       }
 
 
       p {
-        color: rgba(0, 0, 0, 0.6);
+        color: rgba(255, 255, 255, 0.6);
         font-size: 20px;
 
         span {
-          color: white;
+          margin-left: 5px;
+          color: black;
         }
       }
 
@@ -54,34 +52,6 @@
         padding: 3px 10px;
         cursor: pointer;
       }
-    }
-
-    .statistics {
-      display: flex;
-      align-items: center;
-
-
-    }
-  }
-
-}
-
-.table {
-
-  tr {
-
-    th {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-
-    td, th {
-      padding: 2px 5px;
-      border: black solid 1px;
-      text-align: center;
-    }
-
-    .statisticTitle {
-      background-color: rgba(255, 0, 0, 0.2);
     }
   }
 }

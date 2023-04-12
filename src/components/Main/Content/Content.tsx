@@ -7,9 +7,10 @@ import {SignUp} from "./AuthComponents/SignUp";
 import Profile from "./Profile/Profile";
 import Users from "./Users/Users";
 import TopUsers from "./TopUsers/TopUsers";
+import Games from "./Games/Games";
+import Game from "./Game/Game";
 import Chat from "./Chat/Chat";
 
-// CHAT!!!
 
 export const Content = () => {
 
@@ -21,6 +22,8 @@ export const Content = () => {
                 <Route path='/profile/:id' element={(<Profile/>)} />
                 <Route path='/users' element={<Users/>} />
                 <Route path='/top' element={<TopUsers/>} />
+                <Route path='/games' element={<Games />} />
+                <Route path='/games/:id' element={<Game />} />
                 <Route path='/chat' element={<Chat/>} />
                 <Route path='/signin' element={<SignIn/>} />
                 <Route path='/signup' element={<SignUp/>} />

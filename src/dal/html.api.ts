@@ -2,6 +2,11 @@ import {AuthResponse, LogoutResponse} from "../models/auth.response";
 import {AllUsersResponse, DeleteUserResponse, UserResponse} from "../models/users.response";
 import instance, {refreshInstance} from './instance'
 import {TopUsersResponse} from "../models/top.response";
+import {CreateGameResponseType, GetGameItemsResponseType} from "../models/games.response";
+import {GamesFilterType} from "../bll/games.reducer";
+import {GameWithProgressResponseType, UpdateGameResponseType} from "../models/game.response";
+import {Colors} from "../models/game/Colors";
+import {UpdateGameStatusType} from "../models/UpdateGameStatusType";
 
 
 export class AuthAPI {
@@ -49,6 +54,33 @@ export class UserAPI {
 export class TopUsersAPI {
     static async getTopUsers(count: number): Promise<TopUsersResponse> {
         return instance.get<TopUsersResponse>(`top?count=${count}`)
+            .then(response => response.data);
+    }
+}
+
+export class GamesAPI {
+    static async createGame(level: number, currentOrder: Colors, figuresJSON: string): Promise<CreateGameResponseType> {
+        return instance.post<CreateGameResponseType>('games', {level, currentOrder, figures: figuresJSON})
+            .then(response => response.data);
+    }
+
+    static async getGames(filter: GamesFilterType, count: number, page: number): Promise<GetGameItemsResponseType> {
+        return instance.get<GetGameItemsResponseType>(`games?filter=${filter}&count=${count}&page=${page}`)
+            .then(response => response.data);
+    }
+
+    static async getGame(id: number): Promise<GameWithProgressResponseType> {
+        return instance.get<GameWithProgressResponseType>(`games/${id}`)
+            .then(response => response.data);
+    }
+
+    static async updateGame(id: number, figuresJSON: string): Promise<GameWithProgressResponseType> {
+        return instance.put<GameWithProgressResponseType>(`games/${id}`, {status: UpdateGameStatusType.STEP, figures: figuresJSON})
+            .then(response => response.data);
+    }
+
+    static async finishGame(id: number, isWon: boolean): Promise<GameWithProgressResponseType> {
+        return instance.put<GameWithProgressResponseType>(`games/${id}`, {status: UpdateGameStatusType.FINISH, isWon})
             .then(response => response.data);
     }
 }

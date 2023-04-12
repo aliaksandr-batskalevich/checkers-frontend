@@ -7,7 +7,7 @@ import {logoutRemoveData} from "../utils/logoutRemoveData";
 
 export type UsersActionsType = ReturnType<typeof setUsers>
     | ReturnType<typeof setIsUsersFetching>
-    | ReturnType<typeof setCurrentPage>
+    | ReturnType<typeof setUsersCurrentPage>
     | ReturnType<typeof setCountOnPage>
     | ReturnType<typeof setTotalPage>
     | ReturnType<typeof setUsersInitSate>;
@@ -17,7 +17,7 @@ type UsersStateType = {
     users: Array<IUser>
     currentPage: number
     countOnPage: number
-    totalPage: number
+    totalPageCount: number
 };
 
 const usersInitState: UsersStateType = {
@@ -25,7 +25,7 @@ const usersInitState: UsersStateType = {
     users: [],
     currentPage: 1,
     countOnPage: 4,
-    totalPage: 0,
+    totalPageCount: 0,
 };
 
 export const usersReducer = (state: UsersStateType = usersInitState, action: UsersActionsType): UsersStateType => {
@@ -34,7 +34,7 @@ export const usersReducer = (state: UsersStateType = usersInitState, action: Use
             return {...state, ...action.payload};
         case "SET_USERS":
             return {...state, ...action.payload};
-        case "SET_CURRENT_PAGE":
+        case "SET_USERS_CURRENT_PAGE":
             return {...state, ...action.payload};
         case "SET_COUNT_ON_PAGE":
             return {...state, ...action.payload};
@@ -60,9 +60,9 @@ const setUsers = (users: Array<IUser>) => {
         payload: {users}
     } as const;
 };
-export const setCurrentPage = (currentPage: number) => {
+export const setUsersCurrentPage = (currentPage: number) => {
     return {
-        type: 'SET_CURRENT_PAGE',
+        type: 'SET_USERS_CURRENT_PAGE',
         payload: {currentPage}
     } as const;
 };
@@ -72,10 +72,10 @@ const setCountOnPage = (countOnPage: number) => {
         payload: {countOnPage}
     } as const;
 };
-const setTotalPage = (totalPage: number) => {
+const setTotalPage = (totalPageCount: number) => {
     return {
         type: 'SET_TOTAL_PAGE',
-        payload: {totalPage}
+        payload: {totalPageCount}
     } as const;
 };
 export const setUsersInitSate = () => {
@@ -91,9 +91,9 @@ export const getUsersTC = (count: number, page: number) => async (dispatch: Thun
 
         const response = await UserAPI.getUsers(count, page);
         const {totalCount, users} = response.data;
-        const totalPage = Math.ceil(totalCount / count);
+        const totalPageCount = Math.ceil(totalCount / count);
 
-        dispatch(setTotalPage(totalPage));
+        dispatch(setTotalPage(totalPageCount));
         dispatch(setUsers(users));
         dispatch(setAppStatus(AppStatus.SUCCESS));
         dispatch(setIsUsersFetching(false));

@@ -1,0 +1,26 @@
+@import "/src/difenitions";
+
+.gamesFilterWrapper {
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: center;
+
+
+  button {
+    padding: 3px 10px;
+    border: black solid 1px;
+    min-width: 80px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .activeButton {
+    background-color: #0c410c;
+    border: white solid 1px;
+    color: white;
+  }
+
+  button:not(:first-child) {
+    margin-left: 5px;
+  }
+}

@@ -1,0 +1,58 @@
+@import "/src/difenitions";
+
+.boardWrapper {
+  display: flex;
+  flex-direction: column;
+
+  border: $black-cell-color solid $border-outset-thickness;
+  background-image: url("../../../assets/images/border-background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .lettersRow {
+    display: flex;
+    align-items: center;
+    height: $border-inset-thickness;
+
+    font-size: $border-font-size;
+    font-weight: bold;
+
+    > div:not(:first-child), > div:not(:last-child) {
+      width: $cell-size;
+      text-align: center;
+    }
+
+    > div:first-child, > div:last-child {
+      width: $border-inset-thickness;
+    }
+  }
+
+  .mainRowWrapper {
+    display: flex;
+
+    .numbersWrapper {
+      display: flex;
+      flex-direction: column-reverse;
+      width: $border-inset-thickness;
+
+      font-size: $border-font-size;
+      font-weight: bold;
+
+      > div {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    .cellsWrapper {
+
+      width: $cell-size * 8;
+      height: $cell-size * 8;
+
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+}

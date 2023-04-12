@@ -1,9 +1,27 @@
 $app-background-color: darkgreen;
 $app-background_dark-color: rgba(0, 0, 0, 0.2);
-$app-background_light-color: #FFFFFF66;
+$app-background_light-color: rgba(255, 255, 255, 0.4);
 
 $container-width: 800px;
 
 $error-color: rgba(255, 0, 0, 0.5);
 $warning-color: rgba(253, 150, 0, 0.5);
 $info-color: rgba(4, 248, 4, 0.5);
+
+// game
+$border-outset-thickness: 10px;
+$border-inset-thickness: 40px;
+$border-font-size: 22px;
+$cell-size: 64px;
+$figure-size: 55px;
+$dot-size: 15px;
+
+$black-cell-color: #86735c;
+$white-cell-color: white;
+$selected-cell-color: #5b5bf8;
+$available-dot-color: #92f882;
+$crush-color: #fa3838;
+$forward-color: red;
+
+$white-figure-color: white;
+$black-figure-color: black;

@@ -14,11 +14,11 @@ export const User: React.FC<UserPropsType> = ({authId,id, username, isActivated,
 
     return (
         <div  className={s.userWrapper}>
-            <div className={s.avatarWrapper}>
+            <div className={s.logoWrapper}>
                 <img src={defaultAvatar} alt="avatar"/>
             </div>
             <div className={s.descriptionWrapper}>
-                <div className={s.userInfo}>
+                <div className={s.info}>
                     <NavLink to={`/profile/${id}`}><h3>{username}</h3></NavLink>
                     <p>rating: <span>{rating}</span></p>
                     {authId !== id && <button onClick={followHandler}>follow</button>}

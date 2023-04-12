@@ -1,0 +1,17 @@
+.gamesWrapper {
+
+  .gamesContent {
+    transition-duration: .5s;
+
+    .searchMessage {
+      margin-top: 25px;
+      text-align: center;
+    }
+
+    .newGameButton {
+      padding: 3px 10px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
+}

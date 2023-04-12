@@ -4,14 +4,14 @@ import s from './Users.module.scss';
 import {useSelector} from "react-redux";
 import {
     getAuthId,
-    getCountOnPage,
-    getCurrentPage,
+    getUsersCountOnPage,
+    getUsersCurrentPage,
     getIsUsersFetching,
-    getTotalPage,
+    getUsersTotalPageCount,
     getUsers
 } from "../../../../bll/selectors";
 import {useAppDispatch} from "../../../../utils/hooks";
-import {getUsersTC, setCurrentPage} from "../../../../bll/users.reducer";
+import {getUsersTC, setUsersCurrentPage} from "../../../../bll/users.reducer";
 import {addSnackbarErrorMessage, addSnackbarInfoMessage} from "../../../../bll/snackbar.reducer";
 import SuperPaginator from "./Paginator/SuperPaginator";
 import {User} from "./User/User";
@@ -20,14 +20,14 @@ import {Preloader} from "../../../commons/Preloader/Preloader";
 const Users = () => {
     const dispatch = useAppDispatch();
     const authId= useSelector(getAuthId);
-    const countOnPage = useSelector(getCountOnPage);
-    const currentPage = useSelector(getCurrentPage);
-    const totalPage = useSelector(getTotalPage);
+    const countOnPage = useSelector(getUsersCountOnPage);
+    const currentPage = useSelector(getUsersCurrentPage);
+    const totalPageCount = useSelector(getUsersTotalPageCount);
     const isUsersFetching = useSelector(getIsUsersFetching);
     const users = useSelector(getUsers);
 
     const setCurrentPageHandler = (currentPage: number) => {
-        dispatch(setCurrentPage(currentPage));
+        dispatch(setUsersCurrentPage(currentPage));
     };
     const followHandler = (id: number) => {
         dispatch(addSnackbarInfoMessage(`Feature under development.`))
@@ -53,7 +53,7 @@ const Users = () => {
                 viewPagesOddNumber={9}
                 pageJumpPositive={10}
                 currentPage={currentPage}
-                totalPage={totalPage}
+                totalPage={totalPageCount}
                 setCurrentPage={setCurrentPageHandler}
             />
             {isUsersFetching
