@@ -94,7 +94,6 @@ const Game = () => {
             : `You lost, don't be upset, try again!`
 
         setFinishMessage(message);
-        dispatch(setWinner(winner));
     };
 
     // SAVE GAME IN SERVER AND SWITCH ORDER
@@ -128,6 +127,12 @@ const Game = () => {
         count[0] === 0 && setWinnerHandler(Colors.BLACK);
         count[1] === 0 && setWinnerHandler(Colors.WHITE);
     }, [count[0], count[1]]);
+
+    // winner from Board
+    useEffect(() => {
+        playWinner && setWinnerHandler(playWinner);
+    }, [playWinner]);
+
 
     return (
         !isGameInit
