@@ -124,8 +124,8 @@ const Game = () => {
 
     // setWinner
     useEffect(() => {
-        count[0] === 0 && setWinnerHandler(Colors.BLACK);
-        count[1] === 0 && setWinnerHandler(Colors.WHITE);
+        count[0] === 0 && dispatch(setWinner(Colors.BLACK));
+        count[1] === 0 && dispatch(setWinner(Colors.WHITE));
     }, [count[0], count[1]]);
 
     // winner from Board
