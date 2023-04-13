@@ -6,62 +6,26 @@ import {withAuthRedirect} from "../../../commons/HOCs/withAuthRedirect";
 import {useSelector} from "react-redux";
 import {getAuthUsername} from "../../../../bll/selectors";
 import {useAppDispatch} from "../../../../utils/hooks";
+import {sendMessageTC, startMessagingTC, stopMessagingTC} from "../../../../bll/chat.reducer";
 import {addSnackbarInfoMessage} from "../../../../bll/snackbar.reducer";
-import {authMessageMaker, chatMessageMaker, pingMessageMaker} from "../../../../utils/wsUtils";
-import {refreshTC} from "../../../../bll/auth.reducer";
-import {IChatMessage, IChatObject} from "../../../../models/IChatMessage";
-import {addChatMessages, setChatUsersOnline, setInitChatState} from "../../../../bll/chat.reducer";
 
 const Chat = () => {
     const authUsername = useSelector(getAuthUsername);
     const dispatch = useAppDispatch();
 
-    let socket: WebSocket;
+    const sendMessageHandler = (message: string) => {
+       dispatch(sendMessageTC(message));
+    };
 
     useEffect(() => {
 
-        let intervalId: NodeJS.Timer;
-
-        dispatch(refreshTC())
-            .then(() => {
-                socket = new WebSocket('ws://35.239.107.150/api/chat');
-
-                socket.onopen = () => {
-                    const authMessage = authMessageMaker();
-                    socket.send(authMessage);
-
-                    // ping timeout
-                    intervalId = setInterval(() => {
-                        socket.send(pingMessageMaker());
-                    }, 55000);
-                };
-
-                socket.onmessage = (event) => {
-                    const chatObject = JSON.parse(event.data) as IChatObject;
-                    dispatch(addChatMessages(chatObject.messages));
-                    dispatch(setChatUsersOnline(chatObject.usersOnline));
-                };
-
-                socket.onclose = () => {
-                    dispatch(addSnackbarInfoMessage('You left the chat!'));
-                    dispatch(setInitChatState());
-                    clearInterval(intervalId);
-                }
-
-            });
+        const subscriber = dispatch(startMessagingTC());
 
         return () => {
-            socket?.close();
-            dispatch(setInitChatState());
-            clearInterval(intervalId);
+            dispatch(stopMessagingTC(subscriber));
+            dispatch(addSnackbarInfoMessage('You have left the chat!'))
         }
     }, [dispatch]);
-
-
-    const sendMessageHandler = (message: string) => {
-        const newMessage = chatMessageMaker(message);
-        socket.send(newMessage);
-    };
 
     return (
         <div className={s.chatWrapper}>

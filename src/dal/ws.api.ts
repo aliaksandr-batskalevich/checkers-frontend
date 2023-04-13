@@ -1,93 +1,121 @@
-import {authMessageMaker, pingMessageMaker} from "../utils/wsUtils";
+import {pingMessageMaker} from "../utils/wsUtils";
 import {IChatObject} from "../models/IChatMessage";
+import {ThunkDispatchType} from "../utils/hooks";
+import {readAccessTokenInLS} from "../utils/acceesTokenLS";
+import {addSnackbarInfoMessage, addSnackbarWarningMessage} from "../bll/snackbar.reducer";
 
-type WebSocketSubscriberType = (chatObject: IChatObject) => void
+export type WebSocketSubscriberType = (chatObject: IChatObject) => void
 
 class WebSocketInstance {
 
-    socket: WebSocket | null;
-    subscribers: Array<WebSocketSubscriberType>
-    pingMessage: string
-    pingIntervalId: NodeJS.Timer | null;
-    reconnectIntervalId: NodeJS.Timer | null;
+    _socket: WebSocket | null;
+    _subscribers: Array<WebSocketSubscriberType>
+    _pingMessage: string
+    _pingIntervalId: NodeJS.Timer | null;
+    _reconnectIntervalId: NodeJS.Timer | null;
+    _dispatch: ThunkDispatchType | null;
 
     constructor() {
-        this.socket = null;
-        this.subscribers = [];
-        this.pingMessage = pingMessageMaker();
-        this.pingIntervalId = null;
-        this.reconnectIntervalId = null;
+        this._socket = null;
+        this._subscribers = [];
+        this._pingMessage = pingMessageMaker();
+        this._pingIntervalId = null;
+        this._reconnectIntervalId = null;
+        this._dispatch = null;
     }
 
     _createConnect() {
-        this.socket = new WebSocket('ws://35.239.107.150/api/chat');
+        this._socket = new WebSocket('ws://35.239.107.150/api/chat');
+        this._createListeners();
+    }
+
+    _createListeners() {
+        this._socket?.addEventListener('open', this._onOpen.bind(this));
+        this._socket?.addEventListener('message', this._onMessage.bind(this));
+        this._socket?.addEventListener('close', this._onClose.bind(this));
+    }
+
+    _removeListeners() {
+        this._socket?.removeEventListener('open', this._onOpen);
+        this._socket?.removeEventListener('message', this._onMessage);
+        this._socket?.removeEventListener('close', this._onClose);
     }
 
     _startReconnect() {
-        this.reconnectIntervalId = setInterval(this._createConnect.bind(this), 15000);
+        this._reconnectIntervalId = setInterval(this._createConnect.bind(this), 15000);
     }
 
     _stopReconnect() {
-        this.reconnectIntervalId && clearInterval(this.reconnectIntervalId);
+        clearInterval(this._reconnectIntervalId!);
     }
 
-    _onOpen() {
-        this._stopReconnect.call(this);
-        this._authConnect.call(this);
-        this._createListeners.call(this);
-        this.pingIntervalId = setInterval(this._startPingRefresh.bind(this), 55000);
+    _onOpen = () => {
+        this._reconnectIntervalId && this._stopReconnect();
+        this._authConnect();
+        this._pingIntervalId = setInterval(this._startPingRefresh.bind(this), 55000);
+        this._dispatch && this._dispatch(addSnackbarInfoMessage('Connected!'));
     }
 
-    _onMessage(event: MessageEvent) {
+    _onMessage = (event: MessageEvent) => {
         const chatObject = JSON.parse(event.data) as IChatObject;
-        this.subscribers.forEach(subscriber => {
+        this._subscribers.forEach(subscriber => {
             subscriber(chatObject);
         });
     }
 
-    _onClose() {
+    _onClose = () => {
+        this._pingIntervalId && this._stopPingRefresh();
         this._removeListeners();
-        this.socket = null;
-        this._stopPingRefresh.call(this);
-        this._startReconnect.call(this);
+        this._socket = null;
+        !this._reconnectIntervalId && this._startReconnect();
+
+        this._dispatch && this._dispatch(addSnackbarWarningMessage('Disconnected! The system will try to connect again in 15 seconds.'));
     }
 
     _authConnect() {
-        const authMessage = authMessageMaker();
-        this.socket?.send(authMessage);
+        const authMessage = this._authMessageMaker();
+        this._socket?.send(authMessage);
     }
 
     _startPingRefresh() {
-        this.socket?.send(this.pingMessage);
+        this._socket?.send(this._pingMessage);
     }
 
     _stopPingRefresh() {
-        this.pingIntervalId && clearInterval(this.pingIntervalId);
+        clearInterval(this._pingIntervalId!);
     }
 
-    _createListeners() {
-        this.socket?.addEventListener('open', this._onOpen.bind(this));
-        this.socket?.addEventListener('message', this._onMessage.bind(this));
-        this.socket?.addEventListener('close', this._onClose.bind(this));
+    _authMessageMaker() {
+        const accessToken = readAccessTokenInLS();
+        const newMessage = {type: 'auth', data: {accessToken}};
+        return JSON.stringify(newMessage);
+    };
+
+    _chatMessageMaker(message: string) {
+        const newMessage = {type: 'chat', data: {message}};
+        return JSON.stringify(newMessage);
+    };
+
+
+    public startMessaging(dispatch: ThunkDispatchType, subscriber: WebSocketSubscriberType) {
+        this._subscribers.push(subscriber);
+        this._dispatch = dispatch;
+
+        this._createConnect();
     }
 
-    _removeListeners() {
-        this.socket?.removeEventListener('open', this._onOpen.bind(this));
-        this.socket?.removeEventListener('message', this._onMessage.bind(this));
-        this.socket?.removeEventListener('close', this._onClose.bind(this));
-    }
-
-    public startMessaging(subscriber: WebSocketSubscriberType) {
-        this.subscribers.push(subscriber);
-        this._createConnect.call(this);
+    public sendMessage(message: string) {
+        const newMessage = this._chatMessageMaker(message);
+        this._socket?.send(newMessage);
     }
 
     public stopMessaging(subscriber: WebSocketSubscriberType) {
-        this.subscribers = this.subscribers.filter(s => s !== subscriber);
-        this.pingIntervalId && clearInterval(this.pingIntervalId);
-        this.socket?.close();
-        this._removeListeners.call(this);
-        this.socket = null;
+        this._subscribers = this._subscribers.filter(s => s !== subscriber);
+        this._pingIntervalId && clearInterval(this._pingIntervalId);
+        this._socket?.close();
+        this._removeListeners();
+        this._socket = null;
+        this._dispatch = null;
     }
 
 }

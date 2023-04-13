@@ -1,4 +1,6 @@
-import {IChatMessage, IChatUser} from "../models/IChatMessage";
+import {IChatMessage, IChatObject, IChatUser} from "../models/IChatMessage";
+import webSocketInstance, {WebSocketSubscriberType} from '../dal/ws.api';
+import {ThunkDispatchType} from "../utils/hooks";
 
 export type ChatActionsType = ReturnType<typeof setInitChatState>
     | ReturnType<typeof setChatUsersOnline>
@@ -46,4 +48,23 @@ export const setInitChatState = () => {
         type: 'SET_INIT_CHAT_STATE',
         payload: {initChatState}
     } as const;
+};
+
+
+export const startMessagingTC = () => (dispatch: ThunkDispatchType) => {
+    const subscriber = (chatObject: IChatObject) => {
+        dispatch(addChatMessages(chatObject.messages));
+        dispatch(setChatUsersOnline(chatObject.usersOnline));
+    };
+
+    webSocketInstance.startMessaging(dispatch, subscriber);
+    return subscriber;
+};
+
+export const sendMessageTC = (message: string) => (dispatch: ThunkDispatchType) => {
+    webSocketInstance.sendMessage(message);
+};
+
+export const stopMessagingTC = (subscriber: WebSocketSubscriberType) => (dispatch: ThunkDispatchType) => {
+    webSocketInstance.stopMessaging(subscriber);
 };
