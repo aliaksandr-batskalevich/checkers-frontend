@@ -66,7 +66,6 @@ const Chat = () => {
 
         return () => {
             dispatch(stopMessagingTC(subscriber));
-            dispatch(addSnackbarInfoMessage('You have left the chat!'))
         }
     }, [dispatch]);
 

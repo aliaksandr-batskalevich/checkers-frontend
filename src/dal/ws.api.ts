@@ -6,21 +6,28 @@ import {resetChatData} from "../bll/chat.reducer";
 
 export type WebSocketSubscriberType = (chatObject: IChatObject) => void
 
+enum ChatStatus {
+    OPEN = 'open',
+    CLOSE = 'close'
+}
+
 class WebSocketInstance {
 
+    _status: ChatStatus
     _socket: WebSocket | null;
     _subscribers: Array<WebSocketSubscriberType>
     _pingMessage: string
     _pingIntervalId: NodeJS.Timer | null;
-    _reconnectIntervalId: NodeJS.Timer | null;
+    _reconnectTimeoutId: NodeJS.Timer | null;
     _dispatch: ThunkDispatchType | null;
 
     constructor() {
+        this._status = ChatStatus.CLOSE;
         this._socket = null;
         this._subscribers = [];
         this._pingMessage = this._pingMessageMaker();
         this._pingIntervalId = null;
-        this._reconnectIntervalId = null;
+        this._reconnectTimeoutId = null;
         this._dispatch = null;
     }
 
@@ -30,11 +37,11 @@ class WebSocketInstance {
     }
 
     _startReconnect() {
-        this._reconnectIntervalId = setInterval(this._createConnect.bind(this), 15000);
+        this._reconnectTimeoutId = setTimeout(this._createConnect.bind(this), 15000);
     }
 
     _stopReconnect() {
-        clearInterval(this._reconnectIntervalId!);
+        clearTimeout(this._reconnectTimeoutId!);
     }
 
 
@@ -52,11 +59,11 @@ class WebSocketInstance {
 
 
     _onOpen = () => {
-        this._reconnectIntervalId && this._stopReconnect();
+        this._reconnectTimeoutId && this._stopReconnect();
         this._authConnect();
+
         this._pingIntervalId = setInterval(this._startPingRefresh.bind(this), 55000);
 
-        this._dispatch && this._dispatch(resetChatData());
         this._dispatch && this._dispatch(addSnackbarInfoMessage('Connected!'));
     }
 
@@ -71,9 +78,11 @@ class WebSocketInstance {
         this._pingIntervalId && this._stopPingRefresh();
         this._removeListeners();
         this._socket = null;
-        !this._reconnectIntervalId && this._startReconnect();
 
+        this._dispatch && this._dispatch(resetChatData());
         this._dispatch && this._dispatch(addSnackbarWarningMessage('Disconnected! The system will try to connect again in 15 seconds.'));
+
+        this._status === ChatStatus.OPEN && this._startReconnect();
     }
 
 
@@ -110,6 +119,8 @@ class WebSocketInstance {
 
 
     public startMessaging(dispatch: ThunkDispatchType, subscriber: WebSocketSubscriberType) {
+        this._status = ChatStatus.OPEN;
+
         this._subscribers.push(subscriber);
         this._dispatch = dispatch;
 
@@ -122,12 +133,16 @@ class WebSocketInstance {
     }
 
     public stopMessaging(subscriber: WebSocketSubscriberType) {
-        this._subscribers = this._subscribers.filter(s => s !== subscriber);
-        this._pingIntervalId && clearInterval(this._pingIntervalId);
-        this._socket?.close();
-        this._removeListeners();
-        this._socket = null;
+        this._status = ChatStatus.CLOSE;
+
+        this._dispatch && this._dispatch(addSnackbarInfoMessage('You have left the chat!'));
+        this._dispatch && this._dispatch(resetChatData());
         this._dispatch = null;
+
+        this._subscribers = this._subscribers.filter(s => s !== subscriber);
+
+        this._socket?.close();
+        this._reconnectTimeoutId && clearTimeout(this._reconnectTimeoutId);
     }
 
 }
