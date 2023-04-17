@@ -71,6 +71,8 @@ export const getForwards = createSelector(getBoard, (board: Board): Array<Cell> 
 // chat
 export const getChatMessages = (state: RootStateType): Array<IChatMessage> => state.chat.chatMessages;
 export const getChatUsersOnline = (state: RootStateType): Array<IChatUser> => state.chat.usersOnline;
+export const getChatIsSendSounds = (state: RootStateType): boolean => state.chat.isSendSounds;
+export const getChatUsersWithSound = (state: RootStateType): Array<IChatUser> => state.chat.usersWithSound;
 
 // snackbar
 export const getSnackbarMessages = (state: RootStateType): Array<SnackbarMessageType> => state.snackbar.snackbarMessages;

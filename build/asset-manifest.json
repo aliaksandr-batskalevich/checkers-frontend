@@ -1,23 +1,26 @@
 {
   "files": {
-    "main.css": "/static/css/main.783daf0e.css",
-    "main.js": "/static/js/main.4d568087.js",
+    "main.css": "/static/css/main.b7caca18.css",
+    "main.js": "/static/js/main.856f0432.js",
     "static/js/787.d0a41fd0.chunk.js": "/static/js/787.d0a41fd0.chunk.js",
     "static/media/border-background.jpg": "/static/media/border-background.5c8c6b7a68b38443a7e1.jpg",
+    "static/media/incomingMessage.wav": "/static/media/incomingMessage.591aabd8c2468740db57.wav",
     "static/media/logo.png": "/static/media/logo.9a65d39e64e54ab5c12e.png",
     "static/media/wonLogo.png": "/static/media/wonLogo.7492e96fcfb0f62e8163.png",
+    "static/media/sentMessage.wav": "/static/media/sentMessage.99c4cdeee904eb2f1f97.wav",
     "static/media/finishLogo.png": "/static/media/finishLogo.7cb49a00c4c8b0e0c373.png",
     "static/media/spinnerPreloader.gif": "/static/media/spinnerPreloader.538a46681c0d1777619e.gif",
     "static/media/black-king.png": "/static/media/black-king.106c7587f69098edd2ef.png",
+    "static/media/withSound.png": "/static/media/withSound.3e6d898354291ee801ce.png",
     "static/media/white-king.png": "/static/media/white-king.e212a02131bbf8ccfddf.png",
     "static/media/black-man.png": "/static/media/black-man.8eeb8f7b8d08f817d5f5.png",
     "index.html": "/index.html",
-    "main.783daf0e.css.map": "/static/css/main.783daf0e.css.map",
-    "main.4d568087.js.map": "/static/js/main.4d568087.js.map",
+    "main.b7caca18.css.map": "/static/css/main.b7caca18.css.map",
+    "main.856f0432.js.map": "/static/js/main.856f0432.js.map",
     "787.d0a41fd0.chunk.js.map": "/static/js/787.d0a41fd0.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.783daf0e.css",
-    "static/js/main.4d568087.js"
+    "static/css/main.b7caca18.css",
+    "static/js/main.856f0432.js"
   ]
 }

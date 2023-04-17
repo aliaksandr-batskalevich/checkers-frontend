@@ -1,0 +1,50 @@
+%div {
+  cursor: pointer;
+  line-height: 0;
+}
+
+%element {
+  margin-left: 10px;
+  content: '';
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  background-size: cover;
+  background-position: center;
+}
+
+%withSound {
+  background-image: url("../../../assets/images/withSound.png");
+}
+
+%withoutSound {
+  background-image: url("../../../assets/images/withoutSound.png");
+}
+
+.withSound {
+  @extend %div;
+
+  &::after {
+    @extend %element;
+    @extend %withSound;
+  }
+
+  &:hover::after {
+    @extend %element;
+    @extend %withoutSound;
+  }
+}
+
+.withoutSound {
+  @extend %div;
+
+  &::after {
+    @extend %element;
+    @extend %withoutSound;
+  }
+
+  &:hover::after {
+    @extend %element;
+    @extend %withSound;
+  }
+}

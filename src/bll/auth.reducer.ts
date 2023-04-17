@@ -131,7 +131,6 @@ export const signInTC = (username: string, password: string) => async (dispatch:
         dispatch(setIsAuthing(true));
 
         const response = await AuthAPI.signIn(username, password);
-        console.dir(response);
         const user = response.data.user;
         writeAccessTokenInLS(response.data.tokens.accessToken);
 

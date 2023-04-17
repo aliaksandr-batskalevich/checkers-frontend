@@ -13,31 +13,4 @@
     padding-bottom: 5px;
     scroll-snap-align: end;
   }
-
-  .usersOnlineContainer {
-    padding: 5px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    transform: translateX(-110%);
-
-    height: 300px;
-    overflow-y: auto;
-    width: 150px;
-
-    border: white solid 1px;
-    border-radius: 5px;
-    background-color: $app-background_dark-color;
-
-    .title {
-      text-decoration: underline;
-      text-align: center;
-    }
-
-    .user {
-      margin-top: 5px;
-      color: white;
-      font-weight: bold;
-    }
-  }
 }

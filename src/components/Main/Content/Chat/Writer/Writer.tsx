@@ -1,8 +1,11 @@
 import React, {KeyboardEvent, useRef} from 'react';
 import s from './Writer.module.scss';
 import {useFormik} from "formik";
+import {MuteButton} from "../../../../commons/MuteButton/MuteButton";
 
 type WriterPropType = {
+    isSendSounds: boolean
+    switchSendSound: (isSounds: boolean) => void
     sendMessage: (message: string) => void
 };
 
@@ -10,7 +13,7 @@ type FormikMessageValuesType = {
     message: string
 };
 
-export const Writer: React.FC<WriterPropType> = ({sendMessage}) => {
+export const Writer: React.FC<WriterPropType> = ({isSendSounds, switchSendSound, sendMessage}) => {
 
     const initialValues: FormikMessageValuesType = {message: ''};
     const validate = (values: FormikMessageValuesType) => {
@@ -53,6 +56,7 @@ export const Writer: React.FC<WriterPropType> = ({sendMessage}) => {
                     autoFocus
                 />
                 <button id='btn' ref={btnRef} type='submit' disabled={isSubmitDisabled}>send</button>
+                <MuteButton isSounds={isSendSounds} switchSounds={switchSendSound}/>
             </form>
         </div>
     );

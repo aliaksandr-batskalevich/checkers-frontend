@@ -1,6 +1,7 @@
 .gameWrapper {
   position: relative;
   display: flex;
+  align-items: flex-start;
   justify-content: center;
 
   .messageBoardWrapper {

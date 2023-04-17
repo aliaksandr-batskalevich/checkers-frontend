@@ -9,7 +9,7 @@ import {
     getGameProgress,
     getIsGameFetching,
     getIsGameInit,
-    getPlayCount,
+    getPlayCount, getPlayOrder,
     getPlayWinner
 } from "../../../../bll/selectors";
 import {Preloader} from "../../../commons/Preloader/Preloader";
@@ -33,6 +33,7 @@ import {PlayType} from "../../../../models/game/PlayType";
 import {CellFigureExportType} from "../../../../models/game/CellFigureExportType";
 import {GameWithProgressResponseType} from "../../../../models/game.response";
 import {FinishMessage} from "./FinishMessage/FinishMessage";
+import {ScoreBoard} from "../../../commons/ScoreBoard/ScoreBoard";
 
 const Game = () => {
 
@@ -47,6 +48,7 @@ const Game = () => {
     const isGameInit = useSelector(getIsGameInit);
     const isGameFetching = useSelector(getIsGameFetching);
     const count = useSelector(getPlayCount);
+    const order = useSelector(getPlayOrder);
     const playWinner = useSelector(getPlayWinner);
 
     const game = useSelector(getGame);
@@ -140,9 +142,22 @@ const Game = () => {
             : <div className={s.gameWrapper}>
                 <div className={s.messageBoardWrapper}>
                     {isGameFetching && <Preloader/>}
-                    {!isGameFetching && winnerMessage && <FinishMessage message={winnerMessage} closeMessage={closeMenuHandler}/>}
+                    {!isGameFetching && winnerMessage &&
+                    <FinishMessage message={winnerMessage} closeMessage={closeMenuHandler}/>}
                 </div>
+                <ScoreBoard
+                    color={Colors.WHITE}
+                    playType={PlayType.ONE}
+                    order={order!}
+                    count={count}
+                    setWinner={setWinnerHandler}/>
                 <BoardComponent isGameFetching={isGameFetching} saveGame={saveGame}/>
+                <ScoreBoard
+                    color={Colors.BLACK}
+                    playType={PlayType.ONE}
+                    order={order!}
+                    count={count}
+                    setWinner={setWinnerHandler}/>
             </div>
     );
 };

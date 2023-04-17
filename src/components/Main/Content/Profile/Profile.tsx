@@ -22,6 +22,7 @@ const Profile = () => {
 
     const isMyAccount = authId === profile?.id;
 
+
     const editAvatarHandler = () => {
         dispatch(addSnackbarInfoMessage('Feature under development.'));
     };

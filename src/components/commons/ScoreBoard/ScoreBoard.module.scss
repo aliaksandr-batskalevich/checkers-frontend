@@ -1,0 +1,50 @@
+@import "/src/difenitions";
+
+$border-thickness: 10px;
+
+.scoreBoardWrapper {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .titleWrapper {
+    padding: 10px 20px;
+    min-width: 200px;
+    border: $app-background-color solid $border-thickness;
+    text-align: center;
+  }
+
+  .activeWhiteBorder {
+    border: $white-figure-color solid 10px;
+  }
+
+  .activeBlackBorder {
+    border: $black-figure-color solid 10px;
+  }
+
+  .scoreWrapper {
+    margin-top: 20px;
+
+    p {
+      font-size: 25px;
+      font-weight: bold;
+    }
+  }
+
+  button {
+    margin-top: 30px;
+    padding: 3px 10px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+}
+
+.whiteText {
+  color: $white-figure-color;
+}
+
+.blackText {
+  color: $black-figure-color;
+}
