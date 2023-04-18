@@ -1,8 +1,9 @@
 import {IChatObject} from "../models/IChatMessage";
 import {ThunkDispatchType} from "../utils/hooks";
 import {readAccessTokenInLS} from "../utils/acceesTokenLS";
-import {addSnackbarInfoMessage, addSnackbarWarningMessage} from "../bll/snackbar.reducer";
+import {addSnackbarErrorMessage, addSnackbarInfoMessage, addSnackbarWarningMessage} from "../bll/snackbar.reducer";
 import {resetChatData} from "../bll/chat.reducer";
+import {refreshTC} from "../bll/auth.reducer";
 
 export type WebSocketSubscriberType = (chatObject: IChatObject) => void
 
@@ -32,8 +33,14 @@ class WebSocketInstance {
     }
 
     _createConnect() {
-        this._socket = new WebSocket('ws://35.239.107.150/api/chat');
-        this._createListeners();
+        this._dispatch && this._dispatch(refreshTC())
+            .then(response => {
+                this._socket = new WebSocket('ws://35.239.107.150/api/chat');
+                this._createListeners();
+            })
+            .catch(reason => {
+                this._dispatch && this._dispatch(addSnackbarErrorMessage(reason));
+            });
     }
 
     _startReconnect() {
@@ -79,10 +86,12 @@ class WebSocketInstance {
         this._removeListeners();
         this._socket = null;
 
-        this._dispatch && this._dispatch(resetChatData());
-        this._dispatch && this._dispatch(addSnackbarWarningMessage('Disconnected! The system will try to connect again in 15 seconds.'));
+        if (this._status === ChatStatus.OPEN) {
+            this._dispatch && this._dispatch(resetChatData());
+            this._dispatch && this._dispatch(addSnackbarWarningMessage('Disconnected! The system will try to connect again in 15 seconds.'));
 
-        this._status === ChatStatus.OPEN && this._startReconnect();
+            this._startReconnect();
+        }
     }
 
 
@@ -108,8 +117,8 @@ class WebSocketInstance {
 
     _authMessageMaker() {
         const accessToken = readAccessTokenInLS();
-        const newMessage = {type: 'auth', data: {accessToken}};
-        return JSON.stringify(newMessage);
+        const authMessage = {type: 'auth', data: {accessToken}};
+        return JSON.stringify(authMessage);
     }
 
     _chatMessageMaker(message: string) {
@@ -135,8 +144,8 @@ class WebSocketInstance {
     public stopMessaging(subscriber: WebSocketSubscriberType) {
         this._status = ChatStatus.CLOSE;
 
-        this._dispatch && this._dispatch(addSnackbarInfoMessage('You have left the chat!'));
         this._dispatch && this._dispatch(resetChatData());
+        this._dispatch && this._dispatch(addSnackbarInfoMessage('You have left the chat!'));
         this._dispatch = null;
 
         this._subscribers = this._subscribers.filter(s => s !== subscriber);
