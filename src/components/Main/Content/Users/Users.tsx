@@ -4,33 +4,51 @@ import s from './Users.module.scss';
 import {useSelector} from "react-redux";
 import {
     getAuthId,
+    getIsUsersFetching,
+    getUsers,
     getUsersCountOnPage,
     getUsersCurrentPage,
-    getIsUsersFetching,
-    getUsersTotalPageCount,
-    getUsers
+    getUsersIdFollowing,
+    getUsersTotalPageCount
 } from "../../../../bll/selectors";
 import {useAppDispatch} from "../../../../utils/hooks";
-import {getUsersTC, setUsersCurrentPage} from "../../../../bll/users.reducer";
-import {addSnackbarErrorMessage, addSnackbarInfoMessage} from "../../../../bll/snackbar.reducer";
+import {followUserTC, getUsersTC, setUsersCurrentPage, unFollowUserTC} from "../../../../bll/users.reducer";
+import {addSnackbarErrorMessage} from "../../../../bll/snackbar.reducer";
 import SuperPaginator from "./Paginator/SuperPaginator";
 import {User} from "./User/User";
 import {Preloader} from "../../../commons/Preloader/Preloader";
 
 const Users = () => {
     const dispatch = useAppDispatch();
+
     const authId= useSelector(getAuthId);
     const countOnPage = useSelector(getUsersCountOnPage);
     const currentPage = useSelector(getUsersCurrentPage);
     const totalPageCount = useSelector(getUsersTotalPageCount);
     const isUsersFetching = useSelector(getIsUsersFetching);
+    const usersIdFollowing = useSelector(getUsersIdFollowing);
     const users = useSelector(getUsers);
 
     const setCurrentPageHandler = (currentPage: number) => {
         dispatch(setUsersCurrentPage(currentPage));
     };
+
     const followHandler = (id: number) => {
-        dispatch(addSnackbarInfoMessage(`Feature under development.`))
+        dispatch(followUserTC(id))
+            .catch(reason => {
+                dispatch(addSnackbarErrorMessage(reason));
+            });
+    };
+
+    const unFollowHandler = (id: number) => {
+        dispatch(unFollowUserTC(id))
+            .catch(reason => {
+                dispatch(addSnackbarErrorMessage(reason));
+            });
+    };
+
+    const isUserFollowingTester = (id: number) => {
+        return usersIdFollowing.includes(id);
     };
 
     useEffect(() => {
@@ -40,10 +58,13 @@ const Users = () => {
             });
     }, [dispatch, countOnPage, currentPage]);
 
+
     const usersToRender = users.map(user => <User
         key={user.id}
         authId={authId}
+        isFollowing={isUserFollowingTester(user.id)}
         follow={followHandler}
+        unFollow={unFollowHandler}
         {...user}
     />);
 

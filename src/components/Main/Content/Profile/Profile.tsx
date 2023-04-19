@@ -2,11 +2,11 @@ import React, {useEffect} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import s from './Profile.module.scss';
 import {useSelector} from "react-redux";
-import {getAuthId, getIsProfileFetching, getProfile} from "../../../../bll/selectors";
+import {getAuthId, getIsProfileFetching, getIsProfileFollowing, getProfile} from "../../../../bll/selectors";
 import {useAppDispatch} from "../../../../utils/hooks";
-import {getUserTC} from "../../../../bll/profile.reducer";
+import {followProfileTC, getUserTC, unFollowProfileTC} from "../../../../bll/profile.reducer";
 import defaultAvatar from '../../../../assets/images/default-avatar.png';
-import {addSnackbarInfoMessage} from "../../../../bll/snackbar.reducer";
+import {addSnackbarErrorMessage, addSnackbarInfoMessage} from "../../../../bll/snackbar.reducer";
 import {withAuthRedirect} from "../../../commons/HOCs/withAuthRedirect";
 import {Preloader} from "../../../commons/Preloader/Preloader";
 
@@ -17,6 +17,7 @@ const Profile = () => {
 
     const authId = useSelector(getAuthId);
     const isProfileFetching = useSelector(getIsProfileFetching);
+    const isFollowing = useSelector(getIsProfileFollowing);
     const profile = useSelector(getProfile);
     const params = useParams<{ id: string }>();
 
@@ -26,8 +27,19 @@ const Profile = () => {
     const editAvatarHandler = () => {
         dispatch(addSnackbarInfoMessage('Feature under development.'));
     };
+
     const followHandler = () => {
-        dispatch(addSnackbarInfoMessage(`Feature under development.`));
+        dispatch(followProfileTC(profile!.id))
+            .catch(reason => {
+                dispatch(addSnackbarErrorMessage(reason));
+            });
+    };
+
+    const unFollowHandler = () => {
+        dispatch(unFollowProfileTC(profile!.id))
+            .catch(reason => {
+                dispatch(addSnackbarErrorMessage(reason));
+            });
     };
 
     useEffect(() => {
@@ -37,7 +49,7 @@ const Profile = () => {
         && dispatch(getUserTC(authId));
 
         // to profile via params
-        params.id && +params.id !== profile?.id
+        params.id
         && dispatch(getUserTC(+params.id))
             .catch((errorMessage) => {
                 navigate(`/404?message=${errorMessage}`);
@@ -53,13 +65,25 @@ const Profile = () => {
                         <img src={defaultAvatar} alt="avatar"/>
                         {isMyAccount
                             ? <button className={s.editButton} onClick={editAvatarHandler}>edit</button>
-                            : <button className={s.followButton} onClick={followHandler}>follow</button>}
+                            : <div className={s.followButtonsWrapper}>
+                                {profile!.isFollowed
+                                    ? <button
+                                        className={s.followButton}
+                                        onClick={unFollowHandler}
+                                        disabled={isFollowing}
+                                    >unFollow</button>
+                                    : <button
+                                        className={s.followButton}
+                                        onClick={followHandler}
+                                        disabled={isFollowing}
+                                    >follow</button>}
+                            </div>}
                     </div>
                     <div className={s.descriptions}>
                         <div className={s.profileInfoWrapper}>
                             <h3>Profile info</h3>
                             <p>username: <span>{profile?.username}</span></p>
-                            <p>followers: <span>{'In progress...'}</span></p>
+                            <p>subscribers: <span>{profile?.subscribersCount}</span></p>
                         </div>
 
                         <div className={s.statistics}>

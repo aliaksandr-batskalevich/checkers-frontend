@@ -4,12 +4,14 @@ import instance, {refreshInstance} from './instance'
 import {TopUsersResponse} from "../models/top.response";
 import {CreateGameResponseType, GetGameItemsResponseType} from "../models/games.response";
 import {GamesFilterType} from "../bll/games.reducer";
-import {GameWithProgressResponseType, UpdateGameResponseType} from "../models/game.response";
+import {GameWithProgressResponseType} from "../models/game.response";
 import {Colors} from "../models/game/Colors";
 import {UpdateGameStatusType} from "../models/UpdateGameStatusType";
+import {FollowResponse} from "../models/follow.response";
 
 
 export class AuthAPI {
+
     static async signUp(username: string, email: string, password: string): Promise<AuthResponse> {
         return instance.post<AuthResponse>('auth/registration', {username, password, email})
             .then(response => response.data);
@@ -35,6 +37,7 @@ export class AuthAPI {
 }
 
 export class UserAPI {
+
     static async getUser(id: number): Promise<UserResponse> {
         return instance.get<UserResponse>(`users/${id}`)
             .then(response => response.data);
@@ -49,16 +52,34 @@ export class UserAPI {
         return instance.delete<DeleteUserResponse>(`users/${id}`)
             .then(response => response.data);
     }
+
+}
+
+export class FollowAPI {
+
+    static async follow(id: number): Promise<FollowResponse> {
+        return instance.post<FollowResponse>(`follow/${id}`)
+            .then(response => response.data);
+    }
+
+    static async unFollow(id: number): Promise<FollowResponse> {
+        return instance.delete<FollowResponse>(`follow/${id}`)
+            .then(response => response.data);
+    }
+
 }
 
 export class TopUsersAPI {
+
     static async getTopUsers(count: number): Promise<TopUsersResponse> {
         return instance.get<TopUsersResponse>(`top?count=${count}`)
             .then(response => response.data);
     }
+
 }
 
 export class GamesAPI {
+
     static async createGame(level: number, currentOrder: Colors, figuresJSON: string): Promise<CreateGameResponseType> {
         return instance.post<CreateGameResponseType>('games', {level, currentOrder, figures: figuresJSON})
             .then(response => response.data);
@@ -83,5 +104,6 @@ export class GamesAPI {
         return instance.put<GameWithProgressResponseType>(`games/${id}`, {status: UpdateGameStatusType.FINISH, isWon})
             .then(response => response.data);
     }
+
 }
 

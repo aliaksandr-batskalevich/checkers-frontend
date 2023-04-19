@@ -2,7 +2,11 @@ export type IUser = {
     id: number
     username: string
     isActivated: boolean
+    isFollowed: boolean
+} & IUserStatistics;
 
+export type IUserStatistics = {
+    subscribersCount: number
     gamesCount: number
     gamesWinsCount: number
     sparringCount: number

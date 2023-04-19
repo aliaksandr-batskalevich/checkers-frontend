@@ -24,10 +24,12 @@ export const getIsActivated = (state: RootStateType): boolean => state.auth.isAc
 
 // profile
 export const getIsProfileFetching = (state: RootStateType): boolean => state.profile.isProfileFetching;
+export const getIsProfileFollowing = (state: RootStateType): boolean => state.profile.isFollowing;
 export const getProfile = (state: RootStateType): null | IUser => state.profile.profile;
 
 // users
 export const getIsUsersFetching = (state: RootStateType): boolean => state.users.isUsersFetching;
+export const getUsersIdFollowing = (state: RootStateType): Array<number> => state.users.usersIdFollowing;
 export const getUsersCurrentPage = (state: RootStateType): number => state.users.currentPage;
 export const getUsersCountOnPage = (state: RootStateType): number => state.users.countOnPage;
 export const getUsersTotalPageCount = (state: RootStateType): number => state.users.totalPageCount;
