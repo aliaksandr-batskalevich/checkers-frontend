@@ -27,7 +27,8 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = ({disabled, value, 
 
     const setValueHandler = () => {
         const newValue = newText.trim() || null;
-        setValue(newValue);
+        newValue !== value && setValue(newValue);
+        setIsEditor(false);
     };
 
     const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +60,7 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = ({disabled, value, 
                     onBlur={onBlurInputHandler}
                     autoFocus
                 />
-                : <span style={cursorStyle} onDoubleClick={activateEditorHandler}>{statusToRender}</span>}
+                : <span style={cursorStyle} onClick={activateEditorHandler}>{statusToRender}</span>}
         </div>
     );
 };
