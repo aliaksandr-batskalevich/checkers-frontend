@@ -45,6 +45,8 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = ({disabled, value, 
 
     const statusToRender = value ?? (disabled ? disabledDefaultValue : defaultValue);
 
+    const cursorStyle = disabled ? undefined : {cursor: 'pointer'};
+
     return (
         <div className={s.editableSpanWrapper}>
             {isEditor
@@ -57,7 +59,7 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = ({disabled, value, 
                     onBlur={onBlurInputHandler}
                     autoFocus
                 />
-                : <span onDoubleClick={activateEditorHandler}>{statusToRender}</span>}
+                : <span style={cursorStyle} onDoubleClick={activateEditorHandler}>{statusToRender}</span>}
         </div>
     );
 };
