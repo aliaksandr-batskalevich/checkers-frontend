@@ -107,7 +107,7 @@ const Profile = () => {
                             : <EditableSpan
                                     disabled={!isMyAccount}
                                     value={profile!.status}
-                                    defaultValue={'DClick for create your status!'}
+                                    defaultValue={'Click to create your status!'}
                                     disabledDefaultValue={'Status not set.'}
                                     placeholder={'Enter - create or Esc - cancel. Max 50 characters.'}
                                     setValue={createStatusHandler}
