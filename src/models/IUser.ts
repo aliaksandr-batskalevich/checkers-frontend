@@ -3,6 +3,7 @@ export type IUser = {
     username: string
     isActivated: boolean
     isFollowed: boolean
+    status: null | string
 } & IUserStatistics;
 
 export type IUserStatistics = {

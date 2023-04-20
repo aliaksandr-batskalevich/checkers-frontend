@@ -3,10 +3,10 @@ import {AuthResponse} from "../models/auth.response";
 import {readAccessTokenInLS, writeAccessTokenInLS} from "../utils/acceesTokenLS";
 
 // SERVER IP
-const baseURL = 'http://35.239.107.150/api/';
+// const baseURL = 'http://35.239.107.150/api/';
 
 // URL FOR DEV
-// const baseURL = 'http://localhost:8080/api/';
+const baseURL = 'http://localhost:8080/api/';
 
 const axiosOptions = {
     withCredentials: true,

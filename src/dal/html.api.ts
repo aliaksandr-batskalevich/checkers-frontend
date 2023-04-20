@@ -8,6 +8,7 @@ import {GameWithProgressResponseType} from "../models/game.response";
 import {Colors} from "../models/game/Colors";
 import {UpdateGameStatusType} from "../models/UpdateGameStatusType";
 import {FollowResponse} from "../models/follow.response";
+import {StatusResponse} from "../models/status.response";
 
 
 export class AuthAPI {
@@ -64,6 +65,15 @@ export class FollowAPI {
 
     static async unFollow(id: number): Promise<FollowResponse> {
         return instance.delete<FollowResponse>(`follow/${id}`)
+            .then(response => response.data);
+    }
+
+}
+
+export class StatusAPI {
+
+    static async createStatus(status: null | string): Promise<StatusResponse> {
+        return instance.post<StatusResponse>(`status`, {status})
             .then(response => response.data);
     }
 

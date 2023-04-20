@@ -19,6 +19,7 @@ export const User: React.FC<UserPropsType> = (props) => {
         id,
         username,
         isActivated,
+        status,
         rating,
         gamesCount,
         gamesWinsCount,
@@ -30,6 +31,8 @@ export const User: React.FC<UserPropsType> = (props) => {
         follow,
         unFollow
     } = props;
+
+    console.log(status);
 
     const followHandler = () => {
         follow(id);
@@ -53,6 +56,9 @@ export const User: React.FC<UserPropsType> = (props) => {
                             ? <button onClick={unFollowHandler} disabled={isFollowing}>unFollow</button>
                             : <button onClick={followHandler} disabled={isFollowing}>follow</button>}
                     </div>}
+                </div>
+                <div className={s.status}>
+                    <p>{status}</p>
                 </div>
                 <div className={s.statistics}>
                     <table className={s.table}>

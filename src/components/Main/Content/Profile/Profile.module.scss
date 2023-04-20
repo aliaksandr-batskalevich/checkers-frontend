@@ -2,6 +2,7 @@
 
   .profileInfo {
     display: flex;
+    align-items: flex-start;
 
     .avatarWrapper {
       position: relative;
@@ -24,7 +25,7 @@
 
         position: absolute;
         left: 50%;
-        bottom: 15%;
+        bottom: 10px;
         transform: translateX(-50%);
       }
 
@@ -38,12 +39,26 @@
     .descriptions {
       margin-left: 20px;
 
+      > div:not(:first-child) {
+        margin-top: 10px;
+      }
+
       .profileInfoWrapper {
 
       }
 
+      .statusWrapper {
+
+        > div {
+          height: 25px;
+
+          display: flex;
+          align-items: center;
+        }
+      }
+
       .statistics {
-        margin-top: 10px;
+
       }
 
       h3 {

@@ -2,22 +2,32 @@ import React, {useEffect} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import s from './Profile.module.scss';
 import {useSelector} from "react-redux";
-import {getAuthId, getIsProfileFetching, getIsProfileFollowing, getProfile} from "../../../../bll/selectors";
+import {
+    getAuthId,
+    getIsProfileFetching,
+    getIsProfileFollowing,
+    getIsProfileStatusCreating,
+    getProfile
+} from "../../../../bll/selectors";
 import {useAppDispatch} from "../../../../utils/hooks";
-import {followProfileTC, getUserTC, unFollowProfileTC} from "../../../../bll/profile.reducer";
+import {createStatusTC, followProfileTC, getUserTC, unFollowProfileTC} from "../../../../bll/profile.reducer";
 import defaultAvatar from '../../../../assets/images/default-avatar.png';
 import {addSnackbarErrorMessage, addSnackbarInfoMessage} from "../../../../bll/snackbar.reducer";
 import {withAuthRedirect} from "../../../commons/HOCs/withAuthRedirect";
 import {Preloader} from "../../../commons/Preloader/Preloader";
+import {EditableSpan} from "../../../commons/EditableSpan/EditableSpan";
+import {PreloaderLinear} from "../../../commons/PreloaderLinear/PreloaderLinear";
 
 const Profile = () => {
 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
-    const authId = useSelector(getAuthId);
     const isProfileFetching = useSelector(getIsProfileFetching);
     const isFollowing = useSelector(getIsProfileFollowing);
+    const isStatusCreating = useSelector(getIsProfileStatusCreating);
+
+    const authId = useSelector(getAuthId);
     const profile = useSelector(getProfile);
     const params = useParams<{ id: string }>();
 
@@ -42,6 +52,17 @@ const Profile = () => {
             });
     };
 
+    const createStatusHandler = (status: null | string) => {
+        dispatch(createStatusTC(status))
+            .then(response => {
+                dispatch(addSnackbarInfoMessage('Status updated!'));
+            })
+            .catch(reason => {
+                dispatch(addSnackbarErrorMessage(reason));
+            });
+    };
+
+    // FETCH profile
     useEffect(() => {
 
         // to my profile
@@ -80,6 +101,19 @@ const Profile = () => {
                             </div>}
                     </div>
                     <div className={s.descriptions}>
+                        <div className={s.statusWrapper}>
+                            {isStatusCreating
+                            ? <PreloaderLinear />
+                            : <EditableSpan
+                                    disabled={!isMyAccount}
+                                    value={profile!.status}
+                                    defaultValue={'DClick for create your status!'}
+                                    disabledDefaultValue={'Status not set.'}
+                                    placeholder={'Enter - create or Esc - cancel. Max 50 characters.'}
+                                    setValue={createStatusHandler}
+                                />}
+                        </div>
+
                         <div className={s.profileInfoWrapper}>
                             <h3>Profile info</h3>
                             <p>username: <span>{profile?.username}</span></p>
