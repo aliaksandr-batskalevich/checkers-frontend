@@ -123,7 +123,9 @@ const Profile = () => {
                         <div className={s.statistics}>
                             <h3>Statistics</h3>
                             <p>Rating: <span>{profile?.rating}</span></p>
-                            <p>gamesCount/Wins: <span>{`${profile?.gamesCount}/${profile?.gamesWinsCount}`}</span></p>
+                            <p>gamesJuniorCount/Wins: <span>{`${profile?.gamesJuniorCount}/${profile?.gamesJuniorWinsCount}`}</span></p>
+                            <p>gamesMiddleCount/Wins: <span>{`${profile?.gamesMiddleCount}/${profile?.gamesMiddleWinsCount}`}</span></p>
+                            <p>gamesSeniorCount/Wins: <span>{`${profile?.gamesSeniorCount}/${profile?.gamesSeniorWinsCount}`}</span></p>
                             <p>sparringCount/Wins: <span>{`${profile?.sparringCount}/${profile?.sparringWinsCount}`}</span>
                             </p>
                         </div>

@@ -8,10 +8,17 @@ export type IUser = {
 
 export type IUserStatistics = {
     subscribersCount: number
-    gamesCount: number
-    gamesWinsCount: number
+
+    gamesJuniorCount: number
+    gamesJuniorWinsCount: number
+    gamesMiddleCount: number
+    gamesMiddleWinsCount: number
+    gamesSeniorCount: number
+    gamesSeniorWinsCount: number
+
     sparringCount: number
     sparringWinsCount: number
+
     rating: number
 }
 

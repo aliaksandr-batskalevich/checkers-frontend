@@ -21,8 +21,12 @@ export const User: React.FC<UserPropsType> = (props) => {
         isActivated,
         status,
         rating,
-        gamesCount,
-        gamesWinsCount,
+        gamesJuniorCount,
+        gamesJuniorWinsCount,
+        gamesMiddleCount,
+        gamesMiddleWinsCount,
+        gamesSeniorCount,
+        gamesSeniorWinsCount,
         sparringCount,
         sparringWinsCount,
         subscribersCount,
@@ -69,8 +73,8 @@ export const User: React.FC<UserPropsType> = (props) => {
                         </tr>
                         <tr>
                             <th>Games</th>
-                            <td>{gamesCount}</td>
-                            <td>{gamesWinsCount}</td>
+                            <td>{gamesJuniorCount + gamesMiddleCount + gamesSeniorCount}</td>
+                            <td>{gamesJuniorWinsCount + gamesMiddleWinsCount + gamesSeniorWinsCount}</td>
                         </tr>
                         <tr>
                             <th>Sparring</th>
