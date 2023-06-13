@@ -9,6 +9,10 @@
   overflow-y: auto;
   scroll-snap-type: y mandatory;
 
+  @media screen and (max-width: 500px) {
+    width: 220px;
+  }
+
   .messagesContainer {
     padding-bottom: 5px;
     scroll-snap-align: end;
