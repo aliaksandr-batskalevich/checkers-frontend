@@ -1,9 +1,11 @@
 @import "/src/difenitions";
 
 .gamesFilterWrapper {
+  margin-top: 5px;
   margin-bottom: 5px;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 
 
   button {
@@ -12,6 +14,12 @@
     min-width: 80px;
     font-weight: bold;
     cursor: pointer;
+
+    @media screen and (max-width: $width-screen-tablet) {
+      padding: 1px 5px;
+      min-width: 60px;
+      font-size: 12px;
+    }
   }
 
   .activeButton {

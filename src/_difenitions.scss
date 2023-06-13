@@ -1,3 +1,7 @@
+$width-screen-tablet: 768px;
+$width-screen-mobile: 360px;
+
+
 $app-background-color: darkgreen;
 $app-background_dark-color: rgba(0, 0, 0, 0.2);
 $app-background_light-color: rgba(255, 255, 255, 0.4);
@@ -9,11 +13,23 @@ $warning-color: rgba(253, 150, 0, 0.5);
 $info-color: rgba(4, 248, 4, 0.5);
 
 // game
-$border-outset-thickness: 10px;
-$border-inset-thickness: 40px;
-$border-font-size: 22px;
-$cell-size: 64px;
-$figure-size: 55px;
+$border-score-thickness-big: 10px;
+$border-score-thickness-little: 3px;
+$border-board-thickness: 10px;
+$border-inset-thickness-big: 40px;
+$border-inset-thickness-little: 20px;
+$border-font-size-big: 22px;
+$border-font-size-little: 14px;
+
+$cell-size-big: 64px;
+$cell-size-middle: 40px;
+$cell-size-little: 20px;
+
+
+$figure-size-big: 55px;
+$figure-size-middle: 35px;
+$figure-size-little: 15px;
+
 $dot-size: 15px;
 
 $black-cell-color: #86735c;

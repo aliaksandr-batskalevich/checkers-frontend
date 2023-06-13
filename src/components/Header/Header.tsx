@@ -19,18 +19,19 @@ export const Header: React.FC<HeaderPropsType> = ({isAppInit, isAuth, logout}) =
     return (
         <div className={s.headerWrapper}>
             <div className='container'>
-                <div className={s.logoWrapper}>
-                    <NavLink to='/'>
-                        <img src={logo} alt="logo"/>
-                    </NavLink>
-                </div>
-                <h1>CHECKERS</h1>
-                {isAppInit && isAuth
-                    ? <div className={s.profile}>
-                        <h3>{username}</h3>
-                        <button disabled={isAuthing} onClick={logout}>logout</button>
+                <div className={s.flexWrapper}>
+                    <div className={s.logoWrapper}>
+                        <NavLink to='/'>
+                            <img src={logo} alt="logo"/>
+                        </NavLink>
                     </div>
-                    : <div/>}
+                    <h1>CHECKERS</h1>
+                    {isAppInit && isAuth
+                        ? <div className={s.profile}>
+                            <h3>{username}</h3>
+                            <button disabled={isAuthing} onClick={logout}>logout</button>
+                        </div>
+                        : <div/>}</div>
             </div>
         </div>
     );

@@ -26,9 +26,8 @@ import {
 import {useAppDispatch} from "../../../utils/hooks";
 import {Colors} from "../../../models/game/Colors";
 import {Cell} from "../../../models/game/Cell";
-import {RootStateType} from "../../../bll/store";
 import {CellFigureExportType} from "../../../models/game/CellFigureExportType";
-import {GameWithProgressResponseType, UpdateGameResponseType} from "../../../models/game.response";
+import {GameWithProgressResponseType} from "../../../models/game.response";
 import {addSnackbarErrorMessage} from "../../../bll/snackbar.reducer";
 
 type BoardComponentPropsType = {

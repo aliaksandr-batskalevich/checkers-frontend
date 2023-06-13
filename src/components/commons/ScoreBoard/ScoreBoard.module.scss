@@ -1,7 +1,5 @@
 @import "/src/difenitions";
 
-$border-thickness: 10px;
-
 .scoreBoardWrapper {
   flex-grow: 1;
 
@@ -9,27 +7,91 @@ $border-thickness: 10px;
   flex-direction: column;
   align-items: center;
 
+  @media screen and (max-width: 500px) {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    &:last-child {
+      margin-top: 10px;
+    }
+
+    >*:not(:first-child) {
+      margin-left: 5px;
+    }
+  }
+
   .titleWrapper {
     padding: 10px 20px;
     min-width: 200px;
-    border: $app-background-color solid $border-thickness;
+    border: $app-background-color solid $border-score-thickness-big;
     text-align: center;
+
+    @media screen and (max-width: 1400px) {
+      min-width: 150px;
+    }
+    @media screen and (max-width: 1000px) {
+      padding: 5px 10px;
+      min-width: unset;
+    }
+    @media screen and (max-width: $width-screen-tablet) {
+      padding: 2px 5px;
+      border: $app-background-color solid $border-score-thickness-little;
+    }
+
+    h2 {
+      font-size: 24px;
+
+      @media screen and (max-width: 1400px) {
+        font-size: 20px;
+      }
+      @media screen and (max-width: 1000px) {
+        font-size: 16px;
+      }
+      @media screen and (max-width: $width-screen-tablet) {
+        font-size: 12px;
+      }
+    }
   }
 
   .activeWhiteBorder {
-    border: $white-figure-color solid 10px;
+    border: $white-figure-color solid $border-score-thickness-big;
+
+    @media screen and (max-width: $width-screen-tablet) {
+      padding: 2px 5px;
+      border: $white-figure-color solid $border-score-thickness-little;
+    }
   }
 
   .activeBlackBorder {
-    border: $black-figure-color solid 10px;
+    border: $black-figure-color solid $border-score-thickness-big;
+
+    @media screen and (max-width: $width-screen-tablet) {
+      padding: 2px 5px;
+      border: $black-figure-color solid $border-score-thickness-little;
+    }
   }
 
   .scoreWrapper {
     margin-top: 20px;
 
+    @media screen and (max-width: $width-screen-tablet) {
+      margin-top: 10px;
+    }
+    @media screen and (max-width: 500px) {
+      margin-top: 0;
+    }
+
     p {
       font-size: 25px;
       font-weight: bold;
+
+      @media screen and (max-width: 1000px) {
+        font-size: 16px;
+      }
+      @media screen and (max-width: $width-screen-tablet) {
+        font-size: 12px;
+      }
     }
   }
 
@@ -38,6 +100,15 @@ $border-thickness: 10px;
     padding: 3px 10px;
     cursor: pointer;
     font-weight: bold;
+
+    @media screen and (max-width: $width-screen-tablet) {
+      margin-top: 5px;
+      padding: 2px 5px;
+      font-size: 8px;
+    }
+    @media screen and (max-width: 500px) {
+      margin-top: 0;
+    }
   }
 }
 

@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
 
-  border: $black-cell-color solid $border-outset-thickness;
+  border: $black-cell-color solid $border-board-thickness;
   background-image: url("../../../assets/images/border-background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -12,18 +12,37 @@
   .lettersRow {
     display: flex;
     align-items: center;
-    height: $border-inset-thickness;
+    height: $border-inset-thickness-big;
 
-    font-size: $border-font-size;
+    font-size: $border-font-size-big;
     font-weight: bold;
 
+    @media screen and (max-width: $width-screen-tablet) {
+      height: $border-inset-thickness-little;
+      font-size: $border-font-size-little;
+    }
+
     > div:not(:first-child), > div:not(:last-child) {
-      width: $cell-size;
+      width: $cell-size-big;
       text-align: center;
+
+      @media screen and (max-width: 1400px) {
+        width: $cell-size-middle;
+      }
+      @media screen and (max-width: $width-screen-tablet) {
+        width: $cell-size-little;
+      }
     }
 
     > div:first-child, > div:last-child {
-      width: $border-inset-thickness;
+      width: $border-inset-thickness-big;
+
+      @media screen and (max-width: 1400px) {
+        width: $cell-size-middle;
+      }
+      @media screen and (max-width: $width-screen-tablet) {
+        width: $cell-size-little;
+      }
     }
   }
 
@@ -33,10 +52,16 @@
     .numbersWrapper {
       display: flex;
       flex-direction: column-reverse;
-      width: $border-inset-thickness;
+      width: $border-inset-thickness-big;
 
-      font-size: $border-font-size;
+      font-size: $border-font-size-big;
       font-weight: bold;
+
+      @media screen and (max-width: $width-screen-tablet) {
+        //display: none;
+        width: $border-inset-thickness-little;
+        font-size: $border-font-size-little;
+      }
 
       > div {
         flex-grow: 1;
@@ -47,12 +72,20 @@
     }
 
     .cellsWrapper {
-
-      width: $cell-size * 8;
-      height: $cell-size * 8;
+      width: $cell-size-big * 8;
+      height: $cell-size-big * 8;
 
       display: flex;
       flex-wrap: wrap;
+
+      @media screen and (max-width: 1400px) {
+        width: $cell-size-middle * 8;
+        height: $cell-size-middle * 8;
+      }
+      @media screen and (max-width: $width-screen-tablet) {
+        width: $cell-size-little * 8;
+        height: $cell-size-little * 8;
+      }
     }
   }
 }

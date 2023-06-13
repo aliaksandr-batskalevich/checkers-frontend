@@ -1,8 +1,11 @@
+@import "/src/difenitions";
+
 .gameItemWrapper {
   margin-top: 5px;
   padding: 5px;
   border: white solid 1px;
   display: flex;
+  align-items: center;
   background-color: rgba(0, 0, 0, 0.2);
   color: black;
 
@@ -13,6 +16,15 @@
       display: inline-block;
       height: 100px;
       width: 100px;
+
+      @media screen and (max-width: $width-screen-tablet) {
+        height: 60px;
+        width: 60px;
+      }
+      @media screen and (max-width: 500px) {
+        height: 40px;
+        width: 40px;
+      }
     }
   }
 
@@ -22,6 +34,7 @@
 
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     .info {
       display: flex;
@@ -31,10 +44,24 @@
 
       > *:not(:first-child) {
         margin-top: 10px;
+
+        @media screen and (max-width: $width-screen-tablet) {
+          margin-top: 5px;
+        }
+        @media screen and (max-width: $width-screen-tablet) {
+          margin-top: 3px;
+        }
       }
 
       h3 {
         color: white;
+
+        @media screen and (max-width: $width-screen-tablet) {
+          font-size: 16px;
+        }
+        @media screen and (max-width: $width-screen-tablet) {
+          font-size: 14px;
+        }
       }
 
 
@@ -42,15 +69,32 @@
         color: rgba(255, 255, 255, 0.6);
         font-size: 20px;
 
+        @media screen and (max-width: $width-screen-tablet) {
+          font-size: 14px;
+        }
+        @media screen and (max-width: 500px) {
+          font-size: 10px;
+          letter-spacing: .01em;
+        }
+
         span {
           margin-left: 5px;
           color: black;
+
+          @media screen and (max-width: 500px) {
+            font-size: 8px;
+          }
         }
       }
 
       button {
         padding: 3px 10px;
         cursor: pointer;
+
+        @media screen and (max-width: $width-screen-tablet) {
+          padding: 1px 5px;
+          font-size: 10px;
+        }
       }
     }
   }

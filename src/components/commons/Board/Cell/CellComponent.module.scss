@@ -1,18 +1,33 @@
 @import "/src/difenitions";
 
 .cellWrapper {
-  width: $cell-size;
-  height: $cell-size;
+  width: $cell-size-big;
+  height: $cell-size-big;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
+  @media screen and (max-width: 1400px) {
+    width: $cell-size-middle;
+    height: $cell-size-middle;
+  }
+  @media screen and (max-width: $width-screen-tablet) {
+    width: $cell-size-little;
+    height: $cell-size-little;
+  }
 
   img {
     display: inline-block;
-    width: $figure-size;
+    width: $figure-size-big;
     position: relative;
+
+    @media screen and (max-width: 1400px) {
+      width: $figure-size-middle;
+    }
+    @media screen and (max-width: $width-screen-tablet) {
+      width: $figure-size-little;
+    }
   }
 }
 

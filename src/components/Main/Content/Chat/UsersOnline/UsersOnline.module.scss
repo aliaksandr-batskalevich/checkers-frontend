@@ -8,20 +8,31 @@
   transform: translateX(-110%);
 
   height: 250px;
-  overflow-y: auto;
   width: 150px;
+  overflow-y: auto;
 
   border: white solid 1px;
   border-radius: 5px;
   background-color: $app-background_dark-color;
 
+  @media screen and (max-width: 1400px) {
+    width: 100px;
+  }
+  @media screen and (max-width: $width-screen-tablet) {
+    height: 200px;
+  }
+
+
   .title {
     text-decoration: underline;
     text-align: center;
+
+    @media screen and (max-width: 1400px) {
+      font-size: 14px;
+    }
   }
 
   .usersContainer {
-
 
   }
 }

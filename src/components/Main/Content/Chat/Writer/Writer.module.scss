@@ -1,3 +1,5 @@
+@import "/src/difenitions";
+
 .writerWrapper {
   margin-top: 5px;
 
@@ -10,6 +12,11 @@
       resize: none;
       height: 45px;
       width: 50%;
+
+      @media screen and (max-width: $width-screen-tablet) {
+        width: 140px;
+        flex-grow: 1;
+      }
     }
 
     button {
