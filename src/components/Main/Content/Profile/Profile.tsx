@@ -81,6 +81,18 @@ const Profile = () => {
     return (isProfileFetching
             ? <Preloader/>
             : <div className={s.profileWrapper}>
+                <div className={s.statusWrapper}>
+                    {isStatusCreating
+                        ? <PreloaderLinear />
+                        : <EditableSpan
+                            disabled={!isMyAccount}
+                            value={profile!.status}
+                            defaultValue={'Click to create your status!'}
+                            disabledDefaultValue={'Status not set.'}
+                            placeholder={'Enter - create or Esc - cancel. Max 50 characters.'}
+                            setValue={createStatusHandler}
+                        />}
+                </div>
                 <div className={s.profileInfo}>
                     <div className={s.avatarWrapper}>
                         <img src={defaultAvatar} alt="avatar"/>
@@ -101,25 +113,11 @@ const Profile = () => {
                             </div>}
                     </div>
                     <div className={s.descriptions}>
-                        <div className={s.statusWrapper}>
-                            {isStatusCreating
-                            ? <PreloaderLinear />
-                            : <EditableSpan
-                                    disabled={!isMyAccount}
-                                    value={profile!.status}
-                                    defaultValue={'Click to create your status!'}
-                                    disabledDefaultValue={'Status not set.'}
-                                    placeholder={'Enter - create or Esc - cancel. Max 50 characters.'}
-                                    setValue={createStatusHandler}
-                                />}
-                        </div>
-
                         <div className={s.profileInfoWrapper}>
                             <h3>Profile info</h3>
                             <p>username: <span>{profile?.username}</span></p>
                             <p>subscribers: <span>{profile?.subscribersCount}</span></p>
                         </div>
-
                         <div className={s.statistics}>
                             <h3>Statistics</h3>
                             <p>Rating: <span>{profile?.rating}</span></p>

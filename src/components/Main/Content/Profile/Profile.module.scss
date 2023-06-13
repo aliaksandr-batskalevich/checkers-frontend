@@ -2,7 +2,39 @@
 
 .profileWrapper {
 
+  .statusWrapper {
+
+    > div {
+      min-height: 25px;
+
+      display: flex;
+      align-items: center;
+
+      input {
+        padding: 2px 5px;
+        font-size: 16px;
+        font-style: italic;
+        width: 400px;
+
+        @media screen and (max-width: $width-screen-tablet) {
+          width: 200px;
+        }
+      }
+
+      span {
+        font-size: 22px;
+        font-style: italic;
+        color: white;
+
+        @media screen and (max-width: $width-screen-tablet) {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+
   .profileInfo {
+    margin-top: 10px;
     display: flex;
     align-items: flex-start;
 
@@ -61,37 +93,6 @@
 
       .profileInfoWrapper {
 
-      }
-
-      .statusWrapper {
-
-        > div {
-          min-height: 25px;
-
-          display: flex;
-          align-items: center;
-
-          input {
-            padding: 2px 5px;
-            font-size: 16px;
-            font-style: italic;
-            width: 400px;
-
-            @media screen and (max-width: $width-screen-tablet) {
-              width: 200px;
-            }
-          }
-
-          span {
-            font-size: 22px;
-            font-style: italic;
-            color: white;
-
-            @media screen and (max-width: $width-screen-tablet) {
-              font-size: 16px;
-            }
-          }
-        }
       }
 
       .statistics {
