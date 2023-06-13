@@ -10,7 +10,11 @@
   color: white;
   text-align: center;
 
-  .aminMessageTime {
+  @media screen and (max-width: 500px) {
+    width: unset;
+  }
+
+  .adminMessageTime {
     margin-left: 10px;
     font-size: .7em;
   }

@@ -18,7 +18,7 @@ export const ChatMessage: React.FC<IChatMessage & { authUsername: string | null 
     return (author === 'admin'
             ? <div className={s.adminMessageWrapper}>
                     <span>{message}</span>
-                    <span className={s.aminMessageTime}>{time}</span>
+                    <span className={s.adminMessageTime}>{time}</span>
             </div>
             : <div className={s.chatMessageWrapper}>
                 <div className={s.authorWrapper}>
