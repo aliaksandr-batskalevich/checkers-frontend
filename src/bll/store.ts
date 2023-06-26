@@ -1,6 +1,6 @@
 import {combineReducers, legacy_createStore, applyMiddleware} from "redux";
-import {AppActionsType, appReducer} from "./app.reducer";
 import thunkMiddleware from 'redux-thunk';
+import {AppActionsType, appReducer} from "./app.reducer";
 import {AuthActionsType, authReducer} from "./auth.reducer";
 import {ProfileActionsType, profileReducer} from "./profile.reducer";
 import {SnackbarActionsType, snackbarReducer} from "./snackbar.reducer";

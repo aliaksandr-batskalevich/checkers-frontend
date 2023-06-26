@@ -3,10 +3,8 @@ import {AuthResponse} from "../models/auth.response";
 import {readAccessTokenInLS, writeAccessTokenInLS} from "../utils/acceesTokenLS";
 
 // SERVER IP
-const baseURL = 'http://35.239.107.150/api/';
-
-// URL FOR DEV
-// const baseURL = 'http://localhost:8080/api/';
+// const baseURL = 'http://35.239.107.150/api/'; // old IP
+const baseURL = 'http://35.192.79.86/api/';
 
 const axiosOptions = {
     withCredentials: true,
@@ -30,7 +28,8 @@ instance.interceptors.response.use(
     },
     async (error) => {
         const originalRequest = error.config;
-        if (error.response.status === 401 && !error.config._isRetry) {
+
+        if (error.response.status === 401 && !originalRequest._isRetry) {
             originalRequest._isRetry = true;
             try {
                 const response = await refreshInstance.get<AuthResponse>('auth/refresh');
@@ -40,7 +39,6 @@ instance.interceptors.response.use(
             } catch (error) {
                 console.log('RefreshToken expired!');
             }
-
         }
 
         // is status !== 401 or status 401 after refresh
