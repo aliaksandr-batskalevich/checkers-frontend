@@ -4,7 +4,7 @@ import {readAccessTokenInLS, writeAccessTokenInLS} from "../utils/acceesTokenLS"
 
 // SERVER IP
 // const baseURL = 'http://35.239.107.150/api/'; // old IP
-const baseURL = 'http://35.192.79.86/api/';
+const baseURL = 'http://185.250.46.14/api/';
 
 const axiosOptions = {
     withCredentials: true,

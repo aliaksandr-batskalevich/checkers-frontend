@@ -35,8 +35,7 @@ class WebSocketInstance {
     _createConnect() {
         this._dispatch && this._dispatch(refreshTC())
             .then(response => {
-                // this._socket = new WebSocket('ws://35.239.107.150/api/chat');  OLD API
-                this._socket = new WebSocket('ws://35.192.79.86/api/chat');
+                this._socket = new WebSocket('ws://185.250.46.14/api/chat');
                 this._createListeners();
             })
             .catch(reason => {
