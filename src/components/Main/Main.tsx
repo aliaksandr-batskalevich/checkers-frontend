@@ -1,9 +1,9 @@
 import React from 'react';
 import s from './Main.module.scss';
-import {Content} from "./Content/Content";
 import {Navbar} from "./Navbar/Navbar";
 import {useSelector} from "react-redux";
-import {getIsAuth} from "../../bll/selectors";
+import {getIsAuth} from "../../bll/auth.selector";
+import {AppRoutes} from "../../routes/Routes";
 
 export const Main = () => {
 
@@ -13,7 +13,9 @@ export const Main = () => {
         <div className={s.mainWrapper}>
             <div className='container'>
                 {isAuth && <Navbar/>}
-                <Content/>
+                <div className={s.content}>
+                    <AppRoutes/>
+                </div>
             </div>
         </div>
     );

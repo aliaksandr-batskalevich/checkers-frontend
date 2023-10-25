@@ -1,6 +1,6 @@
 import {IChatMessage, IChatObject, IChatUser} from "../models/IChatMessage";
 import webSocketInstance, {WebSocketSubscriberType} from '../dal/ws.api';
-import {ThunkDispatchType} from "../utils/hooks";
+import {ThunkDispatchType} from "../utils/hooks/useApDispatch";
 
 export type ChatActionsType = ReturnType<typeof setInitChatState>
     | ReturnType<typeof setChatUsersOnline>
@@ -9,6 +9,16 @@ export type ChatActionsType = ReturnType<typeof setInitChatState>
     | ReturnType<typeof removeChatUserWithSound>
     | ReturnType<typeof resetChatData>
     | ReturnType<typeof addChatMessages>;
+
+enum ChatAction {
+    ADD_MESSAGE = "ADD_MESSAGE",
+    SET_CHAT_USERS_ONLINE = "SET_CHAT_USERS_ONLINE",
+    SET_IS_CHAT_SEND_SOUNDS = "SET_IS_CHAT_SEND_SOUNDS",
+    SET_CHAT_USER_WITH_SOUND = "SET_CHAT_USER_WITH_SOUND",
+    REMOVE_CHAT_USER_WITH_SOUND = "REMOVE_CHAT_USER_WITH_SOUND",
+    RESET_CHAT_DATA = "RESET_CHAT_DATA",
+    SET_INIT_CHAT_STATE = "SET_INIT_CHAT_STATE",
+}
 
 type ChatStateType = {
     chatMessages: Array<IChatMessage>
@@ -26,19 +36,18 @@ const initChatState: ChatStateType = {
 
 export const chatReducer = (state: ChatStateType = initChatState, action: ChatActionsType): ChatStateType => {
     switch (action.type) {
-        case "ADD_MESSAGE":
+        case ChatAction.SET_CHAT_USERS_ONLINE:
+        case ChatAction.SET_IS_CHAT_SEND_SOUNDS:
+            return {...state, ...action.payload};
+        case ChatAction.ADD_MESSAGE:
             return {...state, chatMessages: [...state.chatMessages, ...action.payload.chatMessages]};
-        case "SET_CHAT_USERS_ONLINE":
-            return {...state, ...action.payload};
-        case "SET_IS_CHAT_SEND_SOUNDS":
-            return {...state, ...action.payload};
-        case "SET_CHAT_USER_WITH_SOUND":
+        case ChatAction.SET_CHAT_USER_WITH_SOUND:
             return {...state, usersWithSound: [...state.usersWithSound, action.payload.userWithSound]};
-        case "REMOVE_CHAT_USER_WITH_SOUND":
+        case ChatAction.REMOVE_CHAT_USER_WITH_SOUND:
             return {...state, usersWithSound: state.usersWithSound.filter(u => u.username !== action.payload.userWithoutSound.username)};
-        case "RESET_CHAT_DATA":
+        case ChatAction.RESET_CHAT_DATA:
             return {...state, chatMessages: [], usersOnline: []};
-        case "SET_INIT_CHAT_STATE":
+        case ChatAction.SET_INIT_CHAT_STATE:
             return {...action.payload.initChatState};
         default:
             return state;
@@ -47,48 +56,48 @@ export const chatReducer = (state: ChatStateType = initChatState, action: ChatAc
 
 export const addChatMessages = (chatMessages: Array<IChatMessage>) => {
     return {
-        type: 'ADD_MESSAGE',
+        type: ChatAction.ADD_MESSAGE,
         payload: {chatMessages}
     } as const;
 };
 
 export const setChatUsersOnline = (usersOnline: Array<IChatUser>) => {
     return {
-        type: 'SET_CHAT_USERS_ONLINE',
+        type: ChatAction.SET_CHAT_USERS_ONLINE,
         payload: {usersOnline}
     } as const;
 };
 
 export const setIsChatSendSounds = (isSendSounds: boolean) => {
     return {
-        type: 'SET_IS_CHAT_SEND_SOUNDS',
+        type: ChatAction.SET_IS_CHAT_SEND_SOUNDS,
         payload: {isSendSounds}
     } as const;
 };
 
 export const addChatUserWithSound = (userWithSound: IChatUser) => {
     return {
-        type: 'SET_CHAT_USER_WITH_SOUND',
+        type: ChatAction.SET_CHAT_USER_WITH_SOUND,
         payload: {userWithSound}
     } as const;
 };
 
 export const removeChatUserWithSound = (userWithoutSound: IChatUser) => {
     return {
-        type: 'REMOVE_CHAT_USER_WITH_SOUND',
+        type: ChatAction.REMOVE_CHAT_USER_WITH_SOUND,
         payload: {userWithoutSound}
     } as const;
 };
 
 export const resetChatData = () => {
     return {
-        type: 'RESET_CHAT_DATA'
+        type: ChatAction.RESET_CHAT_DATA,
     } as const;
 };
 
 export const setInitChatState = () => {
     return {
-        type: 'SET_INIT_CHAT_STATE',
+        type: ChatAction.SET_INIT_CHAT_STATE,
         payload: {initChatState}
     } as const;
 };

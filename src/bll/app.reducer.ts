@@ -1,12 +1,13 @@
+import {AppStatus} from "../models/AppStatus";
+
 export type AppActionsType = ReturnType<typeof setAppStatus>
     | ReturnType<typeof setIsAppInit>;
 
-export enum AppStatus {
-    INIT = 'init',
-    REQUEST = 'request',
-    SUCCESS = 'success',
-    FAILED = 'failed',
+enum AppAction {
+    SET_IS_APP_INIT = "SET_IS_APP_INIT",
+    SET_APP_STATUS = "SET_APP_STATUS",
 }
+
 
 type AppStateType = {
     isAppInit: boolean
@@ -20,9 +21,8 @@ const appInitState: AppStateType = {
 
 export const appReducer = (state: AppStateType = appInitState, action: AppActionsType): AppStateType => {
     switch (action.type) {
-        case "SET_IS_APP_INIT":
-            return {...state, ...action.payload};
-        case "SET_APP_STATUS":
+        case AppAction.SET_IS_APP_INIT:
+        case AppAction.SET_APP_STATUS:
             return {...state, ...action.payload};
         default:
             return state;
@@ -31,14 +31,14 @@ export const appReducer = (state: AppStateType = appInitState, action: AppAction
 
 export const setIsAppInit = (isAppInit: boolean) => {
     return {
-        type: 'SET_IS_APP_INIT',
+        type: AppAction.SET_IS_APP_INIT,
         payload: {isAppInit}
     } as const;
 };
 
 export const setAppStatus = (status: AppStatus) => {
     return {
-        type: 'SET_APP_STATUS',
+        type: AppAction.SET_APP_STATUS,
         payload: {status}
     } as const;
 };

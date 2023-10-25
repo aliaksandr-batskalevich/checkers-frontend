@@ -14,6 +14,19 @@ export type PlayActionsType = ReturnType<typeof setPlayInitState>
     | ReturnType<typeof setPlayCount>
     | ReturnType<typeof setWinner>;
 
+enum PlayAction {
+    SET_PLAY_INIT_STATE = "SET_PLAY_INIT_STATE",
+    SET_BOARD = "SET_BOARD",
+    SET_PLAY_TYPE = "SET_PLAY_TYPE",
+    SET_LEVEL = "SET_LEVEL",
+    SET_PLAY_ORDER = "SET_PLAY_ORDER",
+    SET_SELECTED_CELL = "SET_SELECTED_CELL",
+    SET_GAME_STATUS = "SET_GAME_STATUS",
+    SET_PLAY_COUNT = "SET_PLAY_COUNT",
+    SET_WINNER = "SET_WINNER",
+
+}
+
 export type PlayStateType = {
     board: Board
     playType: PlayType | null
@@ -39,24 +52,17 @@ const playInitState: PlayStateType = {
 
 export const playReducer = (state: PlayStateType = playInitState, action: PlayActionsType): PlayStateType => {
     switch (action.type) {
-        case "SET_PLAY_INIT_STATE":
+        case PlayAction.SET_BOARD:
+        case PlayAction.SET_PLAY_TYPE:
+        case PlayAction.SET_LEVEL:
+        case PlayAction.SET_PLAY_ORDER:
+        case PlayAction.SET_SELECTED_CELL:
+        case PlayAction.SET_GAME_STATUS:
+        case PlayAction.SET_PLAY_COUNT:
+        case PlayAction.SET_WINNER:
+            return {...state, ...action.payload};
+        case PlayAction.SET_PLAY_INIT_STATE:
             return {...playInitState};
-        case 'SET_BOARD':
-            return {...state, ...action.payload};
-        case "SET_PLAY_TYPE":
-            return {...state, ...action.payload};
-        case "SET_LEVEL":
-            return {...state, ...action.payload};
-        case "SET_PLAY_ORDER":
-            return {...state, ...action.payload};
-        case "SET_SELECTED_CELL":
-            return {...state, ...action.payload};
-        case "SET_GAME_STATUS":
-            return {...state, ...action.payload};
-        case "SET_PLAY_COUNT":
-            return {...state, ...action.payload};
-        case "SET_WINNER":
-            return {...state, ...action.payload};
         default:
             return state;
     }
@@ -64,62 +70,62 @@ export const playReducer = (state: PlayStateType = playInitState, action: PlayAc
 
 export const setPlayInitState = () => {
     return {
-        type: 'SET_PLAY_INIT_STATE'
+        type: PlayAction.SET_PLAY_INIT_STATE,
     } as const;
 };
 
 export const setBoard = (board: Board) => {
     return {
-        type: 'SET_BOARD',
+        type: PlayAction.SET_BOARD,
         payload: {board}
     } as const;
 };
 
 export const setPlayType = (playType: PlayType) => {
     return {
-        type: 'SET_PLAY_TYPE',
+        type: PlayAction.SET_PLAY_TYPE,
         payload: {playType}
     } as const;
 };
 
 export const setLevel = (level: number) => {
     return {
-        type: 'SET_LEVEL',
+        type: PlayAction.SET_LEVEL,
         payload: {level}
     } as const;
 };
 
 export const setPlayOrder = (order: Colors) => {
     return {
-        type: 'SET_PLAY_ORDER',
+        type: PlayAction.SET_PLAY_ORDER,
         payload: {order}
     } as const;
 };
 
 export const setSelectedCell = (selectedCell: Cell | null) => {
     return {
-        type: 'SET_SELECTED_CELL',
+        type: PlayAction.SET_SELECTED_CELL,
         payload: {selectedCell}
     } as const;
 };
 
 export const setPlayStatus = (status: Status) => {
     return {
-        type: 'SET_GAME_STATUS',
+        type: PlayAction.SET_GAME_STATUS,
         payload: {status}
     } as const;
 };
 
 export const setPlayCount = (count: Array<number>) => {
     return {
-        type: 'SET_PLAY_COUNT',
+        type: PlayAction.SET_PLAY_COUNT,
         payload: {count}
     } as const;
 };
 
 export const setWinner = (winner: null | Colors) => {
     return {
-        type: 'SET_WINNER',
+        type: PlayAction.SET_WINNER,
         payload: {winner}
     } as const;
 };

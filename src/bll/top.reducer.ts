@@ -1,12 +1,19 @@
 import {IUser} from "../models/IUser";
-import {ThunkDispatchType} from "../utils/hooks";
+import {ThunkDispatchType} from "../utils/hooks/useApDispatch";
 import {TopUsersAPI} from "../dal/html.api";
-import {AppStatus, setAppStatus} from "./app.reducer";
+import {setAppStatus} from "./app.reducer";
 import axios from "axios";
+import {AppStatus} from "../models/AppStatus";
 
 export type TopUsersActionsType = ReturnType<typeof setIsTopUsersFetching>
     | ReturnType<typeof setTopUsers>
     | ReturnType<typeof setTopUsersInitSate>;
+
+enum TopUsersAction {
+    SET_IS_TOP_USERS_FETCHING = "SET_IS_TOP_USERS_FETCHING",
+    SET_TOP_USERS = "SET_TOP_USERS",
+    SET_TOP_USERS_INIT_STATE = "SET_TOP_USERS_INIT_STATE",
+}
 
 type TopUsersStateType = {
     isTopUsersFetching: boolean
@@ -20,11 +27,10 @@ const topUsersInitState: TopUsersStateType = {
 
 export const topUsersReducer = (state: TopUsersStateType = topUsersInitState, action: TopUsersActionsType): TopUsersStateType => {
     switch (action.type) {
-        case "SET_IS_TOP_USERS_FETCHING":
+        case TopUsersAction.SET_IS_TOP_USERS_FETCHING:
+        case TopUsersAction.SET_TOP_USERS:
             return {...state, ...action.payload};
-        case "SET_TOP_USERS":
-            return {...state, ...action.payload};
-        case "SET_TOP_USERS_INIT_STATE":
+        case TopUsersAction.SET_TOP_USERS_INIT_STATE:
             return {...topUsersInitState};
         default:
             return state;
@@ -34,19 +40,19 @@ export const topUsersReducer = (state: TopUsersStateType = topUsersInitState, ac
 
 const setIsTopUsersFetching = (isTopUsersFetching: boolean) => {
     return {
-        type: 'SET_IS_TOP_USERS_FETCHING',
+        type: TopUsersAction.SET_IS_TOP_USERS_FETCHING,
         payload: {isTopUsersFetching}
     } as const;
 };
 const setTopUsers = (topUsers: Array<IUser>) => {
     return {
-        type: 'SET_TOP_USERS',
+        type: TopUsersAction.SET_TOP_USERS,
         payload: {topUsers}
     } as const;
 };
 export const setTopUsersInitSate = () => {
     return {
-        type: 'SET_TOP_USERS_INIT_STATE'
+        type: TopUsersAction.SET_TOP_USERS_INIT_STATE,
     } as const;
 };
 

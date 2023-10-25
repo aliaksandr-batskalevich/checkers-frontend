@@ -1,37 +1,28 @@
 import React from 'react';
 import s from './Header.module.scss';
+import {ProfileBox} from "./ProfileBox/ProfileBox";
+import {Logo} from "./Logo/Logo";
 import {useSelector} from "react-redux";
-import {getAuthUsername, getIsAuthing} from "../../bll/selectors";
-import logo from'../../assets/images/logo.png';
-import {NavLink} from "react-router-dom";
+import {getIsAppInit} from "../../bll/app.selector";
+import {getIsAuth} from "../../bll/auth.selector";
 
-type HeaderPropsType = {
-    isAppInit: boolean
-    isAuth: boolean
-    logout: () => void
-};
 
-export const Header: React.FC<HeaderPropsType> = ({isAppInit, isAuth, logout}) => {
+export const Header = () => {
 
-    const isAuthing = useSelector(getIsAuthing);
-    const username = useSelector(getAuthUsername);
+    const isAppInit = useSelector(getIsAppInit);
+    const isAuth = useSelector(getIsAuth);
+
 
     return (
         <div className={s.headerWrapper}>
             <div className='container'>
                 <div className={s.flexWrapper}>
-                    <div className={s.logoWrapper}>
-                        <NavLink to='/'>
-                            <img src={logo} alt="logo"/>
-                        </NavLink>
-                    </div>
+                    <Logo/>
                     <h1>CHECKERS</h1>
                     {isAppInit && isAuth
-                        ? <div className={s.profile}>
-                            <h3>{username}</h3>
-                            <button disabled={isAuthing} onClick={logout}>logout</button>
-                        </div>
-                        : <div/>}</div>
+                        ? <ProfileBox/>
+                        : <div/>}
+                </div>
             </div>
         </div>
     );

@@ -4,5 +4,11 @@
   // style for group navbar and content (RootContainer)
   > div {
     display: flex;
+
+    .content {
+      margin-left: 20px;
+      flex-grow: 1;
+    }
   }
+
 }

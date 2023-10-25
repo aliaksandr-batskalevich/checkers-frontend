@@ -1,9 +1,10 @@
 import {IUser} from "../models/IUser";
-import {ThunkDispatchType} from "../utils/hooks";
+import {ThunkDispatchType} from "../utils/hooks/useApDispatch";
 import {FollowAPI, UserAPI} from "../dal/html.api";
-import {AppStatus, setAppStatus} from "./app.reducer";
+import {setAppStatus} from "./app.reducer";
 import axios from "axios";
 import {logoutRemoveData} from "../utils/logoutRemoveData";
+import {AppStatus} from "../models/AppStatus";
 
 export type UsersActionsType = ReturnType<typeof setUsers>
     | ReturnType<typeof setIsUsersFetching>
@@ -14,6 +15,18 @@ export type UsersActionsType = ReturnType<typeof setUsers>
     | ReturnType<typeof setCountOnPage>
     | ReturnType<typeof setTotalPage>
     | ReturnType<typeof setUsersInitSate>;
+
+enum UsersAction {
+    SET_IS_USERS_FETCHING = "SET_IS_USERS_FETCHING",
+    SET_USERS = "SET_USERS",
+    SET_USERS_CURRENT_PAGE = "SET_USERS_CURRENT_PAGE",
+    SET_COUNT_ON_PAGE = "SET_COUNT_ON_PAGE",
+    SET_TOTAL_PAGE = "SET_TOTAL_PAGE",
+    UPDATE_USER = "UPDATE_USER",
+    ADD_USER_ID_FOLLOWING = "ADD_USER_ID_FOLLOWING",
+    REMOVE_USER_ID_FOLLOWING = "REMOVE_USER_ID_FOLLOWING",
+    SET_USERS_INIT_STATE = "SET_USERS_INIT_STATE",
+}
 
 type UsersStateType = {
     isUsersFetching: boolean
@@ -35,26 +48,22 @@ const usersInitState: UsersStateType = {
 
 export const usersReducer = (state: UsersStateType = usersInitState, action: UsersActionsType): UsersStateType => {
     switch (action.type) {
-        case "SET_IS_USERS_FETCHING":
+        case UsersAction.SET_IS_USERS_FETCHING:
+        case UsersAction.SET_USERS:
+        case UsersAction.SET_USERS_CURRENT_PAGE:
+        case UsersAction.SET_COUNT_ON_PAGE:
+        case UsersAction.SET_TOTAL_PAGE:
             return {...state, ...action.payload};
-        case "SET_USERS":
-            return {...state, ...action.payload};
-        case "USERS_UPDATE_USER":
+        case UsersAction.UPDATE_USER:
             return {
                 ...state,
                 users: state.users.map(user => user.id === action.payload.user.id ? action.payload.user : user)
             };
-        case "USERS_ADD_USER_ID_FOLLOWING":
+        case UsersAction.ADD_USER_ID_FOLLOWING:
             return {...state, usersIdFollowing: [...state.usersIdFollowing, action.payload.id]};
-        case "USERS_REMOVE_USER_ID_FOLLOWING":
+        case UsersAction.REMOVE_USER_ID_FOLLOWING:
             return {...state, usersIdFollowing: state.usersIdFollowing.filter(id => id !== action.payload.id)};
-        case "SET_USERS_CURRENT_PAGE":
-            return {...state, ...action.payload};
-        case "SET_COUNT_ON_PAGE":
-            return {...state, ...action.payload};
-        case "SET_TOTAL_PAGE":
-            return {...state, ...action.payload};
-        case "SET_USERS_INIT_STATE":
+        case UsersAction.SET_USERS_INIT_STATE:
             return {...usersInitState};
         default:
             return state;
@@ -64,63 +73,63 @@ export const usersReducer = (state: UsersStateType = usersInitState, action: Use
 
 const setIsUsersFetching = (isUsersFetching: boolean) => {
     return {
-        type: 'SET_IS_USERS_FETCHING',
+        type: UsersAction.SET_IS_USERS_FETCHING,
         payload: {isUsersFetching}
     } as const;
 };
 
 const setUsers = (users: Array<IUser>) => {
     return {
-        type: 'SET_USERS',
+        type: UsersAction.SET_USERS,
         payload: {users}
     } as const;
 };
 
 const updateUser = (user: IUser) => {
     return {
-        type: 'USERS_UPDATE_USER',
+        type: UsersAction.UPDATE_USER,
         payload: {user}
     } as const;
 };
 
 const addUserIdFollowing = (id: number) => {
     return {
-        type: 'USERS_ADD_USER_ID_FOLLOWING',
+        type: UsersAction.ADD_USER_ID_FOLLOWING,
         payload: {id}
     } as const;
 };
 
 const removeUserIdFollowing = (id: number) => {
     return {
-        type: 'USERS_REMOVE_USER_ID_FOLLOWING',
+        type: UsersAction.REMOVE_USER_ID_FOLLOWING,
         payload: {id}
     } as const;
 };
 
 export const setUsersCurrentPage = (currentPage: number) => {
     return {
-        type: 'SET_USERS_CURRENT_PAGE',
+        type: UsersAction.SET_USERS_CURRENT_PAGE,
         payload: {currentPage}
     } as const;
 };
 
 const setCountOnPage = (countOnPage: number) => {
     return {
-        type: 'SET_COUNT_ON_PAGE',
+        type: UsersAction.SET_COUNT_ON_PAGE,
         payload: {countOnPage}
     } as const;
 };
 
 const setTotalPage = (totalPageCount: number) => {
     return {
-        type: 'SET_TOTAL_PAGE',
+        type: UsersAction.SET_TOTAL_PAGE,
         payload: {totalPageCount}
     } as const;
 };
 
 export const setUsersInitSate = () => {
     return {
-        type: 'SET_USERS_INIT_STATE'
+        type: UsersAction.SET_USERS_INIT_STATE,
     } as const;
 };
 

@@ -1,6 +1,6 @@
 import {IChatObject} from "../models/IChatMessage";
-import {ThunkDispatchType} from "../utils/hooks";
-import {readAccessTokenInLS} from "../utils/acceesTokenLS";
+import {ThunkDispatchType} from "../utils/hooks/useApDispatch";
+import {readAccessTokenInLS} from "./acceesToken.api";
 import {addSnackbarErrorMessage, addSnackbarInfoMessage, addSnackbarWarningMessage} from "../bll/snackbar.reducer";
 import {resetChatData} from "../bll/chat.reducer";
 import {refreshTC} from "../bll/auth.reducer";
@@ -11,6 +11,8 @@ enum ChatStatus {
     OPEN = 'open',
     CLOSE = 'close'
 }
+
+const wsURL = process.env.REACT_APP_WS_SERVER_ENDPOINT || 'ws://185.250.46.14/api/chat';
 
 class WebSocketInstance {
 
@@ -35,7 +37,7 @@ class WebSocketInstance {
     _createConnect() {
         this._dispatch && this._dispatch(refreshTC())
             .then(response => {
-                this._socket = new WebSocket('ws://185.250.46.14/api/chat');
+                this._socket = new WebSocket(wsURL);
                 this._createListeners();
             })
             .catch(reason => {

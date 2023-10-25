@@ -17,28 +17,10 @@
     justify-content: space-between;
     align-items: center;
 
-    .logoWrapper {
-      img {
-        height: 55px;
-      }
-    }
 
     h1 {
-
       @media screen and (max-width: $width-screen-tablet) {
         font-size: 25px;
-      }
-    }
-
-    .profile {
-      text-align: center;
-      h3 {
-        color: white;
-      }
-
-      button {
-        margin-top: 3px;
-        padding: 1px 10px;
       }
     }
   }

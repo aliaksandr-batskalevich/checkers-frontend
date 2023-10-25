@@ -3,16 +3,6 @@ import s from './BoardComponent.module.scss';
 import {v1} from "uuid";
 import {CellComponent} from "./Cell/CellComponent";
 import {useSelector} from "react-redux";
-import {
-    getBoard,
-    getForwards,
-    getPlayCount,
-    getPlayLevel,
-    getPlayOrder,
-    getPlayStatus,
-    getPlayType,
-    getSelectedCell
-} from "../../../bll/selectors";
 import {PlayType} from "../../../models/game/PlayType";
 import {Status} from "../../../models/game/GameStatus";
 import {
@@ -23,12 +13,20 @@ import {
     setSelectedCell,
     setWinner
 } from "../../../bll/play.reducer";
-import {useAppDispatch} from "../../../utils/hooks";
+import {useAppDispatch} from "../../../utils/hooks/useApDispatch";
 import {Colors} from "../../../models/game/Colors";
 import {Cell} from "../../../models/game/Cell";
 import {CellFigureExportType} from "../../../models/game/CellFigureExportType";
-import {GameWithProgressResponseType} from "../../../models/game.response";
+import {GameWithProgressResponseType} from "../../../models/responses/game.response";
 import {addSnackbarErrorMessage} from "../../../bll/snackbar.reducer";
+import {
+    getBoard, getForwards, getPlayCount,
+    getPlayLevel,
+    getPlayOrder,
+    getPlayStatus,
+    getPlayType,
+    getSelectedCell
+} from "../../../bll/play.selector";
 
 type BoardComponentPropsType = {
     isGameFetching: boolean

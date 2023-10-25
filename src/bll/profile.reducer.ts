@@ -1,9 +1,10 @@
 import {IUser} from "../models/IUser";
-import {ThunkDispatchType} from "../utils/hooks";
-import {AppStatus, setAppStatus} from "./app.reducer";
+import {ThunkDispatchType} from "../utils/hooks/useApDispatch";
+import {setAppStatus} from "./app.reducer";
 import {FollowAPI, StatusAPI, UserAPI} from "../dal/html.api";
 import axios from "axios";
 import {logoutRemoveData} from "../utils/logoutRemoveData";
+import {AppStatus} from "../models/AppStatus";
 
 export type ProfileActionsType = ReturnType<typeof setProfile>
     | ReturnType<typeof setStatus>
@@ -11,6 +12,15 @@ export type ProfileActionsType = ReturnType<typeof setProfile>
     | ReturnType<typeof setIsFollowing>
     | ReturnType<typeof setIsStatusCreating>
     | ReturnType<typeof setProfileInitState>;
+
+enum ProfileAction {
+    SET_IS_FETCHING = "SET_IS_FETCHING",
+    SET_IS_PROFILE_FOLLOWING = "SET_IS_PROFILE_FOLLOWING",
+    SET_IS_PROFILE_STATUS_CREATING = "SET_IS_PROFILE_STATUS_CREATING",
+    SET_PROFILE = "SET_PROFILE",
+    SET_PROFILE_STATUS = "SET_PROFILE_STATUS",
+    SET_PROFILE_INIT_STATE = "SET_PROFILE_INIT_STATE",
+}
 
 export type ProfileStateType = {
     isProfileFetching: boolean
@@ -28,17 +38,14 @@ const profileInitState: ProfileStateType = {
 
 export const profileReducer = (state: ProfileStateType = profileInitState, action: ProfileActionsType): ProfileStateType => {
     switch (action.type) {
-        case "SET_IS_FETCHING":
+        case ProfileAction.SET_IS_FETCHING:
+        case ProfileAction.SET_IS_PROFILE_FOLLOWING:
+        case ProfileAction.SET_IS_PROFILE_STATUS_CREATING:
+        case ProfileAction.SET_PROFILE:
             return {...state, ...action.payload};
-        case "PROFILE_SET_IS_FOLLOWING":
-            return {...state, ...action.payload};
-        case "PROFILE_SET_IS_STATUS_CREATING":
-            return {...state, ...action.payload};
-        case "SET_PROFILE":
-            return {...state, ...action.payload};
-        case "PROFILE_SET_STATUS":
+        case ProfileAction.SET_PROFILE_STATUS:
             return {...state, profile: {...state.profile!, ...action.payload}};
-        case "SET_PROFILE_INIT_STATE":
+        case ProfileAction.SET_PROFILE_INIT_STATE:
             return {...profileInitState};
         default:
             return state;
@@ -47,42 +54,42 @@ export const profileReducer = (state: ProfileStateType = profileInitState, actio
 
 const setIsProfileFetching = (isProfileFetching: boolean) => {
     return {
-        type: 'SET_IS_FETCHING',
+        type: ProfileAction.SET_IS_FETCHING,
         payload: {isProfileFetching}
     } as const;
 };
 
 const setIsFollowing = (isFollowing: boolean) => {
     return {
-        type: 'PROFILE_SET_IS_FOLLOWING',
+        type: ProfileAction.SET_IS_PROFILE_FOLLOWING,
         payload: {isFollowing}
     } as const;
 };
 
 const setIsStatusCreating = (isStatusCreating: boolean) => {
     return {
-        type: 'PROFILE_SET_IS_STATUS_CREATING',
+        type: ProfileAction.SET_IS_PROFILE_STATUS_CREATING,
         payload: {isStatusCreating}
     } as const;
 };
 
 export const setProfile = (profile: IUser | null) => {
     return {
-        type: 'SET_PROFILE',
+        type: ProfileAction.SET_PROFILE,
         payload: {profile}
     } as const;
 };
 
 export const setStatus = (status: null | string) => {
     return {
-        type: 'PROFILE_SET_STATUS',
+        type: ProfileAction.SET_PROFILE_STATUS,
         payload: {status}
     } as const;
 };
 
 export const setProfileInitState = () => {
     return {
-        type: 'SET_PROFILE_INIT_STATE'
+        type: ProfileAction.SET_PROFILE_INIT_STATE,
     } as const;
 };
 

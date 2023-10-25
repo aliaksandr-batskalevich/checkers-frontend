@@ -1,10 +1,9 @@
 import axios from 'axios';
-import {AuthResponse} from "../models/auth.response";
-import {readAccessTokenInLS, writeAccessTokenInLS} from "../utils/acceesTokenLS";
+import {AuthResponse} from "../models/responses/auth.response";
+import {readAccessTokenInLS, writeAccessTokenInLS} from "./acceesToken.api";
 
 // SERVER IP
-// const baseURL = 'http://35.239.107.150/api/'; // old IP
-const baseURL = 'http://185.250.46.14/api/';
+const baseURL = process.env.REACT_APP_SERVER_ENDPOINT || 'http://185.250.46.14/api/';
 
 const axiosOptions = {
     withCredentials: true,

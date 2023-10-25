@@ -1,14 +1,14 @@
-import {AuthResponse, LogoutResponse} from "../models/auth.response";
-import {AllUsersResponse, DeleteUserResponse, UserResponse} from "../models/users.response";
+import {AuthResponse, LogoutResponse} from "../models/responses/auth.response";
+import {AllUsersResponse, DeleteUserResponse, UserResponse} from "../models/responses/users.response";
 import instance, {refreshInstance} from './instance'
-import {TopUsersResponse} from "../models/top.response";
-import {CreateGameResponseType, GetGameItemsResponseType} from "../models/games.response";
+import {TopUsersResponse} from "../models/responses/top.response";
+import {CreateGameResponseType, GetGameItemsResponseType} from "../models/responses/games.response";
 import {GamesFilterType} from "../bll/games.reducer";
-import {GameWithProgressResponseType} from "../models/game.response";
+import {GameWithProgressResponseType} from "../models/responses/game.response";
 import {Colors} from "../models/game/Colors";
 import {UpdateGameStatusType} from "../models/UpdateGameStatusType";
-import {FollowResponse} from "../models/follow.response";
-import {StatusResponse} from "../models/status.response";
+import {FollowResponse} from "../models/responses/follow.response";
+import {StatusResponse} from "../models/responses/status.response";
 
 
 export class AuthAPI {

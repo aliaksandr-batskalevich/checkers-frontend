@@ -2,9 +2,9 @@ import React from 'react';
 import s from './Snackbar.module.scss';
 import {Message} from "./Message/Message";
 import {useSelector} from "react-redux";
-import {getSnackbarMessages} from "../../bll/selectors";
-import {useAppDispatch} from "../../utils/hooks";
+import {useAppDispatch} from "../../utils/hooks/useApDispatch";
 import {removeSnackbarMessage} from "../../bll/snackbar.reducer";
+import {getSnackbarMessages} from "../../bll/snackbar.selector";
 
 export const Snackbar = () => {
     let snackbarMessages = useSelector(getSnackbarMessages);

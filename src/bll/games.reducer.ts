@@ -1,11 +1,12 @@
 import {IGameItemType} from "../models/IGameItem";
-import {ThunkDispatchType} from "../utils/hooks";
-import {AppStatus, setAppStatus} from "./app.reducer";
+import {ThunkDispatchType} from "../utils/hooks/useApDispatch";
+import {setAppStatus} from "./app.reducer";
 import {GamesAPI} from "../dal/html.api";
 import axios from "axios";
 import {logoutRemoveData} from "../utils/logoutRemoveData";
 import {Board} from "../models/game/Board";
 import {Colors} from "../models/game/Colors";
+import {AppStatus} from "../models/AppStatus";
 
 export type GamesActionsType = ReturnType<typeof setIsGamesFilterInit>
     |ReturnType<typeof setIsGamesFetching>
@@ -15,6 +16,17 @@ export type GamesActionsType = ReturnType<typeof setIsGamesFilterInit>
     | ReturnType<typeof setGamesCurrentPage>
     | ReturnType<typeof setGamesTotalPageCount>
     | ReturnType<typeof setGameItems>;
+
+enum GamesAction {
+    SET_IS_GAMES_FILTER_INIT = "SET_IS_GAMES_FILTER_INIT",
+    SET_IS_GAMES_FETCHING = "SET_IS_GAMES_FETCHING",
+    SET_IS_NEW_GAME_CREATING = "SET_IS_NEW_GAME_CREATING",
+    SET_GAMES_FILTER = "SET_GAMES_FILTER",
+    SET_GAMES_CURRENT_PAGE = "SET_GAMES_CURRENT_PAGE",
+    SET_GAMES_TOTAL_PAGE_COUNT = "SET_GAMES_TOTAL_PAGE_COUNT",
+    SET_GAME_ITEMS = "SET_GAME_ITEMS",
+    SET_GAMES_INIT_STATE = "SET_GAMES_INIT_STATE",
+}
 
 export enum GamesFilterType {
     ALL = 'all',
@@ -48,22 +60,16 @@ const gamesInitState: GamesStateType = {
 
 export const gamesReducer = (state: GamesStateType = gamesInitState, action: GamesActionsType): GamesStateType => {
     switch (action.type) {
-        case "SET_IS_GAMES_FILTER_INIT":
+        case GamesAction.SET_IS_GAMES_FILTER_INIT:
+        case GamesAction.SET_IS_GAMES_FETCHING:
+        case GamesAction.SET_IS_NEW_GAME_CREATING:
+        case GamesAction.SET_GAMES_FILTER:
+        case GamesAction.SET_GAMES_CURRENT_PAGE:
+        case GamesAction.SET_GAMES_TOTAL_PAGE_COUNT:
+        case GamesAction.SET_GAME_ITEMS:
             return {...state, ...action.payload};
-        case "SET_IS_GAMES_FETCHING":
-            return {...state, ...action.payload};
-        case "SET_IS_NEW_GAME_CREATING":
-            return {...state, ...action.payload};
-        case "SET_GAMES_INIT_STATE":
+        case GamesAction.SET_GAMES_INIT_STATE:
             return {...gamesInitState};
-        case "SET_GAMES_FILTER":
-            return {...state, ...action.payload};
-        case "SET_GAMES_CURRENT_PAGE":
-            return {...state, ...action.payload};
-        case "SET_GAMES_TOTAL_PAGE_COUNT":
-            return {...state, ...action.payload};
-        case "SET_GAME_ITEMS":
-            return {...state, ...action.payload};
         default:
             return state;
     }
@@ -71,55 +77,55 @@ export const gamesReducer = (state: GamesStateType = gamesInitState, action: Gam
 
 export const setIsGamesFilterInit = (isGamesFilterInit: boolean) => {
     return {
-        type: 'SET_IS_GAMES_FILTER_INIT',
+        type: GamesAction.SET_IS_GAMES_FILTER_INIT,
         payload: {isGamesFilterInit}
     } as const;
 };
 
 const setIsGamesFetching = (isGamesFetching: boolean) => {
     return {
-        type: 'SET_IS_GAMES_FETCHING',
+        type: GamesAction.SET_IS_GAMES_FETCHING,
         payload: {isGamesFetching}
     } as const;
 };
 
 const setIsNewGameCreating = (isNewGameCreating: boolean) => {
     return {
-        type: 'SET_IS_NEW_GAME_CREATING',
+        type: GamesAction.SET_IS_NEW_GAME_CREATING,
         payload: {isNewGameCreating}
     } as const;
 };
 
 export const setGamesInitState = () => {
     return {
-        type: 'SET_GAMES_INIT_STATE'
+        type: GamesAction.SET_GAMES_INIT_STATE,
     } as const;
 };
 
 export const setGamesFilter = (gamesFilter: GamesFilterType) => {
     return {
-        type: 'SET_GAMES_FILTER',
+        type: GamesAction.SET_GAMES_FILTER,
         payload: {gamesFilter}
     } as const;
 };
 
 export const setGamesCurrentPage = (currentPage: number) => {
     return {
-        type: 'SET_GAMES_CURRENT_PAGE',
+        type: GamesAction.SET_GAMES_CURRENT_PAGE,
         payload: {currentPage}
     } as const;
 };
 
 const setGamesTotalPageCount = (totalPageCount: number) => {
     return {
-        type: 'SET_GAMES_TOTAL_PAGE_COUNT',
+        type: GamesAction.SET_GAMES_TOTAL_PAGE_COUNT,
         payload: {totalPageCount}
     } as const;
 };
 
 const setGameItems = (gameItems: Array<IGameItemType>) => {
     return {
-        type: 'SET_GAME_ITEMS',
+        type: GamesAction.SET_GAME_ITEMS,
         payload: {gameItems}
     } as const;
 };

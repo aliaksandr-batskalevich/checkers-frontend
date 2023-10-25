@@ -1,10 +1,11 @@
-import {ThunkDispatchType} from "../utils/hooks";
+import {ThunkDispatchType} from "../utils/hooks/useApDispatch";
 import {AuthAPI} from "../dal/html.api";
 import {setProfile} from "./profile.reducer";
-import {AppStatus, setAppStatus} from "./app.reducer";
+import {setAppStatus} from "./app.reducer";
 import axios from "axios";
 import {logoutRemoveData} from "../utils/logoutRemoveData";
-import {writeAccessTokenInLS} from "../utils/acceesTokenLS";
+import {writeAccessTokenInLS} from "../dal/acceesToken.api";
+import {AppStatus} from "../models/AppStatus";
 
 export type AuthActionsType = ReturnType<typeof setIsAuthing>
     | ReturnType<typeof setIsAuth>
@@ -12,6 +13,15 @@ export type AuthActionsType = ReturnType<typeof setIsAuthing>
     | ReturnType<typeof setAuthUsername>
     | ReturnType<typeof setIsActivated>
     | ReturnType<typeof setAuthInitState>;
+
+enum AuthAction {
+    SET_IS_AUTHING = "SET_IS_AUTHING",
+    SET_IS_AUTH = "SET_IS_AUTH",
+    SET_AUTH_ID = "SET_AUTH_ID",
+    SET_AUTH_USERNAME = "SET_AUTH_USERNAME",
+    SET_IS_ACTIVATED = "SET_IS_ACTIVATED",
+    SET_AUTH_INIT_STATE = "SET_AUTH_INIT_STATE",
+}
 
 type AuthStateType = {
     isAuthing: boolean
@@ -31,17 +41,13 @@ const authInitState: AuthStateType = {
 
 export const authReducer = (state: AuthStateType = authInitState, action: AuthActionsType): AuthStateType => {
     switch (action.type) {
-        case "SET_IS_AUTHING":
+        case AuthAction.SET_IS_AUTHING:
+        case AuthAction.SET_IS_AUTH:
+        case AuthAction.SET_AUTH_ID:
+        case AuthAction.SET_AUTH_USERNAME:
+        case AuthAction.SET_IS_ACTIVATED:
             return {...state, ...action.payload};
-        case "SET_IS_AUTH":
-            return {...state, ...action.payload};
-        case "SET_AUTH_ID":
-            return {...state, ...action.payload};
-        case "SET_AUTH_USERNAME":
-            return {...state, ...action.payload};
-        case "SET_IS_ACTIVATED":
-            return {...state, ...action.payload};
-        case "SET_AUTH_INIT_STATE":
+        case AuthAction.SET_AUTH_INIT_STATE:
             return {...authInitState};
         default:
             return state;
@@ -51,37 +57,37 @@ export const authReducer = (state: AuthStateType = authInitState, action: AuthAc
 
 const setIsAuthing = (isAuthing: boolean) => {
     return {
-        type: 'SET_IS_AUTHING',
+        type: AuthAction.SET_IS_AUTHING,
         payload: {isAuthing}
     } as const;
 };
 const setIsAuth = (isAuth: boolean) => {
     return {
-        type: 'SET_IS_AUTH',
+        type: AuthAction.SET_IS_AUTH,
         payload: {isAuth}
     } as const;
 };
 const setAuthId = (authId: null | number) => {
     return {
-        type: 'SET_AUTH_ID',
+        type: AuthAction.SET_AUTH_ID,
         payload: {authId}
     } as const;
 };
 const setAuthUsername = (authUsername: null | string) => {
     return {
-        type: 'SET_AUTH_USERNAME',
+        type: AuthAction.SET_AUTH_USERNAME,
         payload: {authUsername}
     } as const;
 };
 const setIsActivated = (isActivated: boolean) => {
     return {
-        type: 'SET_IS_ACTIVATED',
+        type: AuthAction.SET_IS_ACTIVATED,
         payload: {isActivated}
     } as const;
 };
 export const setAuthInitState = () => {
     return {
-        type: 'SET_AUTH_INIT_STATE'
+        type: AuthAction.SET_AUTH_INIT_STATE,
     } as const;
 };
 
