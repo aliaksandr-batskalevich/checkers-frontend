@@ -24,7 +24,7 @@ const customSerialTest = (serial: string, long: number, str: string): boolean =>
     return false;
 };
 
-export const passwordValidator = (password: string) => {
+export const passwordValidator = (password: string): string | undefined => {
     if (!passwordLengthRegEx.test(password)) return PasswordError.LENGTH;
 
     if (!lowerUpperCaseRegEx.test(password)) return PasswordError.CASES;
