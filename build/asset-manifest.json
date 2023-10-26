@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "./static/css/main.d1068c21.css",
-    "main.js": "./static/js/main.5bdb85c2.js",
-    "static/js/787.d0a41fd0.chunk.js": "./static/js/787.d0a41fd0.chunk.js",
-    "static/media/border-background.jpg": "./static/media/border-background.5c8c6b7a68b38443a7e1.jpg",
-    "static/media/incomingMessage.wav": "./static/media/incomingMessage.591aabd8c2468740db57.wav",
-    "static/media/logo.png": "./static/media/logo.9a65d39e64e54ab5c12e.png",
-    "static/media/wonLogo.png": "./static/media/wonLogo.7492e96fcfb0f62e8163.png",
-    "static/media/sentMessage.wav": "./static/media/sentMessage.99c4cdeee904eb2f1f97.wav",
-    "static/media/finishLogo.png": "./static/media/finishLogo.7cb49a00c4c8b0e0c373.png",
-    "static/media/spinnerPreloader.gif": "./static/media/spinnerPreloader.538a46681c0d1777619e.gif",
-    "static/media/white_king.png": "./static/media/white_king.8de1ef062f4b614fa275.png",
-    "static/media/withSound.png": "./static/media/withSound.3e6d898354291ee801ce.png",
-    "static/media/white_man.png": "./static/media/white_man.88854e9e179d1b85d8cc.png",
-    "index.html": "./index.html",
-    "main.d1068c21.css.map": "./static/css/main.d1068c21.css.map",
-    "main.5bdb85c2.js.map": "./static/js/main.5bdb85c2.js.map",
-    "787.d0a41fd0.chunk.js.map": "./static/js/787.d0a41fd0.chunk.js.map"
+    "main.css": "/static/css/main.e36c9bab.css",
+    "main.js": "/static/js/main.fa5a6ddc.js",
+    "static/js/787.d0a41fd0.chunk.js": "/static/js/787.d0a41fd0.chunk.js",
+    "static/media/border-background.jpg": "/static/media/border-background.5c8c6b7a68b38443a7e1.jpg",
+    "static/media/incomingMessage.wav": "/static/media/incomingMessage.591aabd8c2468740db57.wav",
+    "static/media/logo.png": "/static/media/logo.9a65d39e64e54ab5c12e.png",
+    "static/media/wonLogo.png": "/static/media/wonLogo.7492e96fcfb0f62e8163.png",
+    "static/media/sentMessage.wav": "/static/media/sentMessage.99c4cdeee904eb2f1f97.wav",
+    "static/media/finishLogo.png": "/static/media/finishLogo.7cb49a00c4c8b0e0c373.png",
+    "static/media/spinnerPreloader.gif": "/static/media/spinnerPreloader.538a46681c0d1777619e.gif",
+    "static/media/white_king.png": "/static/media/white_king.8de1ef062f4b614fa275.png",
+    "static/media/withSound.png": "/static/media/withSound.3e6d898354291ee801ce.png",
+    "static/media/white_man.png": "/static/media/white_man.88854e9e179d1b85d8cc.png",
+    "index.html": "/index.html",
+    "main.e36c9bab.css.map": "/static/css/main.e36c9bab.css.map",
+    "main.fa5a6ddc.js.map": "/static/js/main.fa5a6ddc.js.map",
+    "787.d0a41fd0.chunk.js.map": "/static/js/787.d0a41fd0.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d1068c21.css",
-    "static/js/main.5bdb85c2.js"
+    "static/css/main.e36c9bab.css",
+    "static/js/main.fa5a6ddc.js"
   ]
 }
