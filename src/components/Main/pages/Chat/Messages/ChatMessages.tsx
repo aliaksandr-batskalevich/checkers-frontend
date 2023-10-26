@@ -1,7 +1,8 @@
 import React from 'react';
 import s from './ChatMessages.module.scss';
 import {ChatMessage} from "./ChatMessage/ChatMessage";
-import {IChatMessage, IChatUser} from "../../../../../models/IChatMessage";
+import {IChatMessage} from "../../../../../models/IChatMessage";
+import {useScrollDown} from "../../../../../utils/hooks/useScrollDown";
 
 type ChatMessagesPropsType = {
     authUsername: null | string
@@ -10,6 +11,8 @@ type ChatMessagesPropsType = {
 
 export const ChatMessages: React.FC<ChatMessagesPropsType> = ({authUsername, chatMessages}) => {
 
+    const {ref} = useScrollDown(chatMessages)
+
     const messagesToRender = chatMessages.map(chatMessage => <ChatMessage
         key={chatMessage.id}
         authUsername={authUsername}
@@ -17,9 +20,8 @@ export const ChatMessages: React.FC<ChatMessagesPropsType> = ({authUsername, cha
 
     return (
         <div className={s.chatMessagesWrapper}>
-            <div className={s.messagesContainer}>
-                {messagesToRender}
-            </div>
+            {messagesToRender}
+            <div ref={ref}/>
         </div>
     );
 };
