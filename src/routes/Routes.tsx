@@ -21,7 +21,6 @@ export const AppRoutes = () => {
 
     if (isAuth && !isActivated) return <ActivateMessage/>;
 
-
     // AUTH PROTECTED COMPONENTS
     const ProfileWithAuthRedirect = withAuthRedirect(Profile);
     const UsersWithAuthRedirect = withAuthRedirect(Users);
@@ -40,8 +39,8 @@ export const AppRoutes = () => {
             <Route path='/games' element={<GamesWithAuthRedirect/>}/>
             <Route path='/games/:id' element={<GameWithAuthRedirect/>}/>
             <Route path='/chat' element={<ChatWithAuthRedirect/>}/>
-            <Route path='/signin' element={!isAuth ? <SignIn/> : <Navigate to='/'/>}/>
-            <Route path='/signup' element={!isAuth ? <SignUp/> : <Navigate to='/'/>}/>
+            <Route path='/sign-in' element={!isAuth ? <SignIn/> : <Navigate to='/'/>}/>
+            <Route path='/sign-up' element={!isAuth ? <SignUp/> : <Navigate to='/'/>}/>
             <Route path='/info' element={<InfoPage/>}/>
             <Route path='/*' element={<Navigate to='/info?code=404&message=Page%20not%20found'/>}/>
         </Routes>

@@ -1,10 +1,9 @@
 import {IUser} from "../models/IUser";
-import {ThunkDispatchType} from "../utils/hooks/useApDispatch";
+import {ThunkDispatchType} from "../utils/hooks/useAppDispatch";
 import {FollowAPI, UserAPI} from "../dal/html.api";
 import {setAppStatus} from "./app.reducer";
-import axios from "axios";
-import {logoutRemoveData} from "../utils/logoutRemoveData";
 import {AppStatus} from "../models/AppStatus";
+import {errorProcessing} from "../utils/errorProcessing/errorProcessing";
 
 export type UsersActionsType = ReturnType<typeof setUsers>
     | ReturnType<typeof setIsUsersFetching>
@@ -133,99 +132,69 @@ export const setUsersInitSate = () => {
     } as const;
 };
 
-export const getUsersTC = (count: number, page: number) => async (dispatch: ThunkDispatchType) => {
-    try {
-        dispatch(setAppStatus(AppStatus.REQUEST));
-        dispatch(setIsUsersFetching(true));
+export const getUsersTC = (count: number, page: number) =>
+    async (dispatch: ThunkDispatchType) => {
+        try {
+            dispatch(setAppStatus(AppStatus.REQUEST));
+            dispatch(setIsUsersFetching(true));
 
-        const response = await UserAPI.getUsers(count, page);
-        const {totalCount, users} = response.data;
-        const totalPageCount = Math.ceil(totalCount / count);
+            const response = await UserAPI.getUsers(count, page);
+            const {totalCount, users} = response.data;
+            const totalPageCount = Math.ceil(totalCount / count);
 
-        dispatch(setTotalPage(totalPageCount));
-        dispatch(setUsers(users));
-        dispatch(setAppStatus(AppStatus.SUCCESS));
-        dispatch(setIsUsersFetching(false));
-    } catch (error) {
-        let errorMessage: string;
-        if (axios.isAxiosError(error)) {
-            errorMessage = error.response
-                ? error.response.data.message
-                : error.message;
+            dispatch(setTotalPage(totalPageCount));
+            dispatch(setUsers(users));
+            dispatch(setAppStatus(AppStatus.SUCCESS));
+            dispatch(setIsUsersFetching(false));
+        } catch (error) {
+            const errorMessage = errorProcessing(error);
 
-            // logout if status 401
-            error.response?.status === 401 && logoutRemoveData(dispatch);
+            dispatch(setAppStatus(AppStatus.FAILED));
+            dispatch(setIsUsersFetching(false));
 
-        } else {
-            //@ts-ignore
-            errorMessage = error.message;
+            return Promise.reject(errorMessage);
         }
-        console.log(errorMessage);
-        dispatch(setAppStatus(AppStatus.FAILED));
-        dispatch(setIsUsersFetching(false));
-        return Promise.reject(errorMessage);
-    }
-};
+    };
 
-export const followUserTC = (id: number) => async (dispatch: ThunkDispatchType) => {
-    try {
-        dispatch(setAppStatus(AppStatus.REQUEST));
-        dispatch(addUserIdFollowing(id));
+export const followUserTC = (id: number) =>
+    async (dispatch: ThunkDispatchType) => {
+        try {
+            dispatch(setAppStatus(AppStatus.REQUEST));
+            dispatch(addUserIdFollowing(id));
 
-        const response = await FollowAPI.follow(id);
-        dispatch(updateUser(response.data.user));
+            const response = await FollowAPI.follow(id);
+            dispatch(updateUser(response.data.user));
 
-        dispatch(setAppStatus(AppStatus.SUCCESS));
-        dispatch(removeUserIdFollowing(id));
-    } catch (error) {
-        let errorMessage: string;
-        if (axios.isAxiosError(error)) {
-            errorMessage = error.response
-                ? error.response.data.message
-                : error.message;
+            dispatch(setAppStatus(AppStatus.SUCCESS));
+            dispatch(removeUserIdFollowing(id));
+        } catch (error) {
+            const errorMessage = errorProcessing(error);
 
-            // logout if status 401
-            error.response?.status === 401 && logoutRemoveData(dispatch);
+            dispatch(setAppStatus(AppStatus.FAILED));
+            dispatch(removeUserIdFollowing(id));
 
-        } else {
-            //@ts-ignore
-            errorMessage = error.message;
+            return Promise.reject(errorMessage);
         }
-        console.log(errorMessage);
-        dispatch(setAppStatus(AppStatus.FAILED));
-        dispatch(removeUserIdFollowing(id));
-        return Promise.reject(errorMessage);
-    }
-};
+    };
 
-export const unFollowUserTC = (id: number) => async (dispatch: ThunkDispatchType) => {
-    try {
-        dispatch(setAppStatus(AppStatus.REQUEST));
-        dispatch(addUserIdFollowing(id));
+export const unFollowUserTC = (id: number) =>
+    async (dispatch: ThunkDispatchType) => {
+        try {
+            dispatch(setAppStatus(AppStatus.REQUEST));
+            dispatch(addUserIdFollowing(id));
 
-        const response = await FollowAPI.unFollow(id);
-        dispatch(updateUser(response.data.user));
+            const response = await FollowAPI.unFollow(id);
+            dispatch(updateUser(response.data.user));
 
-        dispatch(setAppStatus(AppStatus.SUCCESS));
-        dispatch(removeUserIdFollowing(id));
-    } catch (error) {
-        let errorMessage: string;
-        if (axios.isAxiosError(error)) {
-            errorMessage = error.response
-                ? error.response.data.message
-                : error.message;
+            dispatch(setAppStatus(AppStatus.SUCCESS));
+            dispatch(removeUserIdFollowing(id));
+        } catch (error) {
+            const errorMessage = errorProcessing(error);
 
-            // logout if status 401
-            error.response?.status === 401 && logoutRemoveData(dispatch);
+            dispatch(setAppStatus(AppStatus.FAILED));
+            dispatch(removeUserIdFollowing(id));
 
-        } else {
-            //@ts-ignore
-            errorMessage = error.message;
+            return Promise.reject(errorMessage);
         }
-        console.log(errorMessage);
-        dispatch(setAppStatus(AppStatus.FAILED));
-        dispatch(removeUserIdFollowing(id));
-        return Promise.reject(errorMessage);
-    }
-};
+    };
 

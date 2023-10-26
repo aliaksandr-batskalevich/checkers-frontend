@@ -1,6 +1,6 @@
 import {IChatMessage, IChatObject, IChatUser} from "../models/IChatMessage";
 import webSocketInstance, {WebSocketSubscriberType} from '../dal/ws.api';
-import {ThunkDispatchType} from "../utils/hooks/useApDispatch";
+import {ThunkDispatchType} from "../utils/hooks/useAppDispatch";
 
 export type ChatActionsType = ReturnType<typeof setInitChatState>
     | ReturnType<typeof setChatUsersOnline>
@@ -44,7 +44,10 @@ export const chatReducer = (state: ChatStateType = initChatState, action: ChatAc
         case ChatAction.SET_CHAT_USER_WITH_SOUND:
             return {...state, usersWithSound: [...state.usersWithSound, action.payload.userWithSound]};
         case ChatAction.REMOVE_CHAT_USER_WITH_SOUND:
-            return {...state, usersWithSound: state.usersWithSound.filter(u => u.username !== action.payload.userWithoutSound.username)};
+            return {
+                ...state,
+                usersWithSound: state.usersWithSound.filter(u => u.username !== action.payload.userWithoutSound.username)
+            };
         case ChatAction.RESET_CHAT_DATA:
             return {...state, chatMessages: [], usersOnline: []};
         case ChatAction.SET_INIT_CHAT_STATE:
@@ -103,22 +106,23 @@ export const setInitChatState = () => {
 };
 
 
-export const startMessagingTC = () => (dispatch: ThunkDispatchType) => {
-    const subscriber = (chatObject: IChatObject) => {
-        dispatch(addChatMessages(chatObject.messages));
-        dispatch(setChatUsersOnline(chatObject.usersOnline));
+export const startMessagingTC = () =>
+    (dispatch: ThunkDispatchType) => {
+        const subscriber = (chatObject: IChatObject) => {
+            dispatch(addChatMessages(chatObject.messages));
+            dispatch(setChatUsersOnline(chatObject.usersOnline));
+        };
+
+        webSocketInstance.startMessaging(dispatch, subscriber);
+
+        return subscriber;
     };
 
-    webSocketInstance.startMessaging(dispatch, subscriber);
+export const sendMessageTC = (message: string) =>
+    () => webSocketInstance.sendMessage(message);
 
-    return subscriber;
-};
-
-export const sendMessageTC = (message: string) => (dispatch: ThunkDispatchType) => {
-    webSocketInstance.sendMessage(message);
-};
-
-export const stopMessagingTC = (subscriber: WebSocketSubscriberType) => (dispatch: ThunkDispatchType) => {
-    webSocketInstance.stopMessaging(subscriber);
-    dispatch(resetChatData());
-};
+export const stopMessagingTC = (subscriber: WebSocketSubscriberType) =>
+    (dispatch: ThunkDispatchType) => {
+        webSocketInstance.stopMessaging(subscriber);
+        dispatch(resetChatData());
+    };

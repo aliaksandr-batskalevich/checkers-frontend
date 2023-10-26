@@ -1,5 +1,5 @@
 import {IChatObject} from "../models/IChatMessage";
-import {ThunkDispatchType} from "../utils/hooks/useApDispatch";
+import {ThunkDispatchType} from "../utils/hooks/useAppDispatch";
 import {readAccessTokenInLS} from "./acceesToken.api";
 import {addSnackbarErrorMessage, addSnackbarInfoMessage, addSnackbarWarningMessage} from "../bll/snackbar.reducer";
 import {resetChatData} from "../bll/chat.reducer";
@@ -36,7 +36,7 @@ class WebSocketInstance {
 
     _createConnect() {
         this._dispatch && this._dispatch(refreshTC())
-            .then(response => {
+            .then(() => {
                 this._socket = new WebSocket(wsURL);
                 this._createListeners();
             })

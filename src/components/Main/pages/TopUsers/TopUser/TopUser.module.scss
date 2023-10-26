@@ -1,10 +1,13 @@
 @import "/src/difenitions";
 
 .topUserWrapper {
+  margin-top: 10px;
+  padding: 4px 10px;
+
   border: white solid 1px;
   border-radius: 10px;
   background-color: $app-background_light-color;
-  cursor: pointer;
+  text-decoration: none;
 
   display: flex;
   justify-content: space-between;

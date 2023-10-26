@@ -9,6 +9,6 @@ export function withAuthRedirect<T>(Component: React.FC<any>) {
 
         return isAuth
             ? <Component />
-            : <Navigate to='/signin' />;
+            : <Navigate to='/sign-in' />;
     };
 }

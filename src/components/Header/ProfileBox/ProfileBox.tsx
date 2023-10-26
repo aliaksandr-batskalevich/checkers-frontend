@@ -2,7 +2,7 @@ import React from 'react';
 import s from "./ProfileBox.module.scss";
 import {useSelector} from "react-redux";
 import {getAuthUsername, getIsAuthing} from "../../../bll/auth.selector";
-import {useAppDispatch} from "../../../utils/hooks/useApDispatch";
+import {useAppDispatch} from "../../../utils/hooks/useAppDispatch";
 import {useNavigate} from "react-router-dom";
 import {logoutTC} from "../../../bll/auth.reducer";
 import {addSnackbarErrorMessage, addSnackbarInfoMessage} from "../../../bll/snackbar.reducer";
@@ -16,7 +16,7 @@ export const ProfileBox = () => {
     const logout = () => {
         dispatch(logoutTC())
             .then((message) => {
-                navigate('/signin');
+                navigate('/sign-in');
                 dispatch(addSnackbarInfoMessage(message));
             })
             .catch(reason => {

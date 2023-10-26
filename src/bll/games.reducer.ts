@@ -1,15 +1,14 @@
 import {IGameItemType} from "../models/IGameItem";
-import {ThunkDispatchType} from "../utils/hooks/useApDispatch";
+import {ThunkDispatchType} from "../utils/hooks/useAppDispatch";
 import {setAppStatus} from "./app.reducer";
 import {GamesAPI} from "../dal/html.api";
-import axios from "axios";
-import {logoutRemoveData} from "../utils/logoutRemoveData";
 import {Board} from "../models/game/Board";
 import {Colors} from "../models/game/Colors";
 import {AppStatus} from "../models/AppStatus";
+import {errorProcessing} from "../utils/errorProcessing/errorProcessing";
 
 export type GamesActionsType = ReturnType<typeof setIsGamesFilterInit>
-    |ReturnType<typeof setIsGamesFetching>
+    | ReturnType<typeof setIsGamesFetching>
     | ReturnType<typeof setIsNewGameCreating>
     | ReturnType<typeof setGamesInitState>
     | ReturnType<typeof setGamesFilter>
@@ -130,82 +129,58 @@ const setGameItems = (gameItems: Array<IGameItemType>) => {
     } as const;
 };
 
-export const createGameTC = (level: number, currentOrder: Colors) => async (dispatch: ThunkDispatchType) => {
-    try {
-        dispatch(setAppStatus(AppStatus.REQUEST));
-        dispatch(setIsNewGameCreating(true));
+export const createGameTC = (level: number, currentOrder: Colors) =>
+    async (dispatch: ThunkDispatchType) => {
+        try {
+            dispatch(setAppStatus(AppStatus.REQUEST));
+            dispatch(setIsNewGameCreating(true));
 
-        const createdBoard = new Board();
-        createdBoard.initCells();
-        createdBoard.addFigures();
-        const exportsCellFigures = createdBoard.exportFigures();
-        const figuresJSON = JSON.stringify(exportsCellFigures);
+            const createdBoard = new Board();
+            createdBoard.initCells();
+            createdBoard.addFigures();
+            const exportsCellFigures = createdBoard.exportFigures();
+            const figuresJSON = JSON.stringify(exportsCellFigures);
 
-        const response = await GamesAPI.createGame(level, currentOrder, figuresJSON);
+            const response = await GamesAPI.createGame(level, currentOrder, figuresJSON);
 
-        dispatch(setAppStatus(AppStatus.SUCCESS));
-        dispatch(setIsNewGameCreating(false));
+            dispatch(setAppStatus(AppStatus.SUCCESS));
+            dispatch(setIsNewGameCreating(false));
 
-        return Promise.resolve(response);
-    } catch (error) {
-        let errorMessage: string;
-        if (axios.isAxiosError(error)) {
-            errorMessage = error.response
-                ? error.response.data.message
-                : error.message;
+            return Promise.resolve(response);
+        } catch (error) {
+            const errorMessage = errorProcessing(error);
 
-            // logout if status 401
-            error.response?.status === 401 && logoutRemoveData(dispatch);
+            dispatch(setAppStatus(AppStatus.FAILED));
+            dispatch(setIsNewGameCreating(false));
 
-        } else {
-            //@ts-ignore
-            errorMessage = error.message;
+            return Promise.reject(errorMessage);
         }
-        console.log(errorMessage);
+    };
 
-        dispatch(setAppStatus(AppStatus.FAILED));
-        dispatch(setIsNewGameCreating(false));
+export const getGamesTC = (filter: GamesFilterType, count: number, page: number) =>
+    async (dispatch: ThunkDispatchType) => {
+        try {
+            dispatch(setAppStatus(AppStatus.REQUEST));
+            dispatch(setIsGamesFetching(true));
 
-        return Promise.reject(errorMessage);
-    }
-};
+            const response = await GamesAPI.getGames(filter, count, page);
+            const {totalCount, games} = response.data;
+            const totalPageCount = Math.ceil(totalCount / count);
 
-export const getGamesTC = (filter: GamesFilterType, count: number, page: number) => async (dispatch: ThunkDispatchType) => {
-    try {
-        dispatch(setAppStatus(AppStatus.REQUEST));
-        dispatch(setIsGamesFetching(true));
+            dispatch(setGameItems(games));
+            dispatch(setGamesTotalPageCount(totalPageCount));
 
-        const response = await GamesAPI.getGames(filter, count, page);
-        const {totalCount, games} = response.data;
-        const totalPageCount = Math.ceil(totalCount / count);
+            dispatch(setAppStatus(AppStatus.SUCCESS));
+            dispatch(setIsGamesFilterInit(true));
+            dispatch(setIsGamesFetching(false));
 
-        dispatch(setGameItems(games));
-        dispatch(setGamesTotalPageCount(totalPageCount));
+            return Promise.resolve(response.message);
+        } catch (error) {
+            const errorMessage = errorProcessing(error);
 
-        dispatch(setAppStatus(AppStatus.SUCCESS));
-        dispatch(setIsGamesFilterInit(true));
-        dispatch(setIsGamesFetching(false));
+            dispatch(setAppStatus(AppStatus.FAILED));
+            dispatch(setIsGamesFetching(false));
 
-        return Promise.resolve(response.message);
-    } catch (error) {
-        let errorMessage: string;
-        if (axios.isAxiosError(error)) {
-            errorMessage = error.response
-                ? error.response.data.message
-                : error.message;
-
-            // logout if status 401
-            error.response?.status === 401 && logoutRemoveData(dispatch);
-
-        } else {
-            //@ts-ignore
-            errorMessage = error.message;
+            return Promise.reject(errorMessage);
         }
-        console.log(errorMessage);
-
-        dispatch(setAppStatus(AppStatus.FAILED));
-        dispatch(setIsGamesFetching(false));
-
-        return Promise.reject(errorMessage);
-    }
-}
+    };

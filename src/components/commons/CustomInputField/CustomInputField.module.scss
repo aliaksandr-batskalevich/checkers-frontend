@@ -1,0 +1,25 @@
+.customInputField {
+
+  label {
+
+  }
+
+  input {
+    padding: 2px 5px;
+    width: 100%;
+  }
+
+  .inputError {
+    border: red solid 2px;
+  }
+
+  p {
+    color: red;
+    font-size: 14px;
+    line-height: 1;
+    height: 18px;
+
+    display: flex;
+    align-items: center;
+  };
+}

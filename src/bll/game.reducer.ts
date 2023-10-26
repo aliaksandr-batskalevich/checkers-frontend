@@ -1,12 +1,11 @@
 import {IGameItemType} from "../models/IGameItem";
 import {IGameProgressType} from "../models/IGameProgress";
-import {ThunkDispatchType} from "../utils/hooks/useApDispatch";
+import {ThunkDispatchType} from "../utils/hooks/useAppDispatch";
 import {setAppStatus} from "./app.reducer";
 import {GamesAPI} from "../dal/html.api";
-import axios from "axios";
-import {logoutRemoveData} from "../utils/logoutRemoveData";
 import {CellFigureExportType} from "../models/game/CellFigureExportType";
 import {AppStatus} from "../models/AppStatus";
+import {errorProcessing} from "../utils/errorProcessing/errorProcessing";
 
 export type GameActionsType = ReturnType<typeof setIsGameInit>
     | ReturnType<typeof setIsGameFetching>
@@ -99,20 +98,7 @@ export const getGameTC = (gameId: number) => async (dispatch: ThunkDispatchType)
         dispatch(setAppStatus(AppStatus.SUCCESS));
         dispatch(setIsGameFetching(false));
     } catch (error) {
-        let errorMessage: string;
-        if (axios.isAxiosError(error)) {
-            errorMessage = error.response
-                ? error.response.data.message
-                : error.message;
-
-            // logout if status 401
-            error.response?.status === 401 && logoutRemoveData(dispatch);
-
-        } else {
-            //@ts-ignore
-            errorMessage = error.message;
-        }
-        console.log(errorMessage);
+        const errorMessage = errorProcessing(error);
 
         dispatch(setAppStatus(AppStatus.FAILED));
         dispatch(setIsGameFetching(false));
@@ -135,20 +121,7 @@ export const updateGameTC = (gameId: number, exportsCellFigures: Array<CellFigur
 
         return Promise.resolve(response);
     } catch (error) {
-        let errorMessage: string;
-        if (axios.isAxiosError(error)) {
-            errorMessage = error.response
-                ? error.response.data.message
-                : error.message;
-
-            // logout if status 401
-            error.response?.status === 401 && logoutRemoveData(dispatch);
-
-        } else {
-            //@ts-ignore
-            errorMessage = error.message;
-        }
-        console.log(errorMessage);
+        const errorMessage = errorProcessing(error);
 
         dispatch(setAppStatus(AppStatus.FAILED));
         dispatch(setIsGameFetching(false));
@@ -169,20 +142,7 @@ export const finishGameTC = (gameId: number, isWon: boolean) => async (dispatch:
 
         return Promise.resolve(response);
     } catch (error) {
-        let errorMessage: string;
-        if (axios.isAxiosError(error)) {
-            errorMessage = error.response
-                ? error.response.data.message
-                : error.message;
-
-            // logout if status 401
-            error.response?.status === 401 && logoutRemoveData(dispatch);
-
-        } else {
-            //@ts-ignore
-            errorMessage = error.message;
-        }
-        console.log(errorMessage);
+        const errorMessage = errorProcessing(error);
 
         dispatch(setAppStatus(AppStatus.FAILED));
         dispatch(setIsGameFetching(false));

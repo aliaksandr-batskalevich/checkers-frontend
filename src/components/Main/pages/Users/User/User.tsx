@@ -3,6 +3,8 @@ import s from './User.module.scss';
 import {IUser} from "../../../../../models/IUser";
 import defaultAvatar from '../../../../../assets/images/default-avatar.png';
 import {NavLink} from "react-router-dom";
+import {FollowButton} from "../../../../commons/FollowButton/FollowButton";
+import {UserStatistics} from "./UserStatistics/UserStatistics";
 
 type UserPropsType = IUser
     & {
@@ -21,22 +23,13 @@ export const User: React.FC<UserPropsType> = (props) => {
         isActivated,
         status,
         rating,
-        gamesJuniorCount,
-        gamesJuniorWinsCount,
-        gamesMiddleCount,
-        gamesMiddleWinsCount,
-        gamesSeniorCount,
-        gamesSeniorWinsCount,
-        sparringCount,
-        sparringWinsCount,
         subscribersCount,
         isFollowed,
         isFollowing,
         follow,
-        unFollow
+        unFollow,
+        ...statisticsProps
     } = props;
-
-    console.log(status);
 
     const followHandler = () => {
         follow(id);
@@ -55,34 +48,18 @@ export const User: React.FC<UserPropsType> = (props) => {
                 <div className={s.info}>
                     <NavLink to={`/profile/${id}`}><h3>{username}</h3></NavLink>
                     <p>rating: <span>{rating}</span></p>
-                    {authId !== id && <div className={s.followButtonsWrapper}>
-                        {isFollowed
-                            ? <button onClick={unFollowHandler} disabled={isFollowing}>unFollow</button>
-                            : <button onClick={followHandler} disabled={isFollowing}>follow</button>}
-                    </div>}
+                    {authId !== id
+                    && <FollowButton
+                        isFollowed={isFollowed}
+                        isFollowing={isFollowing}
+                        follow={followHandler}
+                        unfollow={unFollowHandler}
+                    />}
                 </div>
                 <div className={s.status}>
                     <p>{status}</p>
                 </div>
-                <div className={s.statistics}>
-                    <table className={s.table}>
-                        <tr>
-                            <th className={s.statisticTitle}>Statistic</th>
-                            <th>Count</th>
-                            <th>Wins</th>
-                        </tr>
-                        <tr>
-                            <th>Games</th>
-                            <td>{gamesJuniorCount + gamesMiddleCount + gamesSeniorCount}</td>
-                            <td>{gamesJuniorWinsCount + gamesMiddleWinsCount + gamesSeniorWinsCount}</td>
-                        </tr>
-                        <tr>
-                            <th>Sparring</th>
-                            <td>{sparringCount}</td>
-                            <td>{sparringWinsCount}</td>
-                        </tr>
-                    </table>
-                </div>
+                <UserStatistics {...statisticsProps}/>
             </div>
         </div>
     );

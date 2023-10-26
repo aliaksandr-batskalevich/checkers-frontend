@@ -1,9 +1,9 @@
 import {IUser} from "../models/IUser";
-import {ThunkDispatchType} from "../utils/hooks/useApDispatch";
+import {ThunkDispatchType} from "../utils/hooks/useAppDispatch";
 import {TopUsersAPI} from "../dal/html.api";
 import {setAppStatus} from "./app.reducer";
-import axios from "axios";
 import {AppStatus} from "../models/AppStatus";
+import {errorProcessing} from "../utils/errorProcessing/errorProcessing";
 
 export type TopUsersActionsType = ReturnType<typeof setIsTopUsersFetching>
     | ReturnType<typeof setTopUsers>
@@ -56,36 +56,26 @@ export const setTopUsersInitSate = () => {
     } as const;
 };
 
-export const getTopUsersTC = (count: number) => async (dispatch: ThunkDispatchType) => {
-    try {
-        dispatch(setAppStatus(AppStatus.REQUEST));
-        dispatch(setIsTopUsersFetching(true));
+export const getTopUsersTC = (count: number) =>
+    async (dispatch: ThunkDispatchType) => {
+        try {
+            dispatch(setAppStatus(AppStatus.REQUEST));
+            dispatch(setIsTopUsersFetching(true));
 
-        const response = await TopUsersAPI.getTopUsers(count);
-        const {topUsers} = response.data;
+            const response = await TopUsersAPI.getTopUsers(count);
+            const {topUsers} = response.data;
 
-        dispatch(setTopUsers(topUsers));
-        dispatch(setAppStatus(AppStatus.SUCCESS));
-        dispatch(setIsTopUsersFetching(false));
+            dispatch(setTopUsers(topUsers));
+            dispatch(setAppStatus(AppStatus.SUCCESS));
+            dispatch(setIsTopUsersFetching(false));
 
-        return Promise.resolve(topUsers);
-    } catch (error) {
-        let errorMessage: string;
-        if (axios.isAxiosError(error)) {
-            errorMessage = error.response
-                ? error.response.data.message
-                : error.message;
+            return Promise.resolve(topUsers);
+        } catch (error) {
+            const errorMessage = errorProcessing(error);
 
-            // logout if status 401
-            error.response?.status === 401 && dispatch(setTopUsersInitSate());
+            dispatch(setAppStatus(AppStatus.FAILED));
+            dispatch(setIsTopUsersFetching(false));
 
-        } else {
-            //@ts-ignore
-            errorMessage = error.message;
+            return Promise.reject(errorMessage);
         }
-        console.log(errorMessage);
-        dispatch(setAppStatus(AppStatus.FAILED));
-        dispatch(setIsTopUsersFetching(false));
-        return Promise.reject(errorMessage);
-    }
-};
+    };

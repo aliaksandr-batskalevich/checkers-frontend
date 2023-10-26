@@ -1,50 +1,17 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import s from './TopUsers.module.scss';
-import {useSelector} from "react-redux";
-import {useAppDispatch} from "../../../../utils/hooks/useApDispatch";
-import {getTopUsersTC, setTopUsersInitSate} from "../../../../bll/top.reducer";
-import {addSnackbarErrorMessage, addSnackbarInfoMessage} from "../../../../bll/snackbar.reducer";
 import {Preloader} from "../../../commons/Preloader/Preloader";
 import {TopUser} from "./TopUser/TopUser";
-import {useNavigate} from "react-router-dom";
-import {getAuthId} from "../../../../bll/auth.selector";
-import {getIsTopUsersFetching, getTopUsers} from "../../../../bll/top.selector";
+import {useTopUsersFetching} from "../../../../utils/hooks/useTopUsersFetching";
 
 export const TopUsers = () => {
-    const authId = useSelector(getAuthId);
-    const isTopUsersFetching = useSelector(getIsTopUsersFetching);
-    const topUsers = useSelector(getTopUsers);
 
-    const dispatch = useAppDispatch();
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        dispatch(getTopUsersTC(10))
-            .then(topUsers => {
-                const authUserIndex = topUsers.findIndex(user => user.id === authId);
-                const message = authUserIndex > -1
-                    ? `Your position on the dashboard - ${authUserIndex + 1!}`
-                    : `You are not in the top 10 players`;
-                dispatch(addSnackbarInfoMessage(message));
-            })
-            .catch(reason => {
-                dispatch(addSnackbarErrorMessage(reason));
-            });
-
-        return () => {
-            dispatch(setTopUsersInitSate());
-        }
-    }, [dispatch]);
-
-    const viewProfileHandler = (id: number) => {
-        navigate(`/profile/${id}`);
-    };
+    const {authId, topUsers, isTopUsersFetching} = useTopUsersFetching();
 
     const topUsersToRender = topUsers.map((topUser, index) => <TopUser
         key={topUser.id}
         position={index + 1}
         isAuthUser={topUser.id === authId}
-        viewProfile={viewProfileHandler}
         {...topUser}
     />);
 

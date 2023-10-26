@@ -1,11 +1,12 @@
-import {ThunkDispatchType} from "../utils/hooks/useApDispatch";
+import {ThunkDispatchType} from "../utils/hooks/useAppDispatch";
 import {AuthAPI} from "../dal/html.api";
 import {setProfile} from "./profile.reducer";
 import {setAppStatus} from "./app.reducer";
-import axios from "axios";
 import {logoutRemoveData} from "../utils/logoutRemoveData";
 import {writeAccessTokenInLS} from "../dal/acceesToken.api";
 import {AppStatus} from "../models/AppStatus";
+import {errorProcessing} from "../utils/errorProcessing/errorProcessing";
+import {IUser} from "../models/IUser";
 
 export type AuthActionsType = ReturnType<typeof setIsAuthing>
     | ReturnType<typeof setIsAuth>
@@ -91,156 +92,112 @@ export const setAuthInitState = () => {
     } as const;
 };
 
-export const signUpTC = (username: string, email: string, password: string) => async (dispatch: ThunkDispatchType) => {
-    try {
-        dispatch(setAppStatus(AppStatus.REQUEST));
-        dispatch(setIsAuthing(true));
+const setAuthUserData = (dispatch: ThunkDispatchType, user: IUser, accessToken: string) => {
+    writeAccessTokenInLS(accessToken);
 
-        const response = await AuthAPI.signUp(username, email, password);
-        const user = response.data.user;
-        writeAccessTokenInLS(response.data.tokens.accessToken);
+    // set data in authReducer
+    dispatch(setIsAuth(true));
+    dispatch(setAuthId(user.id));
+    dispatch(setAuthUsername(user.username));
+    dispatch(setIsActivated(user.isActivated));
 
-        // set data in authReducer
-        dispatch(setIsAuth(true));
-        dispatch(setAuthId(user.id));
-        dispatch(setAuthUsername(user.username));
-        dispatch(setIsActivated(user.isActivated));
-
-        // set data in userReducer
-        dispatch(setProfile(user));
-
-        dispatch(setIsAuthing(false));
-        dispatch(setAppStatus(AppStatus.SUCCESS));
-
-        return Promise.resolve(response.message);
-    } catch (error) {
-        let errorMessage: string;
-        if (axios.isAxiosError(error)) {
-            errorMessage = error.response
-                ? error.response.data.message
-                : error.message;
-
-        } else {
-            //@ts-ignore
-            errorMessage = error.message;
-        }
-        console.log(errorMessage);
-        dispatch(setIsAuthing(false));
-        dispatch(setAppStatus(AppStatus.FAILED));
-        return Promise.reject(errorMessage);
-    }
+    // set data in userReducer
+    dispatch(setProfile(user));
 };
 
-export const signInTC = (username: string, password: string) => async (dispatch: ThunkDispatchType) => {
-    try {
-        dispatch(setAppStatus(AppStatus.REQUEST));
-        dispatch(setIsAuthing(true));
+export const signUpTC = (username: string, email: string, password: string) =>
+    async (dispatch: ThunkDispatchType) => {
+        try {
+            dispatch(setAppStatus(AppStatus.REQUEST));
+            dispatch(setIsAuthing(true));
 
-        const response = await AuthAPI.signIn(username, password);
-        const user = response.data.user;
-        writeAccessTokenInLS(response.data.tokens.accessToken);
+            const response = await AuthAPI.signUp(username, email, password);
 
-        // set data in authReducer
-        dispatch(setIsAuth(true));
-        dispatch(setAuthId(user.id));
-        dispatch(setAuthUsername(user.username));
-        dispatch(setIsActivated(user.isActivated));
+            setAuthUserData(dispatch, response.data.user, response.data.tokens.accessToken);
 
-        // set data in userReducer
-        dispatch(setProfile(user));
+            dispatch(setIsAuthing(false));
+            dispatch(setAppStatus(AppStatus.SUCCESS));
 
-        dispatch(setIsAuthing(false));
-        dispatch(setAppStatus(AppStatus.SUCCESS));
+            return Promise.resolve(response.message);
+        } catch (error) {
+            const errorMessage = errorProcessing(error);
 
-        return Promise.resolve(response.message);
-    } catch (error) {
-        let errorMessage: string;
-        if (axios.isAxiosError(error)) {
-            errorMessage = error.response
-                ? error.response.data.message
-                : error.message;
+            dispatch(setIsAuthing(false));
+            dispatch(setAppStatus(AppStatus.FAILED));
 
-        } else {
-            //@ts-ignore
-            errorMessage = error.message;
+            return Promise.reject(errorMessage);
         }
-        console.log(errorMessage);
-        dispatch(setIsAuthing(false));
-        dispatch(setAppStatus(AppStatus.FAILED));
-        return Promise.reject(errorMessage);
-    }
-};
+    };
 
-export const refreshTC = () => async (dispatch: ThunkDispatchType) => {
-    try {
-        dispatch(setAppStatus(AppStatus.REQUEST));
-        dispatch(setIsAuthing(true));
+export const signInTC = (username: string, password: string) =>
+    async (dispatch: ThunkDispatchType) => {
+        try {
+            dispatch(setAppStatus(AppStatus.REQUEST));
+            dispatch(setIsAuthing(true));
 
-        const response = await AuthAPI.refresh();
-        const user = response.data.user;
-        writeAccessTokenInLS(response.data.tokens.accessToken);
+            const response = await AuthAPI.signIn(username, password);
 
-        // set data in authReducer
-        dispatch(setIsAuth(true));
-        dispatch(setAuthId(user.id));
-        dispatch(setAuthUsername(user.username));
-        dispatch(setIsActivated(user.isActivated));
+            setAuthUserData(dispatch, response.data.user, response.data.tokens.accessToken);
 
-        // set data in userReducer
-        dispatch(setProfile(user));
+            dispatch(setIsAuthing(false));
+            dispatch(setAppStatus(AppStatus.SUCCESS));
 
-        dispatch(setIsAuthing(false));
-        dispatch(setAppStatus(AppStatus.SUCCESS));
+            return Promise.resolve(response.message);
+        } catch (error) {
+            const errorMessage = errorProcessing(error);
 
-        return Promise.resolve(response.message);
-    }  catch (error) {
-        let errorMessage: string;
-        if (axios.isAxiosError(error)) {
-            errorMessage = error.response
-                ? error.response.data.message
-                : error.message;
-
-        } else {
-            //@ts-ignore
-            errorMessage = error.message;
+            dispatch(setIsAuthing(false));
+            dispatch(setAppStatus(AppStatus.FAILED));
+            return Promise.reject(errorMessage);
         }
-        console.log(errorMessage);
-        dispatch(setIsAuthing(false));
-        dispatch(setAppStatus(AppStatus.FAILED));
-        return Promise.reject(errorMessage);
-    }
-};
+    };
 
-export const logoutTC = () => async (dispatch: ThunkDispatchType) => {
-    try {
+export const refreshTC = () =>
+    async (dispatch: ThunkDispatchType) => {
+        try {
+            dispatch(setAppStatus(AppStatus.REQUEST));
+            dispatch(setIsAuthing(true));
 
-        dispatch(setAppStatus(AppStatus.REQUEST));
-        dispatch(setIsAuthing(true));
+            const response = await AuthAPI.refresh();
 
-        const response = await AuthAPI.logout();
+            setAuthUserData(dispatch, response.data.user, response.data.tokens.accessToken);
 
-        // utiFn for clear data in reducers to init values
-        // includes fn for remove accessToken in LS
-        logoutRemoveData(dispatch);
+            dispatch(setIsAuthing(false));
+            dispatch(setAppStatus(AppStatus.SUCCESS));
 
-        dispatch(setIsAuthing(false));
-        dispatch(setAppStatus(AppStatus.SUCCESS));
+            return Promise.resolve(response.message);
+        } catch (error) {
+            const errorMessage = errorProcessing(error);
 
-        return Promise.resolve(response.message);
-    } catch (error) {
-        let errorMessage: string;
-        if (axios.isAxiosError(error)) {
-            errorMessage = error.response
-                ? error.response.data.message
-                : error.message;
+            dispatch(setIsAuthing(false));
+            dispatch(setAppStatus(AppStatus.FAILED));
 
-        } else {
-            //@ts-ignore
-            errorMessage = error.message;
+            return Promise.reject(errorMessage);
         }
-        console.log(errorMessage);
-        dispatch(setIsAuthing(false));
-        dispatch(setAppStatus(AppStatus.FAILED));
-        return Promise.reject(errorMessage);
-    }
-};
+    };
+
+export const logoutTC = () =>
+    async (dispatch: ThunkDispatchType) => {
+        try {
+
+            dispatch(setAppStatus(AppStatus.REQUEST));
+            dispatch(setIsAuthing(true));
+
+            const response = await AuthAPI.logout();
+
+            // utilFn for clear data in reducers to init values
+            // includes fn for remove accessToken in LS
+            logoutRemoveData(dispatch);
+
+            dispatch(setIsAuthing(false));
+            dispatch(setAppStatus(AppStatus.SUCCESS));
+
+            return Promise.resolve(response.message);
+        } catch (error) {
+            const errorMessage = errorProcessing(error);
+
+            dispatch(setIsAuthing(false));
+            dispatch(setAppStatus(AppStatus.FAILED));
+            return Promise.reject(errorMessage);
+        }
+    };

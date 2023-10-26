@@ -9,7 +9,7 @@ import {
     getUsersIdFollowing,
     getUsersTotalPageCount
 } from "../../../../bll/users.selector";
-import {useAppDispatch} from "../../../../utils/hooks/useApDispatch";
+import {useAppDispatch} from "../../../../utils/hooks/useAppDispatch";
 import {followUserTC, getUsersTC, setUsersCurrentPage, unFollowUserTC} from "../../../../bll/users.reducer";
 import {addSnackbarErrorMessage} from "../../../../bll/snackbar.reducer";
 import SuperPaginator from "./Paginator/SuperPaginator";
@@ -46,7 +46,7 @@ export const Users = () => {
             });
     };
 
-    const isUserFollowingTester = (id: number) => {
+    const changeUserFollowing = (id: number) => {
         return usersIdFollowing.includes(id);
     };
 
@@ -61,7 +61,7 @@ export const Users = () => {
     const usersToRender = users.map(user => <User
         key={user.id}
         authId={authId}
-        isFollowing={isUserFollowingTester(user.id)}
+        isFollowing={changeUserFollowing(user.id)}
         follow={followHandler}
         unFollow={unFollowHandler}
         {...user}

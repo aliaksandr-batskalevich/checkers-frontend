@@ -1,10 +1,9 @@
 import {IUser} from "../models/IUser";
-import {ThunkDispatchType} from "../utils/hooks/useApDispatch";
+import {ThunkDispatchType} from "../utils/hooks/useAppDispatch";
 import {setAppStatus} from "./app.reducer";
 import {FollowAPI, StatusAPI, UserAPI} from "../dal/html.api";
-import axios from "axios";
-import {logoutRemoveData} from "../utils/logoutRemoveData";
 import {AppStatus} from "../models/AppStatus";
+import {errorProcessing} from "../utils/errorProcessing/errorProcessing";
 
 export type ProfileActionsType = ReturnType<typeof setProfile>
     | ReturnType<typeof setStatus>
@@ -93,126 +92,82 @@ export const setProfileInitState = () => {
     } as const;
 };
 
-export const getUserTC = (id: number) => async (dispatch: ThunkDispatchType) => {
-    try {
-        dispatch(setAppStatus(AppStatus.REQUEST));
-        dispatch(setIsProfileFetching(true));
+export const getUserTC = (id: number) =>
+    async (dispatch: ThunkDispatchType) => {
+        try {
+            dispatch(setAppStatus(AppStatus.REQUEST));
+            dispatch(setIsProfileFetching(true));
 
-        const response = await UserAPI.getUser(id);
-        dispatch(setProfile(response.data.user));
-        dispatch(setIsProfileFetching(false));
-        dispatch(setAppStatus(AppStatus.SUCCESS));
-    } catch (error) {
-        let errorMessage: string;
-        if (axios.isAxiosError(error)) {
-            errorMessage = error.response
-                ? error.response.data.message
-                : error.message;
+            const response = await UserAPI.getUser(id);
+            dispatch(setProfile(response.data.user));
+            dispatch(setIsProfileFetching(false));
+            dispatch(setAppStatus(AppStatus.SUCCESS));
+        } catch (error) {
+            const errorMessage = errorProcessing(error);
 
-            // logout if status 401
-            error.response?.status === 401 && logoutRemoveData(dispatch);
-
-        } else {
-            //@ts-ignore
-            errorMessage = error.message;
+            dispatch(setIsProfileFetching(false));
+            dispatch(setAppStatus(AppStatus.FAILED));
+            return Promise.reject(errorMessage);
         }
-        console.log(errorMessage);
-        dispatch(setIsProfileFetching(false));
-        dispatch(setAppStatus(AppStatus.FAILED));
-        return Promise.reject(errorMessage);
-    }
-};
+    };
 
-export const followProfileTC = (id: number) => async (dispatch: ThunkDispatchType) => {
-    try {
-        dispatch(setAppStatus(AppStatus.REQUEST));
-        dispatch(setIsFollowing(true));
+export const followProfileTC = (id: number) =>
+    async (dispatch: ThunkDispatchType) => {
+        try {
+            dispatch(setAppStatus(AppStatus.REQUEST));
+            dispatch(setIsFollowing(true));
 
-        const response = await FollowAPI.follow(id);
-        dispatch(setProfile(response.data.user));
+            const response = await FollowAPI.follow(id);
+            dispatch(setProfile(response.data.user));
 
-        dispatch(setIsFollowing(false));
-        dispatch(setAppStatus(AppStatus.SUCCESS));
-    } catch (error) {
-        let errorMessage: string;
-        if (axios.isAxiosError(error)) {
-            errorMessage = error.response
-                ? error.response.data.message
-                : error.message;
+            dispatch(setIsFollowing(false));
+            dispatch(setAppStatus(AppStatus.SUCCESS));
+        } catch (error) {
+            const errorMessage = errorProcessing(error);
 
-            // logout if status 401
-            error.response?.status === 401 && logoutRemoveData(dispatch);
-
-        } else {
-            //@ts-ignore
-            errorMessage = error.message;
+            dispatch(setIsFollowing(false));
+            dispatch(setAppStatus(AppStatus.FAILED));
+            return Promise.reject(errorMessage);
         }
-        console.log(errorMessage);
-        dispatch(setIsFollowing(false));
-        dispatch(setAppStatus(AppStatus.FAILED));
-        return Promise.reject(errorMessage);
-    }
-};
+    };
 
-export const unFollowProfileTC = (id: number) => async (dispatch: ThunkDispatchType) => {
-    try {
-        dispatch(setAppStatus(AppStatus.REQUEST));
-        dispatch(setIsFollowing(true));
+export const unFollowProfileTC = (id: number) =>
+    async (dispatch: ThunkDispatchType) => {
+        try {
+            dispatch(setAppStatus(AppStatus.REQUEST));
+            dispatch(setIsFollowing(true));
 
-        const response = await FollowAPI.unFollow(id);
-        dispatch(setProfile(response.data.user));
+            const response = await FollowAPI.unFollow(id);
+            dispatch(setProfile(response.data.user));
 
-        dispatch(setIsFollowing(false));
-        dispatch(setAppStatus(AppStatus.SUCCESS));
-    } catch (error) {
-        let errorMessage: string;
-        if (axios.isAxiosError(error)) {
-            errorMessage = error.response
-                ? error.response.data.message
-                : error.message;
+            dispatch(setIsFollowing(false));
+            dispatch(setAppStatus(AppStatus.SUCCESS));
+        } catch (error) {
+            const errorMessage = errorProcessing(error);
 
-            // logout if status 401
-            error.response?.status === 401 && logoutRemoveData(dispatch);
-
-        } else {
-            //@ts-ignore
-            errorMessage = error.message;
+            dispatch(setIsFollowing(false));
+            dispatch(setAppStatus(AppStatus.FAILED));
+            return Promise.reject(errorMessage);
         }
-        console.log(errorMessage);
-        dispatch(setIsFollowing(false));
-        dispatch(setAppStatus(AppStatus.FAILED));
-        return Promise.reject(errorMessage);
-    }
-};
+    };
 
-export const createStatusTC = (status: null | string) => async (dispatch: ThunkDispatchType) => {
-    try {
-        dispatch(setAppStatus(AppStatus.REQUEST));
-        dispatch(setIsStatusCreating(true));
+export const createStatusTC = (status: null | string) =>
+    async (dispatch: ThunkDispatchType) => {
+        try {
+            dispatch(setAppStatus(AppStatus.REQUEST));
+            dispatch(setIsStatusCreating(true));
 
-        const response = await StatusAPI.createStatus(status);
-        dispatch(setStatus(response.data.status));
+            const response = await StatusAPI.createStatus(status);
+            dispatch(setStatus(response.data.status));
 
-        dispatch(setIsStatusCreating(false));
-        dispatch(setAppStatus(AppStatus.SUCCESS));
-    } catch (error) {
-        let errorMessage: string;
-        if (axios.isAxiosError(error)) {
-            errorMessage = error.response
-                ? error.response.data.message
-                : error.message;
+            dispatch(setIsStatusCreating(false));
+            dispatch(setAppStatus(AppStatus.SUCCESS));
+        } catch (error) {
+            const errorMessage = errorProcessing(error);
 
-            // logout if status 401
-            error.response?.status === 401 && logoutRemoveData(dispatch);
-
-        } else {
-            //@ts-ignore
-            errorMessage = error.message;
+            dispatch(setIsStatusCreating(false));
+            dispatch(setAppStatus(AppStatus.FAILED));
+            return Promise.reject(errorMessage);
         }
-        console.log(errorMessage);
-        dispatch(setIsStatusCreating(false));
-        dispatch(setAppStatus(AppStatus.FAILED));
-        return Promise.reject(errorMessage);
-    }
-};
+    };
 
