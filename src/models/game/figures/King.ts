@@ -1,8 +1,8 @@
 import {Figure} from "./Figure";
 import {Colors} from "../Colors";
 import {Cell} from "../Cell";
-import whiteKingLogo from '../../../assets/images/white-king.png';
-import blackKingLogo from '../../../assets/images/black-king.png';
+import whiteKingLogo from '../../../assets/images/white_king.png';
+import blackKingLogo from '../../../assets/images/black_king.png';
 import {getNextCellAfterCrushedFigure, getTransitCoordinates, testKingTransitCell} from "../../../utils/game/functions";
 import {FiguresNames} from "./FiguresNames";
 

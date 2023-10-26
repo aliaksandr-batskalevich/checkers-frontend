@@ -1,8 +1,8 @@
 import {Figure} from "./Figure";
 import {Colors} from "../Colors";
 import {Cell} from "../Cell";
-import whiteManLogo from '../../../assets/images/white-man.png';
-import blackManLogo from '../../../assets/images/black-man.png';
+import whiteManLogo from '../../../assets/images/white_man.png';
+import blackManLogo from '../../../assets/images/black_man.png';
 import {getNextCellAfterCrushedFigure, getTransitCoordinates} from "../../../utils/game/functions";
 import {FiguresNames} from "./FiguresNames";
 
