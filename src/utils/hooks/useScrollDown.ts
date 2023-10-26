@@ -1,32 +1,18 @@
-import {IChatMessage} from "../../models/IChatMessage";
 import {useEffect, useRef} from "react";
 
-export const useScrollDown = (dep: Array<IChatMessage>) => {
+export const useScrollDown = (dep: any) => {
 
-    let ref = useRef(null);
-    let element: HTMLDivElement | null = null;
+    let ref = useRef<HTMLDivElement>(null);
 
     const scrollToEnd = () => {
-        element?.scrollIntoView({behavior: 'smooth'});
+        ref.current?.scrollIntoView({behavior: 'smooth'});
     };
 
     useEffect(() => {
-        if (ref) element = ref.current;
-    }, [ref]);
 
-    useEffect(() => {
         scrollToEnd();
+
     }, [dep]);
-
-    useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            scrollToEnd();
-        }, 500);
-
-        return () => {
-            clearTimeout(timeoutId);
-        };
-    }, []);
 
     return {ref};
 };

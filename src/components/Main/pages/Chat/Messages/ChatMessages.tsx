@@ -11,7 +11,7 @@ type ChatMessagesPropsType = {
 
 export const ChatMessages: React.FC<ChatMessagesPropsType> = ({authUsername, chatMessages}) => {
 
-    const {ref} = useScrollDown(chatMessages)
+    const {ref} = useScrollDown(chatMessages);
 
     const messagesToRender = chatMessages.map(chatMessage => <ChatMessage
         key={chatMessage.id}
