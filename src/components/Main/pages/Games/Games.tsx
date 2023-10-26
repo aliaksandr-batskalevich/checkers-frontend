@@ -14,7 +14,7 @@ import {
     setIsGamesFilterInit
 } from "../../../../bll/games.reducer";
 import {useSelector} from "react-redux";
-import {useAppDispatch} from "../../../../utils/hooks/useApDispatch";
+import {useAppDispatch} from "../../../../utils/hooks/useAppDispatch";
 import {Preloader} from "../../../commons/Preloader/Preloader";
 import {addSnackbarErrorMessage, addSnackbarInfoMessage} from "../../../../bll/snackbar.reducer";
 import {Colors} from "../../../../models/game/Colors";

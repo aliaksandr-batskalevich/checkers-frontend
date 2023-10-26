@@ -3,7 +3,7 @@ import s from './Chat.module.scss';
 import {ChatMessages} from "./Messages/ChatMessages";
 import {Writer} from "./Writer/Writer";
 import {useSelector} from "react-redux";
-import {useAppDispatch} from "../../../../utils/hooks/useApDispatch";
+import {useAppDispatch} from "../../../../utils/hooks/useAppDispatch";
 import {
     addChatUserWithSound,
     removeChatUserWithSound,
@@ -75,7 +75,7 @@ export const Chat = () => {
 
         soundCondition && incomingMessageSound.play();
 
-    }, [chatMessages, dispatch]);
+    }, [chatMessages, usersWithSound, dispatch]);
 
     return (
         <div className={s.chatWrapper}>

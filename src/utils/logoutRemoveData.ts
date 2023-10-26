@@ -1,4 +1,4 @@
-import {ThunkDispatchType} from "./hooks/useApDispatch";
+import {ThunkDispatchType} from "./hooks/useAppDispatch";
 import {removeAccessTokenInLS} from "../dal/acceesToken.api";
 import {setAuthInitState} from "../bll/auth.reducer";
 import {setProfileInitState} from "../bll/profile.reducer";

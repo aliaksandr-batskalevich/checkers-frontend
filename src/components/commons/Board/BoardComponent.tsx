@@ -13,7 +13,7 @@ import {
     setSelectedCell,
     setWinner
 } from "../../../bll/play.reducer";
-import {useAppDispatch} from "../../../utils/hooks/useApDispatch";
+import {useAppDispatch} from "../../../utils/hooks/useAppDispatch";
 import {Colors} from "../../../models/game/Colors";
 import {Cell} from "../../../models/game/Cell";
 import {CellFigureExportType} from "../../../models/game/CellFigureExportType";

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import s from './Game.module.scss';
 import {useNavigate, useParams} from "react-router-dom";
-import {useAppDispatch} from "../../../../utils/hooks/useApDispatch";
+import {useAppDispatch} from "../../../../utils/hooks/useAppDispatch";
 import {useSelector} from "react-redux";
 import {Preloader} from "../../../commons/Preloader/Preloader";
 import {finishGameTC, getGameTC, setGameInitState, updateGameTC} from "../../../../bll/game.reducer";
@@ -73,7 +73,7 @@ export const Game = () => {
     let closeMenuHandler = () => {
         setWinnerMessage(null);
         dispatch(finishGameTC(+gameId!, playWinner === Colors.BLACK))
-            .then(response => {
+            .then(() => {
                 navigate('/games');
             })
             .catch(reason => {

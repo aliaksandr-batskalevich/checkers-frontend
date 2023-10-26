@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import s from './ActivateMessage.module.scss';
-import {useAppDispatch} from "../../../../utils/hooks/useApDispatch";
+import {useAppDispatch} from "../../../../utils/hooks/useAppDispatch";
 import {addSnackbarWarningMessage} from "../../../../bll/snackbar.reducer";
 
 

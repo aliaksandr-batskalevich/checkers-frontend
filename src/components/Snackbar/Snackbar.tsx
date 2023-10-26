@@ -2,7 +2,7 @@ import React from 'react';
 import s from './Snackbar.module.scss';
 import {Message} from "./Message/Message";
 import {useSelector} from "react-redux";
-import {useAppDispatch} from "../../utils/hooks/useApDispatch";
+import {useAppDispatch} from "../../utils/hooks/useAppDispatch";
 import {removeSnackbarMessage} from "../../bll/snackbar.reducer";
 import {getSnackbarMessages} from "../../bll/snackbar.selector";
 

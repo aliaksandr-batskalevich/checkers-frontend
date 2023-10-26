@@ -1,4 +1,4 @@
-import {useAppDispatch} from "./useApDispatch";
+import {useAppDispatch} from "./useAppDispatch";
 import {useEffect} from "react";
 import {refreshTC} from "../../bll/auth.reducer";
 import {setIsAppInit} from "../../bll/app.reducer";
