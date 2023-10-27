@@ -1,6 +1,6 @@
 {
   "name": "checkers-frontend",
-  "homepage": "http://185.250.46.14/checkers/",
+  "homepage": "http://185.250.46.14/checkers-frontend/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
