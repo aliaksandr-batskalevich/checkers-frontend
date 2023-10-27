@@ -1,3 +1,5 @@
+@import "/src/difenitions";
+
 .customInputField {
 
   label {
@@ -10,11 +12,12 @@
   }
 
   .inputError {
-    border: red solid 2px;
+    border: $error-form-color solid 2px;
+    outline-color: $error-form-color;
   }
 
   p {
-    color: red;
+    color: $error-form-color;
     font-size: 14px;
     line-height: 1;
     height: 18px;
